@@ -1,19 +1,19 @@
 package PetGuardianManagement.GUI.Signin.main;
 
+import PetGuardianManagement.GUI.ForgotPassword.main.VerifyOTP;
+import PetGuardianManagement.GUI.Signup.main.Signup;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import javax.swing.ImageIcon;
 
-public class Main extends javax.swing.JFrame {
+public class Signin extends javax.swing.JFrame {
 
-    public static String pEmail;
-    public static String pHoTen;
-    public static String pMaND;
+    private int posX, posY;
 
-    /**
-     * Creates new form login
-     */
-    public Main() {
+    public Signin() {
         initComponents();
         setIconImage();
 
@@ -24,6 +24,23 @@ public class Main extends javax.swing.JFrame {
         // Password txtField
         txtPassword.setPrefixIcon(new ImageIcon(getClass().getResource("/PetGuardianManagement/GUI/Signin/icon/pass.png")));
         txtPassword.setHint("Password");
+
+        // Add mouse listener for dragging the frame
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                posX = e.getX();
+                posY = e.getY();
+            }
+        });
+        addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                int newX = e.getXOnScreen() - posX;
+                int newY = e.getYOnScreen() - posY;
+                setLocation(newX, newY);
+            }
+        });
     }
 
     /**
@@ -50,7 +67,7 @@ public class Main extends javax.swing.JFrame {
         txtEmail = new PetGuardianManagement.GUI.Signin.swing.MyTextField();
         txtPassword = new PetGuardianManagement.GUI.Signin.swing.MyPasswordField();
         btnSignin = new PetGuardianManagement.GUI.Signin.swing.Button();
-        jLabel2 = new javax.swing.JLabel();
+        lblClose = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("PetGuardianManagement");
@@ -64,7 +81,6 @@ public class Main extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(250, 164, 96));
-        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED, new java.awt.Color(0, 0, 0), new java.awt.Color(204, 204, 204)));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, -1, -1));
 
@@ -116,6 +132,11 @@ public class Main extends javax.swing.JFrame {
         lblForgetPassword.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblForgetPassword.setText("Forget Password?");
         lblForgetPassword.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblForgetPassword.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblForgetPasswordMouseClicked(evt);
+            }
+        });
         panelRound2.add(lblForgetPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 220, 121, 27));
 
         jLabel15.setFont(new java.awt.Font("Gadugi", 0, 14)); // NOI18N
@@ -126,28 +147,33 @@ public class Main extends javax.swing.JFrame {
         lblSignUp.setFont(new java.awt.Font("Gadugi", 0, 14)); // NOI18N
         lblSignUp.setForeground(new java.awt.Color(255, 69, 0));
         lblSignUp.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblSignUp.setText("Sign Up");
+        lblSignUp.setText("<HTML><u>Sign up</u></HTML>");
         lblSignUp.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        panelRound2.add(lblSignUp, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 270, 60, -1));
+        lblSignUp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblSignUpMouseClicked(evt);
+            }
+        });
+        panelRound2.add(lblSignUp, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 270, 60, -1));
         panelRound2.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 90, 250, 40));
         panelRound2.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 160, 250, -1));
 
         btnSignin.setBackground(new java.awt.Color(255, 69, 0));
         btnSignin.setForeground(new java.awt.Color(255, 255, 255));
         btnSignin.setText("SIGN IN");
-        btnSignin.setFont(new java.awt.Font("Segoe UI Black", 0, 13)); // NOI18N
+        btnSignin.setFont(new java.awt.Font("Segoe UI Historic", 1, 15)); // NOI18N
         panelRound2.add(btnSignin, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 320, 250, 50));
 
         jPanel1.add(panelRound2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 40, 830, 400));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PetGuardianManagement/GUI/Signin/icon/close-white-20px.png"))); // NOI18N
-        jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PetGuardianManagement/GUI/Signin/icon/close-white-20px.png"))); // NOI18N
+        lblClose.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblClose.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel2MouseClicked(evt);
+                lblCloseMouseClicked(evt);
             }
         });
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 10, -1, -1));
+        jPanel1.add(lblClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 10, -1, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 930, 490));
 
@@ -194,9 +220,22 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     // Đóng chương trình
-    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+    private void lblCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseClicked
         System.exit(0);
-    }//GEN-LAST:event_jLabel2MouseClicked
+    }//GEN-LAST:event_lblCloseMouseClicked
+
+    private void lblSignUpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSignUpMouseClicked
+        Signup signup = new Signup();
+        signup.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_lblSignUpMouseClicked
+
+    private void lblForgetPasswordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblForgetPasswordMouseClicked
+        // Switch to VerifyOTP GUI
+        VerifyOTP verifyOTP = new VerifyOTP();
+        verifyOTP.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_lblForgetPasswordMouseClicked
     /**
      * @param args the command line arguments
      */
@@ -214,22 +253,19 @@ public class Main extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Signin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Signin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Signin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Signin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new Main().setVisible(true);
+            new Signin().setVisible(true);
         });
     }
 
@@ -238,11 +274,11 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JCheckBox chkboxRememberPassword;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblClose;
     private javax.swing.JLabel lblForgetPassword;
     private javax.swing.JLabel lblSignUp;
     private javax.swing.JLabel maskIcon;

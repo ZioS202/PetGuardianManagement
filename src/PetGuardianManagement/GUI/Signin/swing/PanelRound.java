@@ -13,10 +13,6 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import javax.swing.JPanel;
 
-/**
- *
- * @author Pham Hoang Ngoc Anh
- */
 public class PanelRound extends JPanel {
     private int roundTopLeft=0;
     int roundTopRight=0;

@@ -5,6 +5,8 @@
 package PetGuardianManagement.GUI.homepageUser.main;
 
 import java.awt.Color;
+import java.awt.Image;
+import java.awt.Toolkit;
 
 /**
  *
@@ -17,10 +19,9 @@ public class homepageUser extends javax.swing.JFrame {
      */
     public homepageUser() {
         initComponents();
+        setIconImage();
         setBackground(new Color(0,0,0,0));
         menu.initMoving(homepageUser.this);
-        
-
     }
 
     /**
@@ -36,6 +37,7 @@ public class homepageUser extends javax.swing.JFrame {
         menu = new PetGuardianManagement.GUI.homepageUser.component.Menu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("PetGuardianManagement");
         setName("homepageUser"); // NOI18N
         setUndecorated(true);
 
@@ -68,6 +70,12 @@ public class homepageUser extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    // Set JFrame icon
+    private void setIconImage() {
+        Image originalImage = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/PetGuardianManagement/GUI/Signin/icon/logoTitle.png"));
+        setIconImage(originalImage);
+    }
 
     /**
      * @param args the command line arguments
