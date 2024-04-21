@@ -1,14 +1,14 @@
 
-drop table nguoidung cascade CONSTRAINTS;
-drop table thucung cascade CONSTRAINTS;
-drop table khachhang cascade CONSTRAINTS;
-drop table c_ve cascade CONSTRAINTS;
-drop table loaive cascade CONSTRAINTS;
-drop table chitietravao cascade CONSTRAINTS;
-drop table chitiethoadon cascade CONSTRAINTS;
-drop table hoadon cascade CONSTRAINTS;
-drop table giohang cascade CONSTRAINTS;
-drop table chitietgiohang cascade CONSTRAINTS;
+--drop table nguoidung cascade CONSTRAINTS;
+--drop table thucung cascade CONSTRAINTS;
+--drop table khachhang cascade CONSTRAINTS;
+--drop table c_ve cascade CONSTRAINTS;
+--drop table loaive cascade CONSTRAINTS;
+--drop table chitietravao cascade CONSTRAINTS;
+--drop table chitiethoadon cascade CONSTRAINTS;
+--drop table hoadon cascade CONSTRAINTS;
+--drop table giohang cascade CONSTRAINTS;
+--drop table chitietgiohang cascade CONSTRAINTS;
 
 
 -- Tao bang NguoiDung
@@ -125,40 +125,6 @@ create table ChiTietGioHang(
     CONSTRAINT PK_ChiTietGioHang PRIMARY KEY (MaGioHang,MaLoaiVe)
     );
     
--- Tao khoa ngoai
-
--- FK CUA NhanVien
-ALTER TABLE NhanVien ADD CONSTRAINT FK_NhanVien_MaNV FOREIGN KEY(MaNV) REFERENCES NguoiDung(MaND);
-    
--- FK CUA KhachHang
-ALTER TABLE KhachHang ADD CONSTRAINT FK_KhachHang_MaKH FOREIGN KEY(MaKH) REFERENCES NguoiDung(MaND);
-
--- FK CUA c_Ve 
-ALTER TABLE c_Ve ADD CONSTRAINT FK_c_Ve_MaLoaiVe FOREIGN KEY(MaLoaiVe) REFERENCES LoaiVe(MaLoaiVe);
-ALTER TABLE c_Ve ADD CONSTRAINT FK_c_Ve_MaKH FOREIGN KEY(MaKH) REFERENCES KhachHang(MaKH);
-
--- FK CUA ChiTietRaVao
-ALTER TABLE ChiTietRaVao ADD CONSTRAINT FK_CTRaVao_MaKH FOREIGN KEY(MaKH) REFERENCES KhachHang(MaKH);
-ALTER TABLE ChiTietRaVao ADD CONSTRAINT FK_CTRaVao_MaThuCung FOREIGN KEY(MaThuCung) REFERENCES ThuCung(MaThuCung);
-
--- FK CUA ThuCung
-ALTER TABLE ThuCung ADD CONSTRAINT FK_ThuCung_KhachHang FOREIGN KEY(MaKHSoHuu) REFERENCES KhachHang(MaKH);
-
--- FK CUA ChiTietHoaDon
-ALTER TABLE ChiTietHoaDon ADD CONSTRAINT FK_CTHD_MaHD FOREIGN KEY(MaHD) REFERENCES HoaDon(MaHD);
-ALTER TABLE ChiTietHoaDon ADD CONSTRAINT FK_CTHD_MaLoaiVe FOREIGN KEY(MaLoaive) REFERENCES LoaiVe(MaLoaiVe);
-
--- FK CUA HoaDonMuaVe
-ALTER TABLE HoaDon ADD CONSTRAINT FK_HoaDon_MaKH FOREIGN KEY(MaKH) REFERENCES KhachHang(MaKH);
-
--- FK CUA GioHang
-ALTER TABLE GioHang ADD CONSTRAINT FK_GioHang_KhachHang FOREIGN KEY(MaKH) REFERENCES KhachHang(MaKH);
-
---FK CUA ChiTietGioHang
-ALTER TABLE ChiTietGioHang ADD CONSTRAINT FK_ChiTietGioHang_GioHang FOREIGN KEY(MaGioHang) REFERENCES GioHang(MaGioHang);
-ALTER TABLE ChiTietGioHang ADD CONSTRAINT FK_ChiTietGioHang_LoaiVe FOREIGN KEY(MaLoaiVe) REFERENCES LoaiVe(MaLoaiVe);
-
-
 --auto_ID
 --NguoiDung
 create sequence NguoiDung_seq
