@@ -4,9 +4,15 @@
  */
 package PetGuardianManagement.GUI.homepageUser.main;
 
+import PetGuardianManagement.GUI.homepageUser.event.EventMenuSelected;
+import PetGuardianManagement.GUI.homepageUser.form.Form_1;
+import PetGuardianManagement.GUI.homepageUser.form.Form_2;
+import PetGuardianManagement.GUI.homepageUser.form.Form_3;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
+import javax.swing.JComponent;
+
 
 /**
  *
@@ -14,16 +20,43 @@ import java.awt.Toolkit;
  */
 public class homepageUser extends javax.swing.JFrame {
 
-    /**
-     * Creates new form homepageUser
-     */
+    private Form_1 form1;
+    private Form_2 form2;
+    private Form_3 form3;
+
+
     public homepageUser() {
         initComponents();
         setIconImage();
         setBackground(new Color(0,0,0,0));
+        form1 = new Form_1();
+        form2 = new Form_2();
+        form3 = new Form_3();
         menu.initMoving(homepageUser.this);
+        menu.addEventMenuSelected(new EventMenuSelected() {
+            @Override
+            public void selected(int index) {
+                System.out.println("Selected index " + index);
+                if (index == 0) {
+                    System.out.println("index 0");
+                    setForm(form1);
+                } else if (index == 1) {
+                    System.out.println("index 1");
+                    setForm(form2);
+                } else if (index == 2) {
+                    System.out.println("index 1");
+                    setForm(form3);
+                }
+            }
+        });
+        setForm(new Form_1());
     }
-
+    private void setForm(JComponent com) {
+        mainPanel.removeAll();
+        mainPanel.add(com);
+        mainPanel.repaint();
+        mainPanel.revalidate();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -35,11 +68,27 @@ public class homepageUser extends javax.swing.JFrame {
 
         panelBorder = new PetGuardianManagement.GUI.homepageUser.swing.PanelBorder();
         menu = new PetGuardianManagement.GUI.homepageUser.component.Menu();
+        mainPanel = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("PetGuardianManagement");
         setName("homepageUser"); // NOI18N
         setUndecorated(true);
+
+        mainPanel.setOpaque(false);
+        mainPanel.setLayout(new java.awt.BorderLayout());
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 34, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout panelBorderLayout = new javax.swing.GroupLayout(panelBorder);
         panelBorder.setLayout(panelBorderLayout);
@@ -47,13 +96,23 @@ public class homepageUser extends javax.swing.JFrame {
             panelBorderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBorderLayout.createSequentialGroup()
                 .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 901, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelBorderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 889, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         panelBorderLayout.setVerticalGroup(
             panelBorderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBorderLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelBorderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(panelBorderLayout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -113,6 +172,8 @@ public class homepageUser extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel mainPanel;
     private PetGuardianManagement.GUI.homepageUser.component.Menu menu;
     private PetGuardianManagement.GUI.homepageUser.swing.PanelBorder panelBorder;
     // End of variables declaration//GEN-END:variables
