@@ -23,17 +23,20 @@ import javax.swing.JFrame;
 public class Menu extends javax.swing.JPanel {
 
     private EventMenuSelected event;
+    private int round = 20;
 
     public void addEventMenuSelected(EventMenuSelected event) {
         this.event = event;
         listMenu1.addEventMenuSelected(event);
     }
+
     public Menu() {
         initComponents();
         setOpaque(false);
         listMenu1.setOpaque(false);
         init();
     }
+
     private void init(){
         listMenu1.addItem(new Model_Menu("1", "Thông tin cá nhân", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("2", "Thông tin vé", Model_Menu.MenuType.MENU));
@@ -52,6 +55,15 @@ public class Menu extends javax.swing.JPanel {
         listMenu1.addItem(new Model_Menu("", "", Model_Menu.MenuType.EMPTY));
 
     }
+
+    public int getRound() {
+        return round;
+    }
+
+    public void setRound(int round) {
+        this.round = round;
+        repaint();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -69,7 +81,7 @@ public class Menu extends javax.swing.JPanel {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PetGuardianManagement/GUI/homepageUser/icon/logo.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PetGuardianManagement/GUI/homepageUser/icon/logo-filled-80-pad20.png"))); // NOI18N
         jLabel1.setText("PetGuard Application");
 
         javax.swing.GroupLayout panelMovingLayout = new javax.swing.GroupLayout(panelMoving);
@@ -113,9 +125,9 @@ public class Menu extends javax.swing.JPanel {
     protected void paintChildren(Graphics grphcs) {
         Graphics2D g2 = (Graphics2D) grphcs;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        GradientPaint g = new GradientPaint(0, 0, Color.decode("#3a6186"), 0, getHeight(), Color.decode("#89253e"));
+        GradientPaint g = new GradientPaint(0, 0, Color.decode("#ff6633"), 0, getHeight(), Color.decode("#f53d2d"));
         g2.setPaint(g);
-        g2.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
+        g2.fillRoundRect(0, 0, getWidth(), getHeight(), round, round);
         g2.fillRect(getWidth() - 20, 0, getWidth(), getHeight());
         super.paintChildren(grphcs);
     }

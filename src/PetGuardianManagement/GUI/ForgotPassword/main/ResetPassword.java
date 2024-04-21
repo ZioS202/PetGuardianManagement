@@ -132,7 +132,7 @@ public class ResetPassword extends javax.swing.JFrame {
 
     // Set JFrame icon
     private void setIconImage() {
-        Image originalImage = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/PetGuardianManagement/GUI/Signin/icon/logoTitle.png"));
+        Image originalImage = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/PetGuardianManagement/GUI/homepageUser/icon/logo-filled-500.png"));
         setIconImage(originalImage);
     }
 
