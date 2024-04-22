@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package PetGuardianManagement.GUI.homepageUser.component;
+package PetGuardianManagement.GUI.Admin.HomepageAdmin.component;
 
-import PetGuardianManagement.GUI.homepageUser.event.EventMenuSelected;
-import PetGuardianManagement.GUI.homepageUser.model.Model_Menu;
+import PetGuardianManagement.GUI.Admin.HomepageAdmin.event.EventMenuSelected;
+import PetGuardianManagement.GUI.Admin.HomepageAdmin.model.Model_Menu;
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
@@ -75,7 +75,7 @@ public class Menu extends javax.swing.JPanel {
 
         panelMoving = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        listMenu1 = new PetGuardianManagement.GUI.homepageUser.swing.ListMenu<>();
+        listMenu1 = new PetGuardianManagement.GUI.Admin.HomepageAdmin.swing.ListMenu<>();
 
         panelMoving.setOpaque(false);
 
@@ -152,7 +152,7 @@ public class Menu extends javax.swing.JPanel {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private PetGuardianManagement.GUI.homepageUser.swing.ListMenu<String> listMenu1;
+    private PetGuardianManagement.GUI.Admin.HomepageAdmin.swing.ListMenu<String> listMenu1;
     private javax.swing.JPanel panelMoving;
     // End of variables declaration//GEN-END:variables
 }
