@@ -38,9 +38,9 @@ public class Menu extends javax.swing.JPanel {
     }
 
     private void init(){
-        listMenu1.addItem(new Model_Menu("8", "Thông tin cá nhân", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("2", "Thông tin vé", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("4", "Thông tin hóa đơn", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("8", "Quản lý khách hàng", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("2", "Quản lý hóa đơn", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("4", "Quản lý thú cưng", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("cart-20", "Giỏ hàng", Model_Menu.MenuType.MENU));
 
         listMenu1.addItem(new Model_Menu("", " ", Model_Menu.MenuType.EMPTY));
@@ -82,7 +82,7 @@ public class Menu extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PetGuardianManagement/GUI/homepageUser/icon/logo-filled-80-pad20.png"))); // NOI18N
-        jLabel1.setText("PetGuard Application");
+        jLabel1.setText("PetGuard ADMIN");
 
         javax.swing.GroupLayout panelMovingLayout = new javax.swing.GroupLayout(panelMoving);
         panelMoving.setLayout(panelMovingLayout);

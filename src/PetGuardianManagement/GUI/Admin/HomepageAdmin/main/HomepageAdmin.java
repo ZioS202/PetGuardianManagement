@@ -5,9 +5,9 @@
 package PetGuardianManagement.GUI.Admin.HomepageAdmin.main;
 
 import PetGuardianManagement.GUI.Admin.HomepageAdmin.event.EventMenuSelected;
-import PetGuardianManagement.GUI.Admin.HomepageAdmin.form.Form_1;
-import PetGuardianManagement.GUI.Admin.HomepageAdmin.form.Form_2;
-import PetGuardianManagement.GUI.Admin.HomepageAdmin.form.Form_3;
+import PetGuardianManagement.GUI.Admin.HomepageAdmin.form.CustomerManage;
+import PetGuardianManagement.GUI.Admin.HomepageAdmin.form.InvoiceManage;
+import PetGuardianManagement.GUI.Admin.HomepageAdmin.form.PetManage;
 import PetGuardianManagement.GUI.BuyTicket.main.BuyTicket;
 import java.awt.Color;
 import java.awt.Image;
@@ -21,18 +21,18 @@ import javax.swing.JComponent;
  */
 public class HomepageAdmin extends javax.swing.JFrame {
 
-    private Form_1 form1;
-    private Form_2 form2;
-    private Form_3 form3;
+    private CustomerManage form1;
+    private InvoiceManage form2;
+    private PetManage form3;
 
 
     public HomepageAdmin() {
         initComponents();
         setIconImage();
         setBackground(new Color(0,0,0,0));
-        form1 = new Form_1();
-        form2 = new Form_2();
-        form3 = new Form_3();
+        form1 = new CustomerManage();
+        form2 = new InvoiceManage();
+        form3 = new PetManage();
         BuyTicket buyTicket = new BuyTicket();
         winButton.initEvent(this, panelBorder, menu, header, mainPanel);
         menu.initMoving(HomepageAdmin.this);
