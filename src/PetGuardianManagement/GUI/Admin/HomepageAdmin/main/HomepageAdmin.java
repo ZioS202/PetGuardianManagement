@@ -5,15 +5,15 @@
 package PetGuardianManagement.GUI.Admin.HomepageAdmin.main;
 
 import PetGuardianManagement.GUI.Admin.HomepageAdmin.event.EventMenuSelected;
+import PetGuardianManagement.GUI.Admin.HomepageAdmin.form.AccountInformation;
 import PetGuardianManagement.GUI.Admin.HomepageAdmin.form.CustomerManage;
 import PetGuardianManagement.GUI.Admin.HomepageAdmin.form.InvoiceManage;
 import PetGuardianManagement.GUI.Admin.HomepageAdmin.form.PetManage;
-import PetGuardianManagement.GUI.BuyTicket.main.BuyTicket;
+import PetGuardianManagement.GUI.Admin.HomepageAdmin.form.VisitorManage;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.JComponent;
-
 
 /**
  *
@@ -24,8 +24,8 @@ public class HomepageAdmin extends javax.swing.JFrame {
     private CustomerManage form1;
     private InvoiceManage form2;
     private PetManage form3;
-
-
+    private VisitorManage form4;
+    private AccountInformation account;
     public HomepageAdmin() {
         initComponents();
         setIconImage();
@@ -33,7 +33,8 @@ public class HomepageAdmin extends javax.swing.JFrame {
         form1 = new CustomerManage();
         form2 = new InvoiceManage();
         form3 = new PetManage();
-        BuyTicket buyTicket = new BuyTicket();
+        form4= new VisitorManage();
+        account=new AccountInformation();
         winButton.initEvent(this, panelBorder, menu, header, mainPanel);
         menu.initMoving(HomepageAdmin.this);
         menu.addEventMenuSelected(new EventMenuSelected() {
@@ -50,8 +51,11 @@ public class HomepageAdmin extends javax.swing.JFrame {
                     case 2 -> {
                         setForm(form3);
                     }
-                    case 7 -> {
-                        setForm(buyTicket);
+                    case 3 -> {
+                        setForm(form4);
+                    }
+                    case 4->{
+                       setForm(account);
                     }
                 }
             }
