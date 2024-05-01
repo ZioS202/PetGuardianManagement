@@ -9,4 +9,5 @@ public class PanelItem extends JPanel {
         setBackground(Color.WHITE);
         setLayout(new WrapLayout(WrapLayout.LEFT, 10, 10));
     }
+
 }

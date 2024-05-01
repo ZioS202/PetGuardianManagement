@@ -1,6 +1,6 @@
 package PetGuardianManagement.GUI.BuyTicket.component;
 
-import PetGuardianManagement.GUI.BuyTicket.model.ModelItem;
+import PetGuardianManagement.DTO.LoaiVeDTO;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
@@ -12,7 +12,7 @@ import javax.swing.ImageIcon;
 
 public class Item extends javax.swing.JPanel {
 
-    private ModelItem data;
+    private LoaiVeDTO data;
 
     public Item() {
         initComponents();
@@ -20,15 +20,15 @@ public class Item extends javax.swing.JPanel {
         setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 
-    public ModelItem getData() {
+    public LoaiVeDTO getData() {
         return data;
     }
 
-    public void setData(ModelItem data) {
+    public void setData(LoaiVeDTO data) {
         this.data = data;
-        lbItemName.setText(data.getItemName());
-        lbPrice.setText(CurrencyFormat(data.getPrice()));
-        switch (data.getItemID()) {
+        lbItemName.setText(data.getStrTenLoaiVe());
+        lbPrice.setText(CurrencyFormat(data.getLongGiaVe()));
+        switch (data.getIMaLoaiVe()) {
             case 1 -> {
                 pic.setImage(new ImageIcon(getClass().getResource("/PetGuardianManagement/GUI/BuyTicket/icon/VeNgay.png")));
             }
@@ -51,7 +51,7 @@ public class Item extends javax.swing.JPanel {
         super.paint(grphcs);
     }
 
-    public String CurrencyFormat(long amount) {
+    private String CurrencyFormat(long amount) {
         Locale locale = new Locale("vi", "VN"); // Locale for Vietnamese
         NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(locale);
         return currencyFormatter.format(amount);

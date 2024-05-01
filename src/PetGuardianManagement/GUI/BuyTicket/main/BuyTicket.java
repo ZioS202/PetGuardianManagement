@@ -4,8 +4,8 @@
  */
 package PetGuardianManagement.GUI.BuyTicket.main;
 
+import PetGuardianManagement.DTO.LoaiVeDTO;
 import PetGuardianManagement.GUI.BuyTicket.component.Item;
-import PetGuardianManagement.GUI.BuyTicket.model.ModelItem;
 import PetGuardianManagement.GUI.BuyTicket.swing.ScrollBar;
 
 /**
@@ -23,18 +23,18 @@ public class BuyTicket extends javax.swing.JPanel {
     }
 
     private void init() {
-        addItem(new ModelItem(1, "Ve Ngay", 3000));
-        addItem(new ModelItem(2, "Ve Tuan", 25000));
-        addItem(new ModelItem(3, "Ve Thang", 95000));
-        addItem(new ModelItem(1, "Ve Ngay", 3000));
-        addItem(new ModelItem(2, "Ve Tuan", 25000));
-        addItem(new ModelItem(3, "Ve Thang", 95000));
-        addItem(new ModelItem(1, "Ve Ngay", 3000));
-        addItem(new ModelItem(2, "Ve Tuan", 25000));
-        addItem(new ModelItem(3, "Ve Thang", 95000));
+        addItem(new LoaiVeDTO(1, "Ve Ngay", 3000));
+        addItem(new LoaiVeDTO(2, "Ve Tuan", 25000));
+        addItem(new LoaiVeDTO(3, "Ve Thang", 95000));
+        addItem(new LoaiVeDTO(1, "Ve Ngay", 3000));
+        addItem(new LoaiVeDTO(2, "Ve Tuan", 25000));
+        addItem(new LoaiVeDTO(3, "Ve Thang", 95000));
+        addItem(new LoaiVeDTO(1, "Ve Ngay", 3000));
+        addItem(new LoaiVeDTO(2, "Ve Tuan", 25000));
+        addItem(new LoaiVeDTO(3, "Ve Thang", 95000));
     }
 
-    public void addItem(ModelItem data) {
+    private void addItem(LoaiVeDTO data) {
         Item item = new Item();
         item.setData(data);
 
@@ -70,7 +70,6 @@ public class BuyTicket extends javax.swing.JPanel {
             .addComponent(panelScroll, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private PetGuardianManagement.GUI.BuyTicket.swing.PanelItem panelItem;
