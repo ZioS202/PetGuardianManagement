@@ -10,6 +10,7 @@ import PetGuardianManagement.GUI.Admin.HomepageAdmin.form.CustomerManage;
 import PetGuardianManagement.GUI.Admin.HomepageAdmin.form.InvoiceManage;
 import PetGuardianManagement.GUI.Admin.HomepageAdmin.form.PetManage;
 import PetGuardianManagement.GUI.Admin.HomepageAdmin.form.VisitorManage;
+import PetGuardianManagement.GUI.Admin.HomepageAdmin.form.changePassword;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -26,6 +27,7 @@ public class HomepageAdmin extends javax.swing.JFrame {
     private PetManage form3;
     private VisitorManage form4;
     private AccountInformation account;
+    private changePassword changePW;
     public HomepageAdmin() {
         initComponents();
         setIconImage();
@@ -35,6 +37,7 @@ public class HomepageAdmin extends javax.swing.JFrame {
         form3 = new PetManage();
         form4= new VisitorManage();
         account=new AccountInformation();
+        changePW=new changePassword();
         winButton.initEvent(this, panelBorder, menu, header, mainPanel);
         menu.initMoving(HomepageAdmin.this);
         menu.addEventMenuSelected(new EventMenuSelected() {
@@ -56,6 +59,9 @@ public class HomepageAdmin extends javax.swing.JFrame {
                     }
                     case 4->{
                        setForm(account);
+                    }
+                    case 8->{
+                       setForm(changePW);
                     }
                 }
             }
