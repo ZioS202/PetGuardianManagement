@@ -6,10 +6,11 @@ package PetGuardianManagement.GUI.homepageUser.main;
 
 import PetGuardianManagement.GUI.BuyTicket.main.BuyTicket;
 import PetGuardianManagement.GUI.Cart.main.Cart;
+import PetGuardianManagement.GUI.Cart.main.CartEmpty;
 import PetGuardianManagement.GUI.homepageUser.event.EventMenuSelected;
 import PetGuardianManagement.GUI.homepageUser.form.Form_1;
-import PetGuardianManagement.GUI.homepageUser.form.Form_2;
 import PetGuardianManagement.GUI.homepageUser.form.Form_3;
+import PetGuardianManagement.GUI.homepageUser.form.ManageTicket;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -22,20 +23,22 @@ import javax.swing.JComponent;
 public class homepageUser extends javax.swing.JFrame {
 
     private Form_1 form1;
-    private Form_2 form2;
+    private ManageTicket manageTicket;
     private Form_3 form3;
     private BuyTicket buyTicket;
     private Cart cart;
+    private CartEmpty cartEmpty;
 
     public homepageUser() {
         initComponents();
         setIconImage();
         setBackground(new Color(0, 0, 0, 0));
         form1 = new Form_1();
-        form2 = new Form_2();
+        manageTicket = new ManageTicket();
         form3 = new Form_3();
         buyTicket = new BuyTicket();
         cart = new Cart();
+        cartEmpty = new CartEmpty();
         winButton.initEvent(this, panelBorder, menu, header, mainPanel);
         menu.initMoving(homepageUser.this);
         menu.addEventMenuSelected(new EventMenuSelected() {
@@ -47,13 +50,13 @@ public class homepageUser extends javax.swing.JFrame {
                         setForm(form1);
                     }
                     case 1 -> {
-                        setForm(form2);
+                        setForm(manageTicket);
                     }
                     case 2 -> {
                         setForm(form3);
                     }
                     case 3 -> {
-                        setForm(cart);
+                        setForm(cartEmpty);
                     }
                     case 7 -> {
                         setForm(buyTicket);
