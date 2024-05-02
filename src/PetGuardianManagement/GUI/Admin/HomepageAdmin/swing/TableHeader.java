@@ -1,4 +1,8 @@
-package PetGuardianManagement.GUI.ManageForm.swing;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package PetGuardianManagement.GUI.Admin.HomepageAdmin.swing;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -6,6 +10,10 @@ import java.awt.Graphics;
 import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
 
+/**
+ *
+ * @author DucTran
+ */
 public class TableHeader extends JLabel {
 
     public TableHeader(String text) {
