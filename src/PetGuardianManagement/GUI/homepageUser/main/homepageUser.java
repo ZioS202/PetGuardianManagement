@@ -5,6 +5,7 @@
 package PetGuardianManagement.GUI.homepageUser.main;
 
 import PetGuardianManagement.GUI.BuyTicket.main.BuyTicket;
+import PetGuardianManagement.GUI.topUp.main.TopUp;
 import PetGuardianManagement.GUI.Cart.main.Cart;
 import PetGuardianManagement.GUI.Cart.main.CartEmpty;
 import PetGuardianManagement.GUI.homepageUser.event.EventMenuSelected;
@@ -28,7 +29,8 @@ public class homepageUser extends javax.swing.JFrame {
     private BuyTicket buyTicket;
     private Cart cart;
     private CartEmpty cartEmpty;
-
+    private TopUp topUp;
+    
     public homepageUser() {
         initComponents();
         setIconImage();
@@ -66,6 +68,12 @@ public class homepageUser extends javax.swing.JFrame {
                             buyTicket = new BuyTicket();
                         }
                         setForm(buyTicket);
+                    }
+                    case 8 -> {
+                        if(topUp == null) {
+                            topUp = new TopUp();
+                        }
+                        setForm(topUp);
                     }
                 }
             }
