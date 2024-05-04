@@ -24,10 +24,10 @@ create table NguoiDung (
     SDT varchar2(10),
     VaiTro varchar2(10),
 
-    CONSTRAINT PK_MaND PRIMARY KEY (MaND),   
-   
+    CONSTRAINT PK_MaND PRIMARY KEY (MaND),
+
     CONSTRAINT check_GioiTinh CHECK (GioiTinh = 'Nam' or GioiTinh = 'Nu'),
-    CONSTRAINT check_VaiTro CHECK (VaiTro ='Khach hang' or VaiTro = 'Nhan vien')
+    CONSTRAINT check_VaiTro CHECK (VaiTro ='Khach Hang' or VaiTro = 'Admin')
 );
 
 
@@ -38,7 +38,7 @@ create table ThuCung (
     GiongLoai varchar2(20),
     CanNang int,
     MaKHSoHuu Number,
-    
+
     CONSTRAINT PK_MaThuCung PRIMARY KEY (MaThuCung)
 );
 
@@ -48,7 +48,7 @@ create table ThuCung (
 create table KhachHang (
     MaKH Number,
     SoDu Number,
-    
+
     CONSTRAINT PK_MaKH PRIMARY KEY (MAKH)
 );
 
@@ -58,7 +58,7 @@ create table LoaiVe(
     MaLoaiVe Number,
     TenLoaiVe varchar2(30),
     GiaVe number,
-    
+
     CONSTRAINT PK_MaLoaiVe PRIMARY KEY (MaLoaiVe)
 );
 
@@ -72,7 +72,7 @@ create table c_Ve(
     NgayMua Date,
     NgayHetHan Date,
     TrangThai Varchar(30),
-    
+
     CONSTRAINT PK_MaVe PRIMARY KEY (MaVe),
     CONSTRAINT check_TrangThai CHECK (TrangThai in ('Dang su dung', 'Da het han'))
 );
@@ -95,7 +95,7 @@ create table HoaDon(
     MaKH Number,
     NgayHD Date,
     TongGiaTien Number,
-    
+
     CONSTRAINT PK_MaHD PRIMARY KEY (MaHD)
 );
 
@@ -104,27 +104,27 @@ create table ChiTietHoaDon(
     MaHD Number,
     MaLoaiVe Number,
     SoLuongVe Number,
-    
+
     CONSTRAINT PK_CTHD PRIMARY KEY (MaHD, MaLoaiVe)
 );
 
 --Tao bang GioHang
 create table GioHang(
     MaGioHang Number,
-    MaKH Number,
-    
+    MaKH Number UNIQUE,
+
     CONSTRAINT PK_MaGioHang PRIMARY KEY (MaGioHang)
     );
-    
+
 --Tao bang ChiTietGioHang
 create table ChiTietGioHang(
     MaGioHang Number,
     MaLoaiVe Number,
     SoLuongMua int,
-    
+
     CONSTRAINT PK_ChiTietGioHang PRIMARY KEY (MaGioHang,MaLoaiVe)
     );
-    
+
 --auto_ID
 --NguoiDung
 create sequence NguoiDung_seq
@@ -138,87 +138,87 @@ create or replace trigger NguoiDung_trigger
   for each row
   begin
       :new.MaND:=NguoiDung_seq.nextval;
-  end;  
- / 
- 
+  end;
+ /
+
 
 --C_Ve
 create sequence C_Ve_seq
   start with 1
   increment by 1
   nomaxvalue;
-  
+
 create or replace trigger C_Ve_trigger
   before insert on C_Ve
   referencing OLD as old NEW as new
   for each row
   begin
       :new.MaVe:=C_Ve_seq.nextval;
-  end;  
- / 
- 
+  end;
+ /
+
 
 --LoaiVe
 create sequence LoaiVe_seq
   start with 1
   increment by 1
   nomaxvalue;
-  
+
 create or replace trigger LoaiVe_trigger
   before insert on LoaiVe
   referencing OLD as old NEW as new
   for each row
   begin
       :new.MaLoaiVe:=LoaiVe_seq.nextval;
-  end;  
- / 
- 
+  end;
+ /
+
 
 --HoaDon
 create sequence HoaDon_seq
   start with 1
   increment by 1
   nomaxvalue;
-  
+
 create or replace trigger HoaDon_trigger
   before insert on HoaDon
   referencing OLD as old NEW as new
   for each row
   begin
       :new.MaHD:=HoaDon_seq.nextval;
-  end;  
- / 
- 
---GioHang 
+  end;
+ /
+
+--GioHang
  create sequence GioHang_seq
   start with 1
   increment by 1
   nomaxvalue;
-  
+
 create or replace trigger GioHang_trigger
   before insert on GioHang
   referencing OLD as old NEW as new
   for each row
   begin
       :new.MaGioHang:=GioHang_seq.nextval;
-  end;  
- / 
- 
+  end;
+ /
+
 --ThuCung
  create sequence ThuCung_seq
   start with 1
   increment by 1
   nomaxvalue;
-  
+
 create or replace trigger ThuCung_trigger
   before insert on ThuCung
   referencing OLD as old NEW as new
   for each row
   begin
       :new.MaThuCung:=ThuCung_seq.nextval;
-  end;  
+  end;
  /
- 
+
 --reset sequence
 ALTER SEQUENCE NguoiDung_seq RESTART;
 ALTER SEQUENCE C_Ve_seq RESTART;
@@ -230,4 +230,4 @@ ALTER SEQUENCE ThuCung_seq RESTART;
 --Them du lieu
 alter session set nls_date_format = 'yyyy-mm-dd hh24:mi:ss';
 --IMPORT du lieu tu excel
- 
+

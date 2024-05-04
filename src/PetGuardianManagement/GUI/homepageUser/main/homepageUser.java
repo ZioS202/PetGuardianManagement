@@ -34,10 +34,7 @@ public class homepageUser extends javax.swing.JFrame {
         setIconImage();
         setBackground(new Color(0, 0, 0, 0));
         form1 = new Form_1();
-        manageTicket = new ManageTicket();
         form3 = new Form_3();
-        buyTicket = new BuyTicket();
-        cart = new Cart();
         cartEmpty = new CartEmpty();
         winButton.initEvent(this, panelBorder, menu, header, mainPanel);
         menu.initMoving(homepageUser.this);
@@ -50,15 +47,24 @@ public class homepageUser extends javax.swing.JFrame {
                         setForm(form1);
                     }
                     case 1 -> {
+                        if (manageTicket == null) {
+                            manageTicket = new ManageTicket();
+                        }
                         setForm(manageTicket);
                     }
                     case 2 -> {
                         setForm(form3);
                     }
                     case 3 -> {
-                        setForm(cartEmpty);
+                        if (cart == null) {
+                            cart = new Cart();
+                        }
+                        setForm(cart);
                     }
                     case 7 -> {
+                        if (buyTicket == null) {
+                            buyTicket = new BuyTicket();
+                        }
                         setForm(buyTicket);
                     }
                 }
