@@ -66,8 +66,8 @@ public class TopUp extends javax.swing.JPanel {
 
         btTopUp.setBackground(new java.awt.Color(255, 69, 0));
         btTopUp.setForeground(new java.awt.Color(255, 255, 255));
-        btTopUp.setText("TOP UP");
-        btTopUp.setFont(new java.awt.Font("Segoe UI Historic", 1, 18)); // NOI18N
+        btTopUp.setText("Nạp Tiền");
+        btTopUp.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         btTopUp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btTopUpActionPerformed(evt);
