@@ -181,7 +181,8 @@ public class TopUp extends javax.swing.JPanel {
         kh.setIMaKH(6);
         try {
             if (Integer.parseInt(txtfldTopUp.getText()) < 0) {
-                JOptionPane.showMessageDialog(this, "Số tiền nạp không được bé hơn 0");        
+                JOptionPane.showMessageDialog(this, "Số tiền nạp không được bé hơn 0");  
+                return;
             }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Tiền nạp không hợp lệ");
