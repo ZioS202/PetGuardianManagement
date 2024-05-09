@@ -5,6 +5,7 @@
 package PetGuardianManagement.GUI.homepageUser.main;
 
 import PetGuardianManagement.GUI.BuyTicket.main.BuyTicket;
+import PetGuardianManagement.GUI.topUp.main.TopUp;
 import PetGuardianManagement.GUI.Cart.main.Cart;
 import PetGuardianManagement.GUI.Cart.main.CartEmpty;
 import PetGuardianManagement.GUI.homepageUser.event.EventMenuSelected;
@@ -28,16 +29,14 @@ public class homepageUser extends javax.swing.JFrame {
     private BuyTicket buyTicket;
     private Cart cart;
     private CartEmpty cartEmpty;
-
+    private TopUp topUp;
+    
     public homepageUser() {
         initComponents();
         setIconImage();
         setBackground(new Color(0, 0, 0, 0));
         form1 = new Form_1();
-        manageTicket = new ManageTicket();
         form3 = new Form_3();
-        buyTicket = new BuyTicket();
-        cart = new Cart();
         cartEmpty = new CartEmpty();
         winButton.initEvent(this, panelBorder, menu, header, mainPanel);
         menu.initMoving(homepageUser.this);
@@ -50,16 +49,31 @@ public class homepageUser extends javax.swing.JFrame {
                         setForm(form1);
                     }
                     case 1 -> {
+                        if (manageTicket == null) {
+                            manageTicket = new ManageTicket();
+                        }
                         setForm(manageTicket);
                     }
                     case 2 -> {
                         setForm(form3);
                     }
                     case 3 -> {
-                        setForm(cartEmpty);
+                        if (cart == null) {
+                            cart = new Cart();
+                        }
+                        setForm(cart);
                     }
                     case 7 -> {
+                        if (buyTicket == null) {
+                            buyTicket = new BuyTicket();
+                        }
                         setForm(buyTicket);
+                    }
+                    case 8 -> {
+                        if(topUp == null) {
+                            topUp = new TopUp();
+                        }
+                        setForm(topUp);
                     }
                 }
             }
