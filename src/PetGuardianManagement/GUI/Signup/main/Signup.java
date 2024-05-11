@@ -12,6 +12,7 @@ import static PetGuardianManagement.GUI.Signin.main.Signin.User;
 import PetGuardianManagement.GUI.homepageUser.main.homepageUser;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -137,8 +138,26 @@ public class Signup extends javax.swing.JFrame {
             }
         });
         panelRound1.add(lblReturnToSignin, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 10, -1, -1));
+
+        txtEmail.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtEmailKeyPressed(evt);
+            }
+        });
         panelRound1.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 100, 290, 40));
+
+        txtFirstName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtFirstNameKeyPressed(evt);
+            }
+        });
         panelRound1.add(txtFirstName, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 160, 290, 40));
+
+        txtLastName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtLastNameKeyPressed(evt);
+            }
+        });
         panelRound1.add(txtLastName, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 220, 290, 40));
 
         btnSignUp.setBackground(new java.awt.Color(255, 69, 0));
@@ -150,8 +169,25 @@ public class Signup extends javax.swing.JFrame {
                 btnSignUpActionPerformed(evt);
             }
         });
+        btnSignUp.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnSignUpKeyPressed(evt);
+            }
+        });
         panelRound1.add(btnSignUp, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 400, 250, 50));
+
+        txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPasswordKeyPressed(evt);
+            }
+        });
         panelRound1.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 280, 290, -1));
+
+        txtConfirmPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtConfirmPasswordKeyPressed(evt);
+            }
+        });
         panelRound1.add(txtConfirmPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 340, 290, -1));
 
         maskIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -273,6 +309,42 @@ public class Signup extends javax.swing.JFrame {
         performedSignUp();
         
     }//GEN-LAST:event_btnSignUpActionPerformed
+
+    private void txtEmailKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+            performedSignUp();
+        }
+    }//GEN-LAST:event_txtEmailKeyPressed
+
+    private void txtFirstNameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFirstNameKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+            performedSignUp();
+        }
+    }//GEN-LAST:event_txtFirstNameKeyPressed
+
+    private void txtLastNameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLastNameKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+            performedSignUp();
+        }
+    }//GEN-LAST:event_txtLastNameKeyPressed
+
+    private void txtPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+            performedSignUp();
+        }
+    }//GEN-LAST:event_txtPasswordKeyPressed
+
+    private void txtConfirmPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtConfirmPasswordKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+            performedSignUp();
+        }
+    }//GEN-LAST:event_txtConfirmPasswordKeyPressed
+
+    private void btnSignUpKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnSignUpKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+            performedSignUp();
+        }
+    }//GEN-LAST:event_btnSignUpKeyPressed
 
     /**
      * @param args the command line arguments
