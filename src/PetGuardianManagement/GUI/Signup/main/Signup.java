@@ -4,13 +4,25 @@
  */
 package PetGuardianManagement.GUI.Signup.main;
 
+import PetGuardianManagement.BUS.SignInBUS;
+import PetGuardianManagement.BUS.SignUpBUS;
+import PetGuardianManagement.GUI.Admin.HomepageAdmin.main.HomepageAdmin;
 import PetGuardianManagement.GUI.Signin.main.Signin;
+import static PetGuardianManagement.GUI.Signin.main.Signin.User;
+import PetGuardianManagement.GUI.homepageUser.main.homepageUser;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 public class Signup extends javax.swing.JFrame {
 
@@ -74,7 +86,7 @@ public class Signup extends javax.swing.JFrame {
         txtEmail = new PetGuardianManagement.GUI.Signin.swing.MyTextField();
         txtFirstName = new PetGuardianManagement.GUI.Signin.swing.MyTextField();
         txtLastName = new PetGuardianManagement.GUI.Signin.swing.MyTextField();
-        btnSignin = new PetGuardianManagement.GUI.Signin.swing.Button();
+        btnSignUp = new PetGuardianManagement.GUI.Signin.swing.Button();
         txtPassword = new PetGuardianManagement.GUI.Signin.swing.MyPasswordField();
         txtConfirmPassword = new PetGuardianManagement.GUI.Signin.swing.MyPasswordField();
         maskIcon = new javax.swing.JLabel();
@@ -129,11 +141,16 @@ public class Signup extends javax.swing.JFrame {
         panelRound1.add(txtFirstName, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 160, 290, 40));
         panelRound1.add(txtLastName, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 220, 290, 40));
 
-        btnSignin.setBackground(new java.awt.Color(255, 69, 0));
-        btnSignin.setForeground(new java.awt.Color(255, 255, 255));
-        btnSignin.setText("SIGN UP");
-        btnSignin.setFont(new java.awt.Font("Segoe UI Historic", 1, 15)); // NOI18N
-        panelRound1.add(btnSignin, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 400, 250, 50));
+        btnSignUp.setBackground(new java.awt.Color(255, 69, 0));
+        btnSignUp.setForeground(new java.awt.Color(255, 255, 255));
+        btnSignUp.setText("SIGN UP");
+        btnSignUp.setFont(new java.awt.Font("Segoe UI Historic", 1, 15)); // NOI18N
+        btnSignUp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSignUpActionPerformed(evt);
+            }
+        });
+        panelRound1.add(btnSignUp, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 400, 250, 50));
         panelRound1.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 280, 290, -1));
         panelRound1.add(txtConfirmPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 340, 290, -1));
 
@@ -251,6 +268,12 @@ public class Signup extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowOpened
 
+    private void btnSignUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignUpActionPerformed
+        // SignUp action performed
+        performedSignUp();
+        
+    }//GEN-LAST:event_btnSignUpActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -292,10 +315,96 @@ public class Signup extends javax.swing.JFrame {
             }
         });
     }
+    public void performedSignUp(){
+        String email = txtEmail.getText();
+        String password = new String (txtPassword.getPassword());
+        String confirmPassword = new String (txtConfirmPassword.getPassword());
+        String firstName = txtFirstName.getText();
+        String lastName = txtLastName.getText();
+        MessageDigest digest;
+        StringBuilder hexHashPassword = new StringBuilder("Inital value");
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+            byte[] hashedPassword = digest.digest(password.getBytes());
+            hexHashPassword = new StringBuilder();
+            for (byte b : hashedPassword) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) {
+                    hexHashPassword.append('0');
+                }
+                hexHashPassword.append(hex);
+            }
+            System.out.println("Hashed Password (SHA-256): " + hexHashPassword.toString());
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(Signin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if (email.equals("") || firstName.equals("") || lastName.equals("") || password.equals("") || confirmPassword.equals("") ) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin !", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+        } 
+        else{
+            // check input user 
+            String msg = "";
+            if (!isValidEmail(email)) {
+                msg += "* Email không hợp lệ.\n";
+            }
+            if (!isValidPassword(password)) {
+                msg +="* Mật khẩu không hợp lệ. Mật khẩu cần có ít nhất 8 ký tự và phải bao gồm chữ in hoa, in thường, số và ký tự đặc biệt.\n";   
+            }
+            if (!confirmPassword.equals(password)) {
+                msg += "* Xác nhận mật khẩu không trùng khớp với mật khẩu.\n";
+            }
+            if (!isValidName(firstName) || !isValidName(lastName)) {
+                msg += "* Tên không hợp lệ.\n";
+            }
+            if (!msg.equals("")){
+                JOptionPane.showMessageDialog(this, msg, "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+            }else{
+                try {
+                    boolean isExistUser = SignUpBUS.getInstance().CheckExistUser(email, hexHashPassword.toString());
+                    if (isExistUser){
+                        JOptionPane.showMessageDialog(this, "Tài khoản đã tồn tại!", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
 
+                    }else{
+                        String fullname = firstName + " " + lastName;
+                        int createdUser = SignUpBUS.getInstance().createUser(email, hexHashPassword.toString(), fullname);
+                        if (createdUser > 0){
+                            JOptionPane.showMessageDialog(this, "Tạo tài khoản thành công!", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+                            Signin signin = new Signin();
+                            signin.setVisible(true);
+                            dispose(); 
+                        } else{
+                            JOptionPane.showMessageDialog(this, "Tạo tài khoản thất bại!", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+                        }
 
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, e, "Lỗi !", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            
+        }
+    }
+
+    private static boolean isValidEmail(String email) {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        Pattern pattern = Pattern.compile(emailRegex);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
+    private static boolean isValidPassword(String password) {
+        String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
+        Pattern pattern = Pattern.compile(passwordRegex);
+        Matcher matcher = pattern.matcher(password);
+        return matcher.matches();
+    }
+
+    private static boolean isValidName(String name) {
+        return name.matches("[a-zA-Z]+");
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private PetGuardianManagement.GUI.Signin.swing.Button btnSignin;
+    private PetGuardianManagement.GUI.Signin.swing.Button btnSignUp;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
