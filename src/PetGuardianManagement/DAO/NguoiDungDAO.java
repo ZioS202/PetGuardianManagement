@@ -76,6 +76,36 @@ public class NguoiDungDAO {
         }
         return result;
     }
+    public NguoiDungDTO selectUserFromEmail(String strEmail) {
+        NguoiDungDTO result = null;
+        try {
+            Connection connection = JDBCUtil.getConnection();
+
+            String sql = "SELECT * FROM NguoiDung WHERE Email=? ";
+            PreparedStatement pst = connection.prepareStatement(sql);
+            pst.setString(1, strEmail);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                int MaND = rs.getInt(1);
+                String Email = rs.getString(2);
+                String MatKhau = rs.getString(3);
+                String HoTen = rs.getString(4);
+                String GioiTinh = rs.getString(5);
+                Date NgSinh = rs.getDate(6);
+                String Diachi = rs.getString(7);
+                String QueQuan = rs.getString(8);
+                String SoDT = rs.getString(9);
+                String VaiTro = rs.getString(10);
+                result = new NguoiDungDTO(MaND, Email, MatKhau, HoTen, SoDT, GioiTinh, Diachi, QueQuan, VaiTro, NgSinh);
+            }
+
+            JDBCUtil.closeConnection(connection);
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println(e);
+        }
+        return result;
+    }
+
     public int selectMaxMaND() {
         int result = 0;
         try {

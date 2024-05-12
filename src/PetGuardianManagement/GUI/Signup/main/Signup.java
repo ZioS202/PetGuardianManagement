@@ -433,7 +433,7 @@ public class Signup extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, msg, "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
             }else{
                 try {
-                    boolean isExistUser = SignUpBUS.getInstance().CheckExistUser(email, hexHashPassword.toString());
+                    boolean isExistUser = SignUpBUS.getInstance().CheckExistUser(email);
                     if (isExistUser){
                         JOptionPane.showMessageDialog(this, "Tài khoản đã tồn tại!", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
 

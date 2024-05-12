@@ -29,8 +29,8 @@ public class SignUpBUS {
         return NguoiDungDAO.getInstance().insert(newUser);
     }
     
-    public boolean CheckExistUser (String email, String password){
-        NguoiDungDTO user = NguoiDungDAO.getInstance().selectUser(email, password);
+    public boolean CheckExistUser (String email){
+        NguoiDungDTO user = NguoiDungDAO.getInstance().selectUserFromEmail(email);
         return user != null;
     } 
 }
