@@ -1,8 +1,10 @@
-
 package PetGuardianManagement.GUI.homepageUser.swing;
+
 import PetGuardianManagement.GUI.homepageUser.event.EventMenuSelected;
 import PetGuardianManagement.GUI.homepageUser.model.Model_Menu;
 import java.awt.Component;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -12,15 +14,18 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 import javax.swing.SwingUtilities;
 
-public class ListMenu<E extends Object> extends JList<E>  {
+public class ListMenu<E extends Object> extends JList<E> {
+
     private final DefaultListModel model;
     private int selectedIndex = -1;
     private int overIndex = -1;
     private EventMenuSelected event;
+
     public void addEventMenuSelected(EventMenuSelected event) {
         this.event = event;
     }
-    public ListMenu(){
+
+    public ListMenu() {
         model = new DefaultListModel();
         setModel(model);
         addMouseListener(new MouseAdapter() {
@@ -70,6 +75,7 @@ public class ListMenu<E extends Object> extends JList<E>  {
         });
 
     }
+
     @Override
     public ListCellRenderer<? super E> getCellRenderer() {
         return new DefaultListCellRenderer() {
@@ -89,8 +95,28 @@ public class ListMenu<E extends Object> extends JList<E>  {
 
         };
     }
+
     public void addItem(Model_Menu data) {
         model.addElement(data);
     }
- 
+
+    // Method get onscreen Location of MenuItem at specified index in ListMenu
+    public Point getMenuItemLocation(int index) {
+        if (index >= 0 && index < model.getSize()) {
+            // Calculate the location of the item relative to the ListMenu
+            Rectangle cellBounds = this.getCellBounds(index, index);
+            if (cellBounds != null) {
+                // Get the onscreen location of the ListMenu
+                Point listMenuLocationOnScreen = this.getLocationOnScreen();
+
+                // Calculate the onscreen location of the MenuItem relative to the screen
+                int menuItemX = listMenuLocationOnScreen.x;
+                int menuItemY = listMenuLocationOnScreen.y + (index * 40);
+                return new Point(menuItemX, menuItemY);
+            }
+        } else {
+            System.out.println("Vị trí không hợp lệ.");
+        }
+        return null;
+    }
 }

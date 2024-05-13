@@ -4,6 +4,7 @@
  */
 package PetGuardianManagement.GUI.BuyTicket.main;
 
+import PetGuardianManagement.BUS.BuyTicketBUS;
 import PetGuardianManagement.DTO.LoaiVeDTO;
 import PetGuardianManagement.GUI.BuyTicket.component.Item;
 import PetGuardianManagement.GUI.BuyTicket.swing.ScrollBar;
@@ -14,24 +15,17 @@ import PetGuardianManagement.GUI.BuyTicket.swing.ScrollBar;
  */
 public class BuyTicket extends javax.swing.JPanel {
 
-    private int round = 20;
-
     public BuyTicket() {
         initComponents();
         panelScroll.setVerticalScrollBar(new ScrollBar());
-        init();
+        loadData();
     }
 
-    private void init() {
-        addItem(new LoaiVeDTO(1, "Ve Ngay", 3000));
-        addItem(new LoaiVeDTO(2, "Ve Tuan", 25000));
-        addItem(new LoaiVeDTO(3, "Ve Thang", 95000));
-        addItem(new LoaiVeDTO(1, "Ve Ngay", 3000));
-        addItem(new LoaiVeDTO(2, "Ve Tuan", 25000));
-        addItem(new LoaiVeDTO(3, "Ve Thang", 95000));
-        addItem(new LoaiVeDTO(1, "Ve Ngay", 3000));
-        addItem(new LoaiVeDTO(2, "Ve Tuan", 25000));
-        addItem(new LoaiVeDTO(3, "Ve Thang", 95000));
+    private void loadData() {
+        for (int i = 0; i < BuyTicketBUS.getInstance().getLstLoaiVeSize(); i++) {
+            LoaiVeDTO loaiVe = BuyTicketBUS.getInstance().getLoaiVe(i);
+            addItem(loaiVe);
+        }
     }
 
     private void addItem(LoaiVeDTO data) {

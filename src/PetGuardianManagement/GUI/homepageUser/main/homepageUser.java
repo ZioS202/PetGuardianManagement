@@ -4,14 +4,15 @@
  */
 package PetGuardianManagement.GUI.homepageUser.main;
 
+import PetGuardianManagement.BUS.CartBUS;
 import PetGuardianManagement.GUI.BuyTicket.main.BuyTicket;
-import PetGuardianManagement.GUI.topUp.main.TopUp;
 import PetGuardianManagement.GUI.Cart.main.Cart;
 import PetGuardianManagement.GUI.Cart.main.CartEmpty;
 import PetGuardianManagement.GUI.homepageUser.event.EventMenuSelected;
 import PetGuardianManagement.GUI.homepageUser.form.Form_1;
 import PetGuardianManagement.GUI.homepageUser.form.Form_3;
 import PetGuardianManagement.GUI.homepageUser.form.ManageTicket;
+import PetGuardianManagement.GUI.topUp.main.TopUp;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -27,17 +28,31 @@ public class homepageUser extends javax.swing.JFrame {
     private ManageTicket manageTicket;
     private Form_3 form3;
     private BuyTicket buyTicket;
-    private Cart cart;
+    public Cart cart;
     private CartEmpty cartEmpty;
     private TopUp topUp;
-    
-    public homepageUser() {
+
+    private static homepageUser instance;
+
+    // Public static method to access the single instance
+    public static homepageUser getInstance() {
+        if (instance == null) {
+            instance = new homepageUser();
+        }
+        return instance;
+    }
+
+    private homepageUser() {
         initComponents();
         setIconImage();
         setBackground(new Color(0, 0, 0, 0));
+
+        // Just only using this line during programmaming
+        instance = this;
+
         form1 = new Form_1();
         form3 = new Form_3();
-        cartEmpty = new CartEmpty();
+
         winButton.initEvent(this, panelBorder, menu, header, mainPanel);
         menu.initMoving(homepageUser.this);
         menu.addEventMenuSelected(new EventMenuSelected() {
@@ -58,10 +73,21 @@ public class homepageUser extends javax.swing.JFrame {
                         setForm(form3);
                     }
                     case 3 -> {
-                        if (cart == null) {
-                            cart = new Cart();
+                        // Check if User's GioHang is empty
+                        if (CartBUS.getInstance().getLstModelItemSize() == 0) {
+                            if (cartEmpty == null) {
+                                cartEmpty = new CartEmpty();
+                            }
+                            setForm(cartEmpty);
+                        } else {
+                            if (cart == null) {
+                                cart = new Cart();
+                            } else {
+                                cart.loadData();
+                            }
+                            setForm(cart);
                         }
-                        setForm(cart);
+
                     }
                     case 7 -> {
                         if (buyTicket == null) {
@@ -70,7 +96,7 @@ public class homepageUser extends javax.swing.JFrame {
                         setForm(buyTicket);
                     }
                     case 8 -> {
-                        if(topUp == null) {
+                        if (topUp == null) {
                             topUp = new TopUp();
                         }
                         setForm(topUp);
@@ -81,11 +107,15 @@ public class homepageUser extends javax.swing.JFrame {
         setForm(form1);
     }
 
-    private void setForm(JComponent com) {
+    public void setForm(JComponent com) {
         mainPanel.removeAll();
         mainPanel.add(com);
         mainPanel.repaint();
         mainPanel.revalidate();
+    }
+
+    public void clickMenuItem(int index) {
+        menu.clickSpecificMenuItem(index);
     }
 
     /**

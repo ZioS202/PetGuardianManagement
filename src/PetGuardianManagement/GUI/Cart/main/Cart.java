@@ -4,9 +4,10 @@
  */
 package PetGuardianManagement.GUI.Cart.main;
 
-import PetGuardianManagement.DTO.LoaiVeDTO;
+import PetGuardianManagement.BUS.CartBUS;
 import PetGuardianManagement.GUI.BuyTicket.swing.ScrollBar;
 import PetGuardianManagement.GUI.Cart.component.Item;
+import PetGuardianManagement.GUI.Cart.model.ModelItem;
 
 /**
  *
@@ -20,22 +21,18 @@ public class Cart extends javax.swing.JPanel {
     public Cart() {
         initComponents();
         panelScroll.setVerticalScrollBar(new ScrollBar());
-        init();
+        loadData();
     }
 
-    private void init() {
-        // arraylist lstModelItem = Bus read chi tiet gio hang(idKH)
-        /*
-            for(item : lstModelItem){
-                addItem(item);
-            }
-         */
-        addItem(new LoaiVeDTO(1, "Ve Ngay", 3000));
-        addItem(new LoaiVeDTO(2, "Ve Tuan", 25000));
-        addItem(new LoaiVeDTO(3, "Ve Thang", 950000));
+    public void loadData() {
+        panelItem.removeAll();
+        for (int i = 0; i < CartBUS.getInstance().getLstModelItemSize(); i++) {
+            ModelItem modelItem = CartBUS.getInstance().getModelItem(i);
+            addItem(modelItem);
+        }
     }
 
-    private void addItem(LoaiVeDTO data) {
+    private void addItem(ModelItem data) {
         Item item = new Item();
         item.setData(data);
 
@@ -52,7 +49,7 @@ public class Cart extends javax.swing.JPanel {
     private void initComponents() {
 
         Title = new javax.swing.JLabel();
-        lblSoDu = new javax.swing.JLabel();
+        lbSoDu = new javax.swing.JLabel();
         header = new PetGuardianManagement.GUI.Cart.component.Header();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
@@ -61,9 +58,9 @@ public class Cart extends javax.swing.JPanel {
         jLabel16 = new javax.swing.JLabel();
         panelScroll = new javax.swing.JScrollPane();
         panelItem = new PetGuardianManagement.GUI.BuyTicket.swing.PanelItem();
-        button1 = new PetGuardianManagement.GUI.Signin.swing.Button();
+        btnThanhToan = new PetGuardianManagement.GUI.Signin.swing.Button();
         Title1 = new javax.swing.JLabel();
-        lblTongTien = new javax.swing.JLabel();
+        lbTongTien = new javax.swing.JLabel();
 
         setOpaque(false);
 
@@ -72,10 +69,10 @@ public class Cart extends javax.swing.JPanel {
         Title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         Title.setText("Số dư:");
 
-        lblSoDu.setFont(new java.awt.Font("Cooper", 0, 24)); // NOI18N
-        lblSoDu.setForeground(new java.awt.Color(243, 148, 34));
-        lblSoDu.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblSoDu.setText("0 ₫");
+        lbSoDu.setFont(new java.awt.Font("Cooper", 0, 24)); // NOI18N
+        lbSoDu.setForeground(new java.awt.Color(243, 148, 34));
+        lbSoDu.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbSoDu.setText("0 ₫");
 
         jLabel12.setFont(new java.awt.Font("Cooper", 0, 18)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(136, 136, 136));
@@ -91,6 +88,7 @@ public class Cart extends javax.swing.JPanel {
 
         jLabel15.setFont(new java.awt.Font("Cooper", 0, 18)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(136, 136, 136));
+        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel15.setText("Số Tiền");
 
         jLabel16.setFont(new java.awt.Font("Cooper", 0, 18)); // NOI18N
@@ -104,13 +102,13 @@ public class Cart extends javax.swing.JPanel {
             .addGroup(headerLayout.createSequentialGroup()
                 .addGap(40, 40, 40)
                 .addComponent(jLabel12)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 171, Short.MAX_VALUE)
                 .addComponent(jLabel14)
-                .addGap(132, 132, 132)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
                 .addComponent(jLabel13)
-                .addGap(98, 98, 98)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
                 .addComponent(jLabel15)
-                .addGap(72, 72, 72)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
                 .addComponent(jLabel16)
                 .addGap(40, 40, 40))
         );
@@ -119,12 +117,13 @@ public class Cart extends javax.swing.JPanel {
             .addGroup(headerLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(headerLayout.createSequentialGroup()
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -132,20 +131,20 @@ public class Cart extends javax.swing.JPanel {
         panelScroll.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         panelScroll.setViewportView(panelItem);
 
-        button1.setBackground(new java.awt.Color(238, 77, 45));
-        button1.setForeground(new java.awt.Color(255, 255, 255));
-        button1.setText("Thanh Toán");
-        button1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnThanhToan.setBackground(new java.awt.Color(238, 77, 45));
+        btnThanhToan.setForeground(new java.awt.Color(255, 255, 255));
+        btnThanhToan.setText("Thanh Toán");
+        btnThanhToan.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
         Title1.setFont(new java.awt.Font("Cooper", 0, 24)); // NOI18N
         Title1.setForeground(new java.awt.Color(243, 148, 34));
         Title1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         Title1.setText("Tổng thanh toán:");
 
-        lblTongTien.setFont(new java.awt.Font("Cooper", 0, 24)); // NOI18N
-        lblTongTien.setForeground(new java.awt.Color(243, 148, 34));
-        lblTongTien.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblTongTien.setText("0 ₫");
+        lbTongTien.setFont(new java.awt.Font("Cooper", 0, 24)); // NOI18N
+        lbTongTien.setForeground(new java.awt.Color(243, 148, 34));
+        lbTongTien.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbTongTien.setText("0 ₫");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -157,9 +156,9 @@ public class Cart extends javax.swing.JPanel {
                         .addContainerGap(429, Short.MAX_VALUE)
                         .addComponent(Title1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblTongTien)
+                        .addComponent(lbTongTien)
                         .addGap(18, 18, 18)
-                        .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,11 +166,11 @@ public class Cart extends javax.swing.JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(Title)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblSoDu)
+                                .addComponent(lbSoDu)
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addGap(20, 20, 20))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(13, 13, 13)
                 .addComponent(panelScroll))
         );
         layout.setVerticalGroup(
@@ -180,16 +179,16 @@ public class Cart extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Title)
-                    .addComponent(lblSoDu))
+                    .addComponent(lbSoDu))
                 .addGap(18, 18, 18)
                 .addComponent(header, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(panelScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE)
                 .addGap(64, 64, 64)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(button1, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+                    .addComponent(btnThanhToan, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
                     .addComponent(Title1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblTongTien, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lbTongTien, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(20, 20, 20))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -197,15 +196,15 @@ public class Cart extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Title;
     private javax.swing.JLabel Title1;
-    private PetGuardianManagement.GUI.Signin.swing.Button button1;
+    private PetGuardianManagement.GUI.Signin.swing.Button btnThanhToan;
     private PetGuardianManagement.GUI.Cart.component.Header header;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel lblSoDu;
-    private javax.swing.JLabel lblTongTien;
+    private javax.swing.JLabel lbSoDu;
+    private javax.swing.JLabel lbTongTien;
     private PetGuardianManagement.GUI.BuyTicket.swing.PanelItem panelItem;
     private javax.swing.JScrollPane panelScroll;
     // End of variables declaration//GEN-END:variables

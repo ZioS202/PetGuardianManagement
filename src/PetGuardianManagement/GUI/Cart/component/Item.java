@@ -1,35 +1,63 @@
 package PetGuardianManagement.GUI.Cart.component;
 
-import PetGuardianManagement.DTO.LoaiVeDTO;
+import PetGuardianManagement.BUS.CartBUS;
+import PetGuardianManagement.GUI.Cart.model.ModelItem;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.NumberFormat;
 import java.util.Locale;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
 
 public class Item extends javax.swing.JPanel {
 
-    private LoaiVeDTO data;
+    private ModelItem data;
 
     public Item() {
         initComponents();
         setOpaque(false);
         setCursor(new Cursor(Cursor.HAND_CURSOR));
         jPanel1.setBackground(new Color(242, 242, 242));
+        txtSoLuongOnlyAllowNumbers();
+        txtSoLuongFocusLostHandler();
+        txtSoLuongDocumentListener();
+        panelItemMouseListener();
+
+        // Add mouse listener to this JPanel
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // When clicked outside of the text field
+                if (!txtSoLuong.getBounds().contains(e.getPoint())) {
+                    // Remove focus from text field
+                    panelItem.requestFocusInWindow();
+                }
+            }
+        });
     }
 
-    public LoaiVeDTO getData() {
+    public ModelItem getData() {
         return data;
     }
 
-    public void setData(LoaiVeDTO data) {
+    public void setData(ModelItem data) {
         this.data = data;
-        lbItemName.setText(data.getStrTenLoaiVe());
-        lbPrice.setText(CurrencyFormat(data.getLongGiaVe()));
-        switch (data.getIMaLoaiVe()) {
+        lbItemName.setText(data.getLoaiVe().getStrTenLoaiVe());
+        lbPrice.setText(CurrencyFormat(data.getLoaiVe().getLGiaVe()));
+        switch (data.getLoaiVe().getIMaLoaiVe()) {
             case 1 -> {
                 pic.setImage(new ImageIcon(getClass().getResource("/PetGuardianManagement/GUI/BuyTicket/icon/VeNgay.png")));
             }
@@ -40,6 +68,8 @@ public class Item extends javax.swing.JPanel {
                 pic.setImage(new ImageIcon(getClass().getResource("/PetGuardianManagement/GUI/BuyTicket/icon/VeThang.png")));
             }
         }
+        txtSoLuong.setText(Long.toString(data.getSoLuong()));
+        lbSoTien.setText(CurrencyFormat(data.getLoaiVe().getLGiaVe() * data.getSoLuong()));
     }
 
     @Override
@@ -58,19 +88,125 @@ public class Item extends javax.swing.JPanel {
         return currencyFormatter.format(amount);
     }
 
+    // Create a document filter to only allow numbers in txtSoLuong, and limit character to 3
+    private void txtSoLuongOnlyAllowNumbers() {
+        ((AbstractDocument) txtSoLuong.getDocument()).setDocumentFilter(new DocumentFilter() {
+            int maxCharacters = 3;
+
+            @Override
+            public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr) throws BadLocationException {
+                if (containsOnlyNumbers(string) && fb.getDocument().getLength() + string.length() <= maxCharacters) {
+                    super.insertString(fb, offset, string, attr);
+                }
+
+//                if (string == null) {
+//                    return;
+//                }
+            }
+
+            @Override
+            public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+                if (containsOnlyNumbers(text) && fb.getDocument().getLength() + text.length() - length <= maxCharacters) {
+                    super.replace(fb, offset, length, text, attrs);
+                }
+
+//                if (text == null) {
+//                    return;
+//                }
+            }
+
+            private boolean containsOnlyNumbers(String text) {
+                for (int i = 0; i < text.length(); i++) {
+                    if (!Character.isDigit(text.charAt(i))) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        });
+    }
+
+    // FocusLost handler for txtSoLuong
+    private void txtSoLuongFocusLostHandler() {
+        txtSoLuong.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                // Check if txtSoLuong is empty. Or txtSoLuong is 0
+                if (txtSoLuong.getText().isEmpty() || Integer.parseInt(txtSoLuong.getText()) == 0) {
+                    txtSoLuong.setText("1");
+                }
+
+                // Update to lstModelItem(CartBUS) and ChiTietGioHang table
+                if (Integer.parseInt(txtSoLuong.getText()) != data.getSoLuong()) {
+                    data.setSoLuong(Integer.parseInt(txtSoLuong.getText()));
+                    if (CartBUS.getInstance().updateModelItem(data) == 0 || CartBUS.getInstance().updateSoLuongMua(data) == 0) {
+                        JOptionPane.showMessageDialog(null, "Thao tác thất bại. Vui lòng thử lại sau.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+
+            }
+        });
+
+    }
+
+    // Add DocumentListener for txtSoLuong
+    private void txtSoLuongDocumentListener() {
+        txtSoLuong.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                updateTxtSoTien();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                updateTxtSoTien();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                updateTxtSoTien();
+            }
+
+            private void updateTxtSoTien() {
+                String soLuongText = txtSoLuong.getText();
+                if (!soLuongText.isEmpty()) {
+                    int soLuong = Integer.parseInt(soLuongText);
+                    long soTien = soLuong * data.getLoaiVe().getLGiaVe();
+                    lbSoTien.setText(CurrencyFormat(soTien));
+                } else {
+                    lbSoTien.setText("0 ₫");
+                }
+            }
+        });
+    }
+
+    // Add mouse listener to panelItem
+    private void panelItemMouseListener() {
+        panelItem.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // When clicked outside of the text field
+                if (!txtSoLuong.getBounds().contains(e.getPoint())) {
+                    // Remove focus from text field
+                    panelItem.requestFocusInWindow();
+                }
+            }
+        });
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         lbItemName = new javax.swing.JLabel();
         pic = new PetGuardianManagement.GUI.BuyTicket.swing.PictureBox();
-        panelItem1 = new PetGuardianManagement.GUI.Cart.swing.PanelItem();
+        panelItem = new PetGuardianManagement.GUI.Cart.swing.PanelItem();
         lbPrice = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         btnPlus = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        txtSoLuong = new javax.swing.JTextField();
         btnMinus = new javax.swing.JButton();
-        lbPrice1 = new javax.swing.JLabel();
+        lbSoTien = new javax.swing.JLabel();
         btnDelete = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -82,7 +218,7 @@ public class Item extends javax.swing.JPanel {
         lbPrice.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         lbPrice.setForeground(new java.awt.Color(76, 76, 76));
         lbPrice.setText("0 ₫");
-        panelItem1.add(lbPrice);
+        panelItem.add(lbPrice);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -95,8 +231,9 @@ public class Item extends javax.swing.JPanel {
             }
         });
 
-        jTextField1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jTextField1.setText("SL Vé");
+        txtSoLuong.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtSoLuong.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtSoLuong.setText("SL Vé");
 
         btnMinus.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnMinus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PetGuardianManagement/GUI/Cart/icon/icons8-minus-12.png"))); // NOI18N
@@ -115,7 +252,7 @@ public class Item extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(btnMinus)
                 .addGap(4, 4, 4)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtSoLuong, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnPlus)
                 .addContainerGap())
@@ -126,19 +263,19 @@ public class Item extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtSoLuong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(btnMinus, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnPlus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        panelItem1.add(jPanel1);
+        panelItem.add(jPanel1);
 
-        lbPrice1.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
-        lbPrice1.setForeground(new java.awt.Color(243, 148, 34));
-        lbPrice1.setText("0 ₫");
-        panelItem1.add(lbPrice1);
+        lbSoTien.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
+        lbSoTien.setForeground(new java.awt.Color(243, 148, 34));
+        lbSoTien.setText("0 ₫");
+        panelItem.add(lbSoTien);
 
         btnDelete.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnDelete.setText("Xóa");
@@ -148,7 +285,7 @@ public class Item extends javax.swing.JPanel {
                 btnDeleteActionPerformed(evt);
             }
         });
-        panelItem1.add(btnDelete);
+        panelItem.add(btnDelete);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -161,7 +298,7 @@ public class Item extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(pic, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(panelItem1, javax.swing.GroupLayout.DEFAULT_SIZE, 632, Short.MAX_VALUE)))
+                        .addComponent(panelItem, javax.swing.GroupLayout.DEFAULT_SIZE, 625, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -173,7 +310,7 @@ public class Item extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pic, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(panelItem1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(panelItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(30, 30, 30)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -188,7 +325,7 @@ public class Item extends javax.swing.JPanel {
     }//GEN-LAST:event_btnMinusMouseClicked
 
     private void btnPlusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPlusMouseClicked
-
+        // TODO add your handling code here:
     }//GEN-LAST:event_btnPlusMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -196,11 +333,11 @@ public class Item extends javax.swing.JPanel {
     private javax.swing.JButton btnMinus;
     private javax.swing.JButton btnPlus;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lbItemName;
     private javax.swing.JLabel lbPrice;
-    private javax.swing.JLabel lbPrice1;
-    private PetGuardianManagement.GUI.Cart.swing.PanelItem panelItem1;
+    private javax.swing.JLabel lbSoTien;
+    private PetGuardianManagement.GUI.Cart.swing.PanelItem panelItem;
     private PetGuardianManagement.GUI.BuyTicket.swing.PictureBox pic;
+    private javax.swing.JTextField txtSoLuong;
     // End of variables declaration//GEN-END:variables
 }

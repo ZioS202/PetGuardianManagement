@@ -4,6 +4,8 @@
  */
 package PetGuardianManagement.GUI.Cart.main;
 
+import PetGuardianManagement.GUI.homepageUser.main.homepageUser;
+
 /**
  *
  * @author ductt
@@ -26,7 +28,7 @@ public class CartEmpty extends javax.swing.JPanel {
 
         emptyIcon = new javax.swing.JLabel();
         labelgiohangtrong = new javax.swing.JLabel();
-        button1 = new PetGuardianManagement.GUI.Signin.swing.Button();
+        btnMuaNgay = new PetGuardianManagement.GUI.Signin.swing.Button();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -38,10 +40,15 @@ public class CartEmpty extends javax.swing.JPanel {
         labelgiohangtrong.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelgiohangtrong.setText("Giỏ hàng của bạn còn trống");
 
-        button1.setBackground(new java.awt.Color(238, 77, 45));
-        button1.setForeground(new java.awt.Color(255, 255, 255));
-        button1.setText("Mua Ngay");
-        button1.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
+        btnMuaNgay.setBackground(new java.awt.Color(238, 77, 45));
+        btnMuaNgay.setForeground(new java.awt.Color(255, 255, 255));
+        btnMuaNgay.setText("Mua Ngay");
+        btnMuaNgay.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
+        btnMuaNgay.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnMuaNgayMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -54,7 +61,7 @@ public class CartEmpty extends javax.swing.JPanel {
                 .addGap(181, 181, 181))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnMuaNgay, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -65,13 +72,19 @@ public class CartEmpty extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(labelgiohangtrong, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnMuaNgay, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(78, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnMuaNgayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMuaNgayMouseClicked
+        btnMuaNgay.hideCursor();
+        homepageUser.getInstance().clickMenuItem(7);
+        btnMuaNgay.restoreCursor();
+    }//GEN-LAST:event_btnMuaNgayMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private PetGuardianManagement.GUI.Signin.swing.Button button1;
+    private PetGuardianManagement.GUI.Signin.swing.Button btnMuaNgay;
     private javax.swing.JLabel emptyIcon;
     private javax.swing.JLabel labelgiohangtrong;
     // End of variables declaration//GEN-END:variables

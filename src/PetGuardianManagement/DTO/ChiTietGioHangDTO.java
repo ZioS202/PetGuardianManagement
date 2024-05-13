@@ -5,20 +5,20 @@
 package PetGuardianManagement.DTO;
 
 public class ChiTietGioHangDTO {
-    private int iMaGioHang, iMaLoaiVe; 
-    private long longSoLuongMua;
-    
-    public ChiTietGioHangDTO(){
-        
+
+    private int iMaGioHang, iMaLoaiVe;
+    private int iSoLuongMua;
+
+    public ChiTietGioHangDTO() {
+
     }
-    
-    public ChiTietGioHangDTO(int iMaGioHang, int iMaLoaiVe, long longSoLuongMua){
+
+    public ChiTietGioHangDTO(int iMaGioHang, int iMaLoaiVe, int iSoLuongMua) {
         this.iMaGioHang = iMaGioHang;
         this.iMaLoaiVe = iMaLoaiVe;
-        this.longSoLuongMua = longSoLuongMua;
+        this.iSoLuongMua = iSoLuongMua;
     }
-    
-    
+
     public int getIMaGioHang() {
         return iMaGioHang;
     }
@@ -34,17 +34,17 @@ public class ChiTietGioHangDTO {
     public void setIMaLoaiVe(int iMaLoaiVe) {
         this.iMaLoaiVe = iMaLoaiVe;
     }
-    
-    public long getLongSoLuongMua() {
-        return longSoLuongMua;
+
+    public int getISoLuongMua() {
+        return iSoLuongMua;
     }
 
-    public void setLongSoLuongMua(long iSoLuongMua) {
-        this.longSoLuongMua = iSoLuongMua;
+    public void setISoLuongMua(int iSoLuongMua) {
+        this.iSoLuongMua = iSoLuongMua;
     }
-    
+
     @Override
     public String toString() {
-        return "GioHangDTO{" + "iMaGioHang=" + iMaGioHang + ", iMaLoaiVe=" + iMaLoaiVe + ", longSoLuongMua=" + longSoLuongMua + '}';
+        return "GioHangDTO{" + "iMaGioHang=" + iMaGioHang + ", iMaLoaiVe=" + iMaLoaiVe + ", iSoLuongMua=" + iSoLuongMua + '}';
     }
 }

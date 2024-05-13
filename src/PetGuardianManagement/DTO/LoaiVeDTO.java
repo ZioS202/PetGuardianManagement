@@ -5,17 +5,18 @@
 package PetGuardianManagement.DTO;
 
 public class LoaiVeDTO {
+
     private int iMaLoaiVe;
     private String strTenLoaiVe;
-    private long longGiaVe;
+    private long lGiaVe;
 
     public LoaiVeDTO() {
     }
 
-    public LoaiVeDTO(int iMaLoaiVe, String strTenLoaiVe, long longGiaVe) {
+    public LoaiVeDTO(int iMaLoaiVe, String strTenLoaiVe, long lGiaVe) {
         this.iMaLoaiVe = iMaLoaiVe;
         this.strTenLoaiVe = strTenLoaiVe;
-        this.longGiaVe = longGiaVe;
+        this.lGiaVe = lGiaVe;
     }
 
     public int getIMaLoaiVe() {
@@ -34,19 +35,16 @@ public class LoaiVeDTO {
         this.strTenLoaiVe = strTenLoaiVe;
     }
 
-    public long getLongGiaVe() {
-        return longGiaVe;
+    public long getLGiaVe() {
+        return lGiaVe;
     }
 
-    public void setLongGiaVe(long longGiaVe) {
-        this.longGiaVe = longGiaVe;
+    public void setLGiaVe(long lGiaVe) {
+        this.lGiaVe = lGiaVe;
     }
-    
+
     @Override
     public String toString() {
-        return "LoaiVeDTO{" + "iMaLoaiVe=" + iMaLoaiVe + ", strTenLoaiVe=" + strTenLoaiVe + ", longGiaVe=" + longGiaVe + '}';
+        return "LoaiVeDTO{" + "iMaLoaiVe=" + iMaLoaiVe + ", strTenLoaiVe=" + strTenLoaiVe + ", lGiaVe=" + lGiaVe + '}';
     }
-
-    
 }
-

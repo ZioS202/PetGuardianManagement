@@ -11,6 +11,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -32,6 +33,7 @@ public class Button extends JButton {
     private float alpha;
     private Color effectColor = new Color(255, 255, 255);
     private Animator animator;
+    private Cursor handCursor;
 
     public Color getEffectColor() {
         return effectColor;
@@ -42,10 +44,11 @@ public class Button extends JButton {
     }
 
     public Button() {
+        handCursor = new Cursor(Cursor.HAND_CURSOR);
         setContentAreaFilled(false);
         setBorder(new EmptyBorder(5, 0, 5, 0));
         setBackground(Color.WHITE);
-        setCursor(new Cursor(Cursor.HAND_CURSOR));
+        setCursor(handCursor);
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent me) {
@@ -92,5 +95,22 @@ public class Button extends JButton {
         g2.dispose();
         grphcs.drawImage(img, 0, 0, null);
         super.paintComponent(grphcs);
+    }
+
+    public void hideCursor() {
+        // Create a blank cursor
+        Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
+                new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB),
+                new Point(0, 0),
+                "blankCursor"
+        );
+
+        // Set the blank cursor for the frame
+        setCursor(blankCursor);
+    }
+
+    // Restore the default cursor
+    public void restoreCursor() {
+        setCursor(handCursor);
     }
 }

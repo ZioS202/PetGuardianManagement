@@ -25,9 +25,9 @@
                       <EmptySpace pref="429" max="32767" attributes="0"/>
                       <Component id="Title1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="lblTongTien" min="-2" max="-2" attributes="0"/>
+                      <Component id="lbTongTien" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="button1" min="-2" pref="210" max="-2" attributes="0"/>
+                      <Component id="btnThanhToan" min="-2" pref="210" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
@@ -36,7 +36,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="Title" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="lblSoDu" min="-2" max="-2" attributes="0"/>
+                              <Component id="lbSoDu" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -44,8 +44,8 @@
               </Group>
               <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
           </Group>
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
               <Component id="panelScroll" max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -56,7 +56,7 @@
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="Title" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblSoDu" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lbSoDu" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
               <Component id="header" min="-2" max="-2" attributes="0"/>
@@ -64,9 +64,9 @@
               <Component id="panelScroll" pref="413" max="32767" attributes="0"/>
               <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="button1" pref="45" max="32767" attributes="0"/>
+                  <Component id="btnThanhToan" pref="45" max="32767" attributes="0"/>
                   <Component id="Title1" alignment="0" max="32767" attributes="0"/>
-                  <Component id="lblTongTien" alignment="0" max="32767" attributes="0"/>
+                  <Component id="lbTongTien" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
           </Group>
@@ -86,7 +86,7 @@
         <Property name="text" type="java.lang.String" value="S&#x1ed1; d&#x1b0;:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="lblSoDu">
+    <Component class="javax.swing.JLabel" name="lbSoDu">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Cooper" size="24" style="0"/>
@@ -106,13 +106,13 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                   <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="171" max="32767" attributes="0"/>
                   <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="132" max="-2" attributes="0"/>
+                  <EmptySpace pref="132" max="32767" attributes="0"/>
                   <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="98" max="-2" attributes="0"/>
+                  <EmptySpace pref="98" max="32767" attributes="0"/>
                   <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
+                  <EmptySpace pref="72" max="32767" attributes="0"/>
                   <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
               </Group>
@@ -123,13 +123,14 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                          <Component id="jLabel13" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
-                          <Component id="jLabel14" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
-                          <Component id="jLabel15" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
-                          <Component id="jLabel16" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
+                      <Component id="jLabel15" max="32767" attributes="0"/>
+                      <Component id="jLabel13" max="32767" attributes="0"/>
+                      <Component id="jLabel14" max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Component id="jLabel12" min="-2" pref="33" max="-2" attributes="0"/>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
-                      <Component id="jLabel12" min="-2" pref="33" max="-2" attributes="0"/>
+                      <Component id="jLabel16" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -178,6 +179,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="88" green="88" red="88" type="rgb"/>
             </Property>
+            <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="text" type="java.lang.String" value="S&#x1ed1; Ti&#x1ec1;n"/>
           </Properties>
         </Component>
@@ -208,7 +210,7 @@
         </Container>
       </SubComponents>
     </Container>
-    <Component class="PetGuardianManagement.GUI.Signin.swing.Button" name="button1">
+    <Component class="PetGuardianManagement.GUI.Signin.swing.Button" name="btnThanhToan">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="2d" green="4d" red="ee" type="rgb"/>
@@ -234,7 +236,7 @@
         <Property name="text" type="java.lang.String" value="T&#x1ed5;ng thanh to&#xe1;n:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="lblTongTien">
+    <Component class="javax.swing.JLabel" name="lbTongTien">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Cooper" size="24" style="0"/>
