@@ -17,7 +17,7 @@ create table NguoiDung (
     Email varchar2(32) not null,
     MatKhau varchar2(64) not null,
     HoTen varchar2(50),
-    GioiTinh varchar2(3),
+    GioiTinh varchar2(4),
     NgSinh Date,
     DiaChi varchar2(256),
     QueQuan varchar2(256),
@@ -26,7 +26,7 @@ create table NguoiDung (
 
     CONSTRAINT PK_MaND PRIMARY KEY (MaND),
 
-    CONSTRAINT check_GioiTinh CHECK (GioiTinh = 'Nam' or GioiTinh = 'Nu'),
+    CONSTRAINT check_GioiTinh CHECK (GioiTinh = 'Nam' or GioiTinh = 'Nữ'),
     CONSTRAINT check_VaiTro CHECK (VaiTro ='Khach Hang' or VaiTro = 'Admin')
 );
 
@@ -69,12 +69,12 @@ create table c_Ve(
     MaVe Number,
     MaLoaiVe Number,
     MaKH Number,
-    NgayMua Date,
+    NgayKichHoat Date,
     NgayHetHan Date,
     TrangThai Varchar(30),
 
     CONSTRAINT PK_MaVe PRIMARY KEY (MaVe),
-    CONSTRAINT check_TrangThai CHECK (TrangThai in ('Dang su dung', 'Da het han'))
+    CONSTRAINT check_TrangThai CHECK (TrangThai in ('Chưa kích hoạt', 'Đang sử dụng', 'Đã hết hạn'))
 );
 
 

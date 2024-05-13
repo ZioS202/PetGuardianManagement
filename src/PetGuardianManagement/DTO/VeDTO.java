@@ -2,22 +2,21 @@ package PetGuardianManagement.DTO;
 
 import java.util.Date;
 
-
 public class VeDTO {
+
     private int iMaVe, iMaLoaiVe, iMaKH;
-    private Date dateNgayMua;
+    private Date dateNgayKichHoat;
     private Date dateNgayHetHan;
     private String strTrangThai;
 
     public VeDTO() {
     }
 
-
-    public VeDTO(int iMaVe, int iMaLoaiVe, int iMaKH, Date dateNgayMua, Date dateNgayHetHan, String strTrangThai) {
+    public VeDTO(int iMaVe, int iMaLoaiVe, int iMaKH, Date dateNgayKichHoat, Date dateNgayHetHan, String strTrangThai) {
         this.iMaVe = iMaVe;
         this.iMaLoaiVe = iMaLoaiVe;
         this.iMaKH = iMaKH;
-        this.dateNgayMua = dateNgayMua;
+        this.dateNgayKichHoat = dateNgayKichHoat;
         this.dateNgayHetHan = dateNgayHetHan;
         this.strTrangThai = strTrangThai;
     }
@@ -46,12 +45,12 @@ public class VeDTO {
         this.iMaKH = iMaKH;
     }
 
-    public Date getDateNgayMua() {
-        return dateNgayMua;
+    public Date getdateNgayKichHoat() {
+        return dateNgayKichHoat;
     }
 
-    public void setDateNgayMua(Date dateNgayMua) {
-        this.dateNgayMua = dateNgayMua;
+    public void setdateNgayKichHoat(Date dateNgayKichHoat) {
+        this.dateNgayKichHoat = dateNgayKichHoat;
     }
 
     public Date getDateNgayHetHan() {
@@ -70,9 +69,9 @@ public class VeDTO {
         this.strTrangThai = strTrangThai;
     }
 
-     @Override
+    @Override
     public String toString() {
-        return "VeDTO{" + "iMaVe=" + iMaVe + ", iMaLoaiVe=" + iMaLoaiVe + ", iMaKH=" + iMaKH + ", dateNgayKichHoat=" + dateNgayMua + ", dateNgayHetHan=" + dateNgayHetHan + ", strTrangThai=" + strTrangThai + '}';
+        return "VeDTO{" + "iMaVe=" + iMaVe + ", iMaLoaiVe=" + iMaLoaiVe + ", iMaKH=" + iMaKH + ", dateNgayKichHoat=" + dateNgayKichHoat + ", dateNgayHetHan=" + dateNgayHetHan + ", strTrangThai=" + strTrangThai + '}';
     }
-    
+
 }

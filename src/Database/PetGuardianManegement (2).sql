@@ -2,11 +2,11 @@
 
 -- FK CUA NhanVien
 ALTER TABLE NhanVien ADD CONSTRAINT FK_NhanVien_MaNV FOREIGN KEY(MaNV) REFERENCES NguoiDung(MaND);
-    
+
 -- FK CUA KhachHang
 ALTER TABLE KhachHang ADD CONSTRAINT FK_KhachHang_MaKH FOREIGN KEY(MaKH) REFERENCES NguoiDung(MaND);
 
--- FK CUA c_Ve 
+-- FK CUA c_Ve
 ALTER TABLE c_Ve ADD CONSTRAINT FK_c_Ve_MaLoaiVe FOREIGN KEY(MaLoaiVe) REFERENCES LoaiVe(MaLoaiVe);
 ALTER TABLE c_Ve ADD CONSTRAINT FK_c_Ve_MaKH FOREIGN KEY(MaKH) REFERENCES KhachHang(MaKH);
 
@@ -36,7 +36,7 @@ ALTER TABLE ChiTietGioHang ADD CONSTRAINT FK_ChiTietGioHang_LoaiVe FOREIGN KEY(M
 
 --Check_SoDu_trigger
 create or replace trigger Check_SoDu_trigger
-before insert or update on KhachHang 
+before insert or update on KhachHang
 for each row
 begin
     if (:new.SoDu < 0) then
@@ -66,12 +66,12 @@ end;
 /
 
 --NgayHetHan_trigger
-create or replace trigger Check_NgayHetHan_trigger 
-before insert or update on c_Ve 
+create or replace trigger Check_NgayHetHan_trigger
+before insert or update on c_Ve
 for each row
 begin
-    if (:new.NgayHetHan < :new.NgayMua) then
-        raise_application_error(-20003, 'Ngay het han phai lon hon hoac bang ngay mua ve');
+    if (:new.NgayHetHan <= :new.NgayKichHoat) then
+        raise_application_error(-20003, 'Ngay het han phai lon hon ngay kich hoat');
     end if;
 end;
 /
@@ -200,7 +200,7 @@ end;
 --    l_NgayHetHan date;
 --
 --    Cursor List_id is
---    select * 
+--    select *
 --    from C_Ve;
 --
 --begin
@@ -245,7 +245,7 @@ end;
 --    l_maMaxND Number;
 --begin
 --        insert into NguoiDung(Email, MatKhau, HoTen, GioiTinh, Ngsinh, DiaChi, QueQuan, SDT, VaiTro) values(i_Email,i_MatKhau,i_HoTen,'','','','','', i_VaiTro);
---    exception 
+--    exception
 --    when no_Data_found then
 --    dbms_output.put_line('Them khong thanh cong');
 --end;
@@ -264,7 +264,7 @@ end;
 ----THEM LOAI VE
 --create or replace procedure Them_LoaiVe(i_TenLoaiVe LoaiVe.TenLoaiVe%type, i_GiaVe LoaiVe.GiaVe%type)
 --is
---    l_MaLoaiVe Number; 
+--    l_MaLoaiVe Number;
 --begin
 --    insert into LoaiVe(TenLoaiVe, GiaVe) values(i_TenLoaiVe, i_GiaVe);
 --    exception when no_Data_found then
@@ -311,7 +311,7 @@ end;
 --end;
 --/
 ---- XOA NGUOI DUNG
---create or replace procedure Xoa_NguoiDung(i_MaND NguoiDung.MaND%type)   
+--create or replace procedure Xoa_NguoiDung(i_MaND NguoiDung.MaND%type)
 --is
 --    l_MaND Number;
 --begin
@@ -369,14 +369,14 @@ end;
 --create or replace function check_MaKH_dangguithucung(i_MaKH Khachhang.MaKH%type)
 --return number is l_MaKH Number;
 --
---begin 
+--begin
 --    select KH.MaKH into l_MaKH
 --    from KhachHang KH, ThuCung TC
 --    where KH.MaKH = TC.MaKHSoHuu
 --        and KH.MaKH = i_MaKH;
 --    if l_MaKH is null then
 --        return 0;
---    else 
+--    else
 --        return 1;
 --    end if;
 --    exception when no_data_found then
@@ -392,7 +392,7 @@ end;
 --    select sum(TongGiaTien) into DoanhThu
 --    from HoaDon HD join ChiTietHoaDon CTHD on HD.MaHD = CTHD.MaHD
 --    where HD.NgayHD = p_NgayHD;
---    if DoanhThu > 0 then 
+--    if DoanhThu > 0 then
 --        return DoanhThu;
 --    end if;
 --    exception when no_data_found then
@@ -406,7 +406,7 @@ end;
 --as SoLuongThuCungRa number;
 --   begin
 --    select count(MaThuCung) into SoLuongThuCungRa
---    from ChiTietRaVao CTRV 
+--    from ChiTietRaVao CTRV
 --    where CTRV.ThoiGianRa = p_NgayHD;
 --    return SoLuongThuCungRa;
 --    exception when no_Data_found then
@@ -420,7 +420,7 @@ end;
 --as SoLuongThuCungVao number;
 --begin
 --    select count(MaThuCung) into SoLuongThuCungVao
---    from ChiTietRaVao CTRV 
+--    from ChiTietRaVao CTRV
 --    where CTRV.ThoiGianVao = p_NgayHD;
 --    return SoLuongThuCungVao;
 --    exception when no_Data_found then
