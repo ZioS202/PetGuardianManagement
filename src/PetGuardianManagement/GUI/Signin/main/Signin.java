@@ -1,18 +1,27 @@
 package PetGuardianManagement.GUI.Signin.main;
 
+import PetGuardianManagement.BUS.SignInBUS;
+import PetGuardianManagement.DTO.NguoiDungDTO;
+import PetGuardianManagement.GUI.Admin.HomepageAdmin.main.HomepageAdmin;
 import PetGuardianManagement.GUI.ForgotPassword.main.VerifyOTP;
 import PetGuardianManagement.GUI.Signup.main.Signup;
+import PetGuardianManagement.GUI.homepageUser.main.homepageUser;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 public class Signin extends javax.swing.JFrame {
-
+    public static NguoiDungDTO User;
     private int posX, posY;
-
     public Signin() {
         initComponents();
         setIconImage();
@@ -153,13 +162,35 @@ public class Signin extends javax.swing.JFrame {
             }
         });
         panelRound2.add(lblSignUp, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 270, 60, -1));
+
+        txtEmail.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtEmailKeyPressed(evt);
+            }
+        });
         panelRound2.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 90, 250, 40));
+
+        txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPasswordKeyPressed(evt);
+            }
+        });
         panelRound2.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 160, 250, -1));
 
         btnSignin.setBackground(new java.awt.Color(255, 69, 0));
         btnSignin.setForeground(new java.awt.Color(255, 255, 255));
         btnSignin.setText("SIGN IN");
         btnSignin.setFont(new java.awt.Font("Segoe UI Historic", 1, 15)); // NOI18N
+        btnSignin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSigninActionPerformed(evt);
+            }
+        });
+        btnSignin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnSigninKeyPressed(evt);
+            }
+        });
         panelRound2.add(btnSignin, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 320, 250, 50));
 
         jPanel1.add(panelRound2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 40, 830, 400));
@@ -235,6 +266,33 @@ public class Signin extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_lblForgetPasswordMouseClicked
 
+    private void btnSigninActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSigninActionPerformed
+        // sign-in action performed
+        performedLogin();
+    }//GEN-LAST:event_btnSigninActionPerformed
+
+    private void btnSigninKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnSigninKeyPressed
+        // sign-in action performed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+            performedLogin();
+        }
+        
+    }//GEN-LAST:event_btnSigninKeyPressed
+
+    private void txtPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyPressed
+        // sign-in action performed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+            performedLogin();
+        }
+    }//GEN-LAST:event_txtPasswordKeyPressed
+
+    private void txtEmailKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailKeyPressed
+        // sign-in action performed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+            performedLogin();
+        }
+    }//GEN-LAST:event_txtEmailKeyPressed
+
     /**
      * @param args the command line arguments
      */
@@ -266,6 +324,54 @@ public class Signin extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(() -> {
             new Signin().setVisible(true);
         });
+    }
+    public void performedLogin(){
+        String email = txtEmail.getText();
+        String password = new String (txtPassword.getPassword());
+        MessageDigest digest;
+        StringBuilder hexHashPassword = new StringBuilder("Inital value");
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+            byte[] hashedPassword = digest.digest(password.getBytes());
+            hexHashPassword = new StringBuilder();
+            for (byte b : hashedPassword) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) {
+                    hexHashPassword.append('0');
+                }
+                hexHashPassword.append(hex);
+            }
+            System.out.println("Hashed Password (SHA-256): " + hexHashPassword.toString());
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(Signin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (email.equals("") || password.equals("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin !", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+        } else{
+            try {
+                boolean authenticated = SignInBUS.getInstance().authenticateUser(email, hexHashPassword.toString());
+                if (authenticated){
+                    User = SignInBUS.getInstance().getUser(email, hexHashPassword.toString());
+                    if (User.getStrVaiTro().equals("Admin")) {
+                        // Switch to HomepageAdmin GUI
+                        HomepageAdmin homepage = new HomepageAdmin();
+                        homepage.setVisible(true);
+                        dispose();
+                    } else if (User.getStrVaiTro().equals("Khach Hang")){
+                        // Switch to HomepageUser GUI
+                        homepageUser homepage = new homepageUser();
+                        homepage.setVisible(true);
+                        dispose();
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(this, "Tài khoản không tồn tại!", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+                    txtEmail.setText("");
+                    txtPassword.setText("");
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, e, "Lỗi !", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

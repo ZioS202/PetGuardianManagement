@@ -14,6 +14,8 @@ import PetGuardianManagement.GUI.Admin.HomepageAdmin.form.changePassword;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComponent;
 
 /**
@@ -35,7 +37,11 @@ public class HomepageAdmin extends javax.swing.JFrame {
         form1 = new CustomerManage();
         form2 = new InvoiceManage();
         form3 = new PetManage();
-        form4= new VisitorManage();
+        try {
+            form4= new VisitorManage();
+        } catch (Exception ex) {
+            Logger.getLogger(HomepageAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
         account=new AccountInformation();
         changePW=new changePassword();
         winButton.initEvent(this, panelBorder, menu, header, mainPanel);

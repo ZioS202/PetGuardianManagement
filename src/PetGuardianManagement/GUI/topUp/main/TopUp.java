@@ -5,12 +5,15 @@
  */
 package PetGuardianManagement.GUI.topUp.main;
 
+import javax.swing.JOptionPane;
+import PetGuardianManagement.DTO.KhachHangDTO;
+import PetGuardianManagement.BUS.TopUpBUS;
 /**
  *
  * @author RAVEN
  */
 public class TopUp extends javax.swing.JPanel {
-
+    KhachHangDTO kh = new KhachHangDTO();
     /**
      * Creates new form Form_1
      */
@@ -175,6 +178,17 @@ public class TopUp extends javax.swing.JPanel {
 
     private void btTopUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTopUpActionPerformed
         // TODO add your handling code here:
+        kh.setIMaKH(6);
+        try {
+            if (Integer.parseInt(txtfldTopUp.getText()) < 0) {
+                JOptionPane.showMessageDialog(this, "Số tiền nạp không được bé hơn 0");  
+                return;
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Tiền nạp không hợp lệ");
+        }
+        TopUpBUS.getInstance().TopUpAcc(kh, Long.parseLong(txtfldTopUp.getText()));
+        JOptionPane.showMessageDialog(this, "Nạp tiền thành công");
     }//GEN-LAST:event_btTopUpActionPerformed
 
     private void txtfldTopUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtfldTopUpActionPerformed

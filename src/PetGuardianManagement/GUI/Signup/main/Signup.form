@@ -165,6 +165,9 @@
               </Constraints>
             </Component>
             <Component class="PetGuardianManagement.GUI.Signin.swing.MyTextField" name="txtEmail">
+              <Events>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtEmailKeyPressed"/>
+              </Events>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
                   <AbsoluteConstraints x="530" y="100" width="290" height="40"/>
@@ -172,6 +175,9 @@
               </Constraints>
             </Component>
             <Component class="PetGuardianManagement.GUI.Signin.swing.MyTextField" name="txtFirstName">
+              <Events>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtFirstNameKeyPressed"/>
+              </Events>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
                   <AbsoluteConstraints x="530" y="160" width="290" height="40"/>
@@ -179,13 +185,16 @@
               </Constraints>
             </Component>
             <Component class="PetGuardianManagement.GUI.Signin.swing.MyTextField" name="txtLastName">
+              <Events>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtLastNameKeyPressed"/>
+              </Events>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
                   <AbsoluteConstraints x="530" y="220" width="290" height="40"/>
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="PetGuardianManagement.GUI.Signin.swing.Button" name="btnSignin">
+            <Component class="PetGuardianManagement.GUI.Signin.swing.Button" name="btnSignUp">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="0" green="45" red="ff" type="rgb"/>
@@ -198,6 +207,10 @@
                   <Font name="Segoe UI Historic" size="15" style="1"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSignUpActionPerformed"/>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="btnSignUpKeyPressed"/>
+              </Events>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
                   <AbsoluteConstraints x="550" y="400" width="250" height="50"/>
@@ -205,6 +218,9 @@
               </Constraints>
             </Component>
             <Component class="PetGuardianManagement.GUI.Signin.swing.MyPasswordField" name="txtPassword">
+              <Events>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtPasswordKeyPressed"/>
+              </Events>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
                   <AbsoluteConstraints x="530" y="280" width="290" height="-1"/>
@@ -212,6 +228,9 @@
               </Constraints>
             </Component>
             <Component class="PetGuardianManagement.GUI.Signin.swing.MyPasswordField" name="txtConfirmPassword">
+              <Events>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtConfirmPasswordKeyPressed"/>
+              </Events>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
                   <AbsoluteConstraints x="530" y="340" width="290" height="-1"/>

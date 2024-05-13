@@ -13,7 +13,7 @@ public class ChiTietRaVaoDTO {
     public ChiTietRaVaoDTO() {
     }
     
-    public ChiTietRaVaoDTO(Date dateThoiGianVao, Date dateThoiGianRa, String strMaNV, int iMaKH, int iMaThuCung) {
+    public ChiTietRaVaoDTO(Date dateThoiGianVao, Date dateThoiGianRa, int iMaKH, int iMaThuCung) {
         this.dateThoiGianVao = dateThoiGianVao;
         this.dateThoiGianRa = dateThoiGianRa;
         this.iMaKH = iMaKH;
