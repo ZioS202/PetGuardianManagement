@@ -20,8 +20,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 public class Signin extends javax.swing.JFrame {
+
     public static NguoiDungDTO User;
     private int posX, posY;
+
     public Signin() {
         initComponents();
         setIconImage();
@@ -273,22 +275,22 @@ public class Signin extends javax.swing.JFrame {
 
     private void btnSigninKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnSigninKeyPressed
         // sign-in action performed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             performedLogin();
         }
-        
+
     }//GEN-LAST:event_btnSigninKeyPressed
 
     private void txtPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyPressed
         // sign-in action performed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             performedLogin();
         }
     }//GEN-LAST:event_txtPasswordKeyPressed
 
     private void txtEmailKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailKeyPressed
         // sign-in action performed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             performedLogin();
         }
     }//GEN-LAST:event_txtEmailKeyPressed
@@ -325,9 +327,10 @@ public class Signin extends javax.swing.JFrame {
             new Signin().setVisible(true);
         });
     }
-    public void performedLogin(){
+
+    public void performedLogin() {
         String email = txtEmail.getText();
-        String password = new String (txtPassword.getPassword());
+        String password = new String(txtPassword.getPassword());
         MessageDigest digest;
         StringBuilder hexHashPassword = new StringBuilder("Inital value");
         try {
@@ -347,23 +350,22 @@ public class Signin extends javax.swing.JFrame {
         }
         if (email.equals("") || password.equals("")) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin !", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
-        } else{
+        } else {
             try {
                 boolean authenticated = SignInBUS.getInstance().authenticateUser(email, hexHashPassword.toString());
-                if (authenticated){
+                if (authenticated) {
                     User = SignInBUS.getInstance().getUser(email, hexHashPassword.toString());
                     if (User.getStrVaiTro().equals("Admin")) {
                         // Switch to HomepageAdmin GUI
                         HomepageAdmin homepage = new HomepageAdmin();
                         homepage.setVisible(true);
                         dispose();
-                    } else if (User.getStrVaiTro().equals("Khach Hang")){
+                    } else if (User.getStrVaiTro().equals("Khach Hang")) {
                         // Switch to HomepageUser GUI
-                        homepageUser homepage = new homepageUser();
-                        homepage.setVisible(true);
+                        homepageUser.getInstance().setVisible(true);
                         dispose();
                     }
-                }else{
+                } else {
                     JOptionPane.showMessageDialog(this, "Tài khoản không tồn tại!", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
                     txtEmail.setText("");
                     txtPassword.setText("");
