@@ -4,14 +4,13 @@
  */
 package PetGuardianManagement.BUS;
 
-import PetGuardianManagement.DTO.KhachHangDTO;
 import PetGuardianManagement.DAO.KhachHangDAO;
-import java.util.ArrayList;
-import java.util.Iterator;
+import PetGuardianManagement.DTO.KhachHangDTO;
+
 public class TopUpBUS {
+
     private static TopUpBUS instance;
-    
-    
+
     // Public static method to access the single instance
     public static TopUpBUS getInstance() {
         if (instance == null) {
@@ -19,20 +18,8 @@ public class TopUpBUS {
         }
         return instance;
     }
-    
-    public void TopUpAcc(KhachHangDTO data, long money){
-        ArrayList<KhachHangDTO> listKH =  KhachHangDAO.getInstance().selectAll();
-       
-        for (var ncc : listKH) {
-            if(data.getIMaKH() == ncc.getIMaKH())
-            {
-                data.setLongSoDu(ncc.getLongSoDu());
-                 break;
-            }
-        }
-        long temp = data.getLongSoDu() + money;
-        data.setLongSoDu(temp);
-        KhachHangDAO.getInstance().update(data);
-        }
-    
+
+    public int TopUpAcc(KhachHangDTO data) {
+        return KhachHangDAO.getInstance().update(data);
+    }
 }
