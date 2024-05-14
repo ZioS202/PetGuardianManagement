@@ -2,14 +2,13 @@ package PetGuardianManagement.GUI.BuyTicket.component;
 
 import PetGuardianManagement.BUS.BuyTicketBUS;
 import PetGuardianManagement.DTO.LoaiVeDTO;
+import PetGuardianManagement.ExtendFunctions;
 import PetGuardianManagement.GUI.homepageUser.main.homepageUser;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.text.NumberFormat;
-import java.util.Locale;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -110,7 +109,7 @@ public class Item extends javax.swing.JPanel {
     public void setData(LoaiVeDTO data) {
         this.data = data;
         lbItemName.setText(data.getStrTenLoaiVe());
-        lbPrice.setText(CurrencyFormat(data.getLGiaVe()));
+        lbPrice.setText(ExtendFunctions.CurrencyFormat(data.getLGiaVe()));
         switch (data.getIMaLoaiVe()) {
             case 1 -> {
                 pic.setImage(new ImageIcon(getClass().getResource("/PetGuardianManagement/GUI/BuyTicket/icon/VeNgay.png")));
@@ -134,12 +133,6 @@ public class Item extends javax.swing.JPanel {
         super.paint(grphcs);
     }
 
-    private String CurrencyFormat(long amount) {
-        Locale locale = new Locale("vi", "VN"); // Locale for Vietnamese
-        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(locale);
-        return currencyFormatter.format(amount);
-    }
-
     private void btnMuaNgayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMuaNgayMouseClicked
         if (BuyTicketBUS.getInstance().buyTicket(data.getIMaLoaiVe()) > 0) {
             // Switch to Cart GUI
@@ -147,16 +140,16 @@ public class Item extends javax.swing.JPanel {
             homepageUser.getInstance().clickMenuItem(3);
             btnMuaNgay.restoreCursor();
         } else {
-            JOptionPane.showMessageDialog(this, "Thao tác thất bại. Vui lòng thử lại sau.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Thao tác thất bại. Vui lòng thử lại sau.", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_btnMuaNgayMouseClicked
 
     private void btnThemVaoGioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnThemVaoGioMouseClicked
         if (BuyTicketBUS.getInstance().buyTicket(data.getIMaLoaiVe()) > 0) {
-            JOptionPane.showMessageDialog(this, "Thêm vào giỏ hàng thành công.", "Info", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Thêm vào giỏ hàng thành công.", "Info", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(this, "Thao tác thất bại. Vui lòng thử lại sau.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Thao tác thất bại. Vui lòng thử lại sau.", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnThemVaoGioMouseClicked
 

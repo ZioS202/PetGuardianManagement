@@ -5,9 +5,13 @@
 package PetGuardianManagement.GUI.Cart.main;
 
 import PetGuardianManagement.BUS.CartBUS;
+import PetGuardianManagement.ExtendFunctions;
 import PetGuardianManagement.GUI.BuyTicket.swing.ScrollBar;
 import PetGuardianManagement.GUI.Cart.component.Item;
 import PetGuardianManagement.GUI.Cart.model.ModelItem;
+import PetGuardianManagement.GUI.homepageUser.main.homepageUser;
+import java.util.Date;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -15,13 +19,14 @@ import PetGuardianManagement.GUI.Cart.model.ModelItem;
  */
 public class Cart extends javax.swing.JPanel {
 
-    /**
-     * Creates new form Cart
-     */
+    private long tongTien;
+    private long soDu;
+
     public Cart() {
         initComponents();
         panelScroll.setVerticalScrollBar(new ScrollBar());
         loadData();
+        loadTongTien();
     }
 
     public void loadData() {
@@ -30,6 +35,17 @@ public class Cart extends javax.swing.JPanel {
             ModelItem modelItem = CartBUS.getInstance().getModelItem(i);
             addItem(modelItem);
         }
+        soDu = CartBUS.getInstance().getSoDuKhachHang();
+        lbSoDu.setText(ExtendFunctions.CurrencyFormat(soDu));
+    }
+
+    public void loadTongTien() {
+        tongTien = 0;
+        for (int i = 0; i < CartBUS.getInstance().getLstModelItemSize(); i++) {
+            ModelItem modelItem = CartBUS.getInstance().getModelItem(i);
+            tongTien += modelItem.getLoaiVe().getLGiaVe() * modelItem.getSoLuong();
+        }
+        lbTongTien.setText(ExtendFunctions.CurrencyFormat(tongTien));
     }
 
     private void addItem(ModelItem data) {
@@ -135,6 +151,11 @@ public class Cart extends javax.swing.JPanel {
         btnThanhToan.setForeground(new java.awt.Color(255, 255, 255));
         btnThanhToan.setText("Thanh Toán");
         btnThanhToan.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnThanhToan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnThanhToanMouseClicked(evt);
+            }
+        });
 
         Title1.setFont(new java.awt.Font("Cooper", 0, 24)); // NOI18N
         Title1.setForeground(new java.awt.Color(243, 148, 34));
@@ -192,6 +213,52 @@ public class Cart extends javax.swing.JPanel {
                 .addGap(20, 20, 20))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnThanhToanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnThanhToanMouseClicked
+        // Check if SoDu of KhachHang enough
+        if (soDu >= tongTien) {
+            // Minus SoDu
+            if (CartBUS.getInstance().updateSoDuKhachHang(soDu - tongTien) > 0) {
+                // Create HoaDon
+                int iMaHD = CartBUS.getInstance().createHoaDon(new Date(), tongTien);
+                if (iMaHD > 0) {
+                    // Create ChiTietHoaDons
+                    if (CartBUS.getInstance().createChiTietHoaDons(iMaHD) > 0) {
+                        // Create Ve
+                        if (CartBUS.getInstance().createVes() > 0) {
+                            // Delete All ChiTietGioHang
+                            if (CartBUS.getInstance().deleteAllChiTietGioHang() > 0) {
+                                // Clear lstModelItem(CartBUS)
+                                CartBUS.getInstance().clearLstModelItem();
+
+                                // Delete GioHang
+                                if (CartBUS.getInstance().deleteGioHang() > 0) {
+                                    JOptionPane.showMessageDialog(null, "Thanh toán thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                                    // Hiển thị cartEmpty
+                                    homepageUser.getInstance().setForm(homepageUser.getInstance().cartEmpty);
+                                } else {
+                                    JOptionPane.showMessageDialog(null, "Xóa giỏ hàng thất bại. Vui lòng thử lại sau.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                                }
+
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Xóa Chi Tiết Giỏ Hàng thất bại. Vui lòng thử lại sau.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Tạo vé thất bại. Vui lòng thử lại sau.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Tạo Chi Tiết Hóa Đơn thất bại. Vui lòng thử lại sau.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Tạo Hóa Đơn thất bại. Vui lòng thử lại sau.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Cập nhật số dư thất bại. Vui lòng thử lại sau.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Số dư không đủ. Vui lòng nạp thêm.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnThanhToanMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Title;

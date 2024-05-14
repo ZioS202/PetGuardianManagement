@@ -51,7 +51,6 @@ public class KhachHangDAO {
         int ketQua = 0;
         try {
             Connection con = JDBCUtil.getConnection();
-            JDBCUtil.printInfo(con);
             String sql = "UPDATE KhachHang SET SoDu=? WHERE MaKH=?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setLong(1, data.getLongSoDu());

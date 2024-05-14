@@ -75,6 +75,8 @@ public class LoaiVeDAO {
 
                 result = new LoaiVeDTO(iMaLoaiVe, strTenLoaiVe, longGiaVe);
             }
+
+            JDBCUtil.closeConnection(connection);
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e);
         }

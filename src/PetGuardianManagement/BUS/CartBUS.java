@@ -5,13 +5,22 @@
 package PetGuardianManagement.BUS;
 
 import PetGuardianManagement.DAO.ChiTietGioHangDAO;
+import PetGuardianManagement.DAO.ChiTietHoaDonDAO;
 import PetGuardianManagement.DAO.GioHangDAO;
+import PetGuardianManagement.DAO.HoaDonDAO;
+import PetGuardianManagement.DAO.KhachHangDAO;
 import PetGuardianManagement.DAO.LoaiVeDAO;
+import PetGuardianManagement.DAO.VeDAO;
 import PetGuardianManagement.DTO.ChiTietGioHangDTO;
+import PetGuardianManagement.DTO.ChiTietHoaDonDTO;
 import PetGuardianManagement.DTO.GioHangDTO;
+import PetGuardianManagement.DTO.HoaDonDTO;
+import PetGuardianManagement.DTO.KhachHangDTO;
 import PetGuardianManagement.DTO.LoaiVeDTO;
+import PetGuardianManagement.DTO.VeDTO;
 import PetGuardianManagement.GUI.Cart.model.ModelItem;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
@@ -20,7 +29,7 @@ import java.util.ArrayList;
 public class CartBUS {
 
     private ArrayList<ModelItem> lstModelItem;
-    private int iMaGioHang;
+    public int iMaGioHang;
     private static CartBUS instance;
 
     private CartBUS() {
@@ -50,6 +59,61 @@ public class CartBUS {
     public int updateSoLuongMua(ModelItem item) {
         ChiTietGioHangDTO data = new ChiTietGioHangDTO(iMaGioHang, item.getLoaiVe().getIMaLoaiVe(), item.getSoLuong());
         return ChiTietGioHangDAO.getInstance().update(data);
+    }
+
+    // Get SoDu of KhachHang
+    public long getSoDuKhachHang() {
+        return KhachHangDAO.getInstance().selectById(8).getLongSoDu();
+    }
+
+    // Update SoDu of KhachHang
+    public int updateSoDuKhachHang(long newSoDu) {
+        return KhachHangDAO.getInstance().update(new KhachHangDTO(8, newSoDu));
+    }
+
+    // Delete ChiTietGioHang
+    public int deleteChiTietGioHang(int iMaLoaiVe) {
+        return ChiTietGioHangDAO.getInstance().delete(iMaGioHang, iMaLoaiVe);
+    }
+
+    public int deleteAllChiTietGioHang() {
+        for (int i = 0; i < CartBUS.getInstance().getLstModelItemSize(); i++) {
+            ModelItem modelItem = CartBUS.getInstance().getModelItem(i);
+            if (deleteChiTietGioHang(modelItem.getLoaiVe().getIMaLoaiVe()) == 0) {
+                return 0;
+            }
+        }
+        return 1;
+    }
+
+    // Delete GioHang
+    public int deleteGioHang() {
+        return GioHangDAO.getInstance().delete(iMaGioHang);
+    }
+
+    // Create HoaDon and return MaHD
+    public int createHoaDon(Date dateNgayHD, long lTongGiaTien) {
+        return HoaDonDAO.getInstance().insert(new HoaDonDTO(0, 8, dateNgayHD, lTongGiaTien));
+    }
+
+    // Create ChiTietHoaDon for ModelItems in lstModelItem
+    public int createChiTietHoaDons(int iMaHD) {
+        for (ModelItem item : lstModelItem) {
+            if (ChiTietHoaDonDAO.getInstance().insert(new ChiTietHoaDonDTO(iMaHD, item.getLoaiVe().getIMaLoaiVe(), item.getSoLuong())) == 0) {
+                return 0;
+            }
+        }
+        return 1;
+    }
+
+    // Create Ves for KhachHang corresponding to the ModelItems in lstModelItem
+    public int createVes() {
+        for (ModelItem item : lstModelItem) {
+            if (VeDAO.getInstance().insert(new VeDTO(0, item.getLoaiVe().getIMaLoaiVe(), 8, null, null, "Chưa kích hoạt")) == 0) {
+                return 0;
+            }
+        }
+        return 1;
     }
 
     // Method add ModelItem to lstModelItem
@@ -107,6 +171,11 @@ public class CartBUS {
         }
         System.out.println("ModelItem that have iMaLoaiVe=" + iMaLoaiVe + " not found.");
         return 0;
+    }
+
+    // Method delete All ModelItem from lstModelItem
+    public void clearLstModelItem() {
+        lstModelItem.clear();
     }
 
     // Method get size of lstLoaiVe

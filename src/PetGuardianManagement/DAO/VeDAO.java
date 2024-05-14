@@ -51,6 +51,8 @@ public class VeDAO {
             pst.setString(5, data.getStrTrangThai());
 
             result = pst.executeUpdate();
+
+            JDBCUtil.closeConnection(connection);
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e);
         }
@@ -91,6 +93,8 @@ public class VeDAO {
             pst.setInt(4, data.getIMaVe());
 
             result = pst.executeUpdate();
+
+            JDBCUtil.closeConnection(connection);
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e);
         }
@@ -107,6 +111,8 @@ public class VeDAO {
             pst.setInt(1, iMaVe);
 
             result = pst.executeUpdate();
+
+            JDBCUtil.closeConnection(connection);
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e);
         }

@@ -1,7 +1,9 @@
 package PetGuardianManagement.GUI.Cart.component;
 
 import PetGuardianManagement.BUS.CartBUS;
+import PetGuardianManagement.ExtendFunctions;
 import PetGuardianManagement.GUI.Cart.model.ModelItem;
+import PetGuardianManagement.GUI.homepageUser.main.homepageUser;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
@@ -11,8 +13,6 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.text.NumberFormat;
-import java.util.Locale;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
@@ -56,7 +56,7 @@ public class Item extends javax.swing.JPanel {
     public void setData(ModelItem data) {
         this.data = data;
         lbItemName.setText(data.getLoaiVe().getStrTenLoaiVe());
-        lbPrice.setText(CurrencyFormat(data.getLoaiVe().getLGiaVe()));
+        lbPrice.setText(ExtendFunctions.CurrencyFormat(data.getLoaiVe().getLGiaVe()));
         switch (data.getLoaiVe().getIMaLoaiVe()) {
             case 1 -> {
                 pic.setImage(new ImageIcon(getClass().getResource("/PetGuardianManagement/GUI/BuyTicket/icon/VeNgay.png")));
@@ -69,7 +69,7 @@ public class Item extends javax.swing.JPanel {
             }
         }
         txtSoLuong.setText(Long.toString(data.getSoLuong()));
-        lbSoTien.setText(CurrencyFormat(data.getLoaiVe().getLGiaVe() * data.getSoLuong()));
+        lbSoTien.setText(ExtendFunctions.CurrencyFormat(data.getLoaiVe().getLGiaVe() * data.getSoLuong()));
     }
 
     @Override
@@ -82,12 +82,6 @@ public class Item extends javax.swing.JPanel {
         super.paint(grphcs);
     }
 
-    private String CurrencyFormat(long amount) {
-        Locale locale = new Locale("vi", "VN"); // Locale for Vietnamese
-        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(locale);
-        return currencyFormatter.format(amount);
-    }
-
     // Create a document filter to only allow numbers in txtSoLuong, and limit character to 3
     private void txtSoLuongOnlyAllowNumbers() {
         ((AbstractDocument) txtSoLuong.getDocument()).setDocumentFilter(new DocumentFilter() {
@@ -98,10 +92,6 @@ public class Item extends javax.swing.JPanel {
                 if (containsOnlyNumbers(string) && fb.getDocument().getLength() + string.length() <= maxCharacters) {
                     super.insertString(fb, offset, string, attr);
                 }
-
-//                if (string == null) {
-//                    return;
-//                }
             }
 
             @Override
@@ -109,10 +99,6 @@ public class Item extends javax.swing.JPanel {
                 if (containsOnlyNumbers(text) && fb.getDocument().getLength() + text.length() - length <= maxCharacters) {
                     super.replace(fb, offset, length, text, attrs);
                 }
-
-//                if (text == null) {
-//                    return;
-//                }
             }
 
             private boolean containsOnlyNumbers(String text) {
@@ -138,12 +124,21 @@ public class Item extends javax.swing.JPanel {
 
                 // Update to lstModelItem(CartBUS) and ChiTietGioHang table
                 if (Integer.parseInt(txtSoLuong.getText()) != data.getSoLuong()) {
+                    int oldSoLuong = data.getSoLuong();
                     data.setSoLuong(Integer.parseInt(txtSoLuong.getText()));
-                    if (CartBUS.getInstance().updateModelItem(data) == 0 || CartBUS.getInstance().updateSoLuongMua(data) == 0) {
+                    // updateSoLuongMua có thể gặp lỗi khi thao tác với DB. Trường hợp lỗi sẽ reverse txtSoLuong
+                    // Nếu thành công thì update lstModelItem(CartBUS)
+                    if (CartBUS.getInstance().updateSoLuongMua(data) > 0) {
+                        if (CartBUS.getInstance().updateModelItem(data) > 0) {
+                            // Update lbTongTien(CartGUI)
+                            homepageUser.getInstance().cart.loadTongTien();
+                        }
+                    } else {
                         JOptionPane.showMessageDialog(null, "Thao tác thất bại. Vui lòng thử lại sau.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                        txtSoLuong.setText(String.valueOf(oldSoLuong));
+                        data.setSoLuong(oldSoLuong);
                     }
                 }
-
             }
         });
 
@@ -172,7 +167,7 @@ public class Item extends javax.swing.JPanel {
                 if (!soLuongText.isEmpty()) {
                     int soLuong = Integer.parseInt(soLuongText);
                     long soTien = soLuong * data.getLoaiVe().getLGiaVe();
-                    lbSoTien.setText(CurrencyFormat(soTien));
+                    lbSoTien.setText(ExtendFunctions.CurrencyFormat(soTien));
                 } else {
                     lbSoTien.setText("0 ₫");
                 }
@@ -317,15 +312,84 @@ public class Item extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // deleteChiTietGioHang có thể gặp lỗi khi thao tác với DB.
+        // Nếu thành công thì mới deleteModelItem trong lstModelItem(CartBUS)
+        if (CartBUS.getInstance().deleteChiTietGioHang(data.getLoaiVe().getIMaLoaiVe()) > 0) {
+            if (CartBUS.getInstance().deleteModelItem(data.getLoaiVe().getIMaLoaiVe()) > 0) {
+                // Update lbTongTien(CartGUI)
+                homepageUser.getInstance().cart.loadTongTien();
+                homepageUser.getInstance().cart.loadData();
 
+                // Nếu GioHang của User trống (tức là không còn ChiTietGioHang), thì xóa GioHang của User
+                if (CartBUS.getInstance().getLstModelItemSize() == 0) {
+                    if (CartBUS.getInstance().deleteGioHang() == 0) {
+                        // deleteGioHang có thể gặp lỗi khi thao tác với DB.
+                        // TODO: Cần thêm cơ chế thử lại n lần sau n giây
+                        JOptionPane.showMessageDialog(null, "Thao tác xóa GioHang thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        // Hiển thị cartEmpty
+                        homepageUser.getInstance().setForm(homepageUser.getInstance().cartEmpty);
+                    }
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Thao tác thất bại. Vui lòng thử lại sau.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnMinusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinusMouseClicked
+        int currentSoLuong = Integer.parseInt(txtSoLuong.getText());
+        int newSoLuong = currentSoLuong - 1;
+        if (newSoLuong <= 0) {
+            newSoLuong = 1;
+        }
+        long soTien = newSoLuong * data.getLoaiVe().getLGiaVe();
+        lbSoTien.setText(ExtendFunctions.CurrencyFormat(soTien));
+        txtSoLuong.setText(String.valueOf(newSoLuong));
 
+        // Update to lstModelItem(CartBUS) and ChiTietGioHang table
+        if (newSoLuong != data.getSoLuong()) {
+            int oldSoLuong = currentSoLuong;
+            data.setSoLuong(newSoLuong);
+            // updateSoLuongMua có thể gặp lỗi khi thao tác với DB. Trường hợp lỗi sẽ reverse txtSoLuong
+            // Nếu thành công thì update lstModelItem(CartBUS)
+            if (CartBUS.getInstance().updateSoLuongMua(data) > 0) {
+                if (CartBUS.getInstance().updateModelItem(data) > 0) {
+                    // Update lbTongTien(CartGUI)
+                    homepageUser.getInstance().cart.loadTongTien();
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Thao tác thất bại. Vui lòng thử lại sau.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                txtSoLuong.setText(String.valueOf(oldSoLuong));
+                data.setSoLuong(oldSoLuong);
+            }
+        }
     }//GEN-LAST:event_btnMinusMouseClicked
 
     private void btnPlusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPlusMouseClicked
-        // TODO add your handling code here:
+        int currentSoLuong = Integer.parseInt(txtSoLuong.getText());
+        int newSoLuong = currentSoLuong + 1;
+        long soTien = newSoLuong * data.getLoaiVe().getLGiaVe();
+        lbSoTien.setText(ExtendFunctions.CurrencyFormat(soTien));
+        txtSoLuong.setText(String.valueOf(newSoLuong));
+
+        // Update to lstModelItem(CartBUS) and ChiTietGioHang table
+        if (newSoLuong != data.getSoLuong()) {
+            int oldSoLuong = currentSoLuong;
+            data.setSoLuong(newSoLuong);
+            // updateSoLuongMua có thể gặp lỗi khi thao tác với DB. Trường hợp lỗi sẽ reverse txtSoLuong
+            // Nếu thành công thì update lstModelItem(CartBUS)
+            if (CartBUS.getInstance().updateSoLuongMua(data) > 0) {
+                if (CartBUS.getInstance().updateModelItem(data) > 0) {
+                    // Update lbTongTien(CartGUI)
+                    homepageUser.getInstance().cart.loadTongTien();
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Thao tác thất bại. Vui lòng thử lại sau.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                txtSoLuong.setText(String.valueOf(oldSoLuong));
+                data.setSoLuong(oldSoLuong);
+            }
+        }
     }//GEN-LAST:event_btnPlusMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

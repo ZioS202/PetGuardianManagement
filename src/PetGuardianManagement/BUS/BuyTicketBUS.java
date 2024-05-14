@@ -103,6 +103,7 @@ public class BuyTicketBUS {
         if (tmp > 0) {
             CartBUS.getInstance().addModelItem(new ModelItem(searchLoaiVe(iMaLoaiVe), 1));
             int iMaGioHang = GioHangDAO.getInstance().selectByMaKH(8).getIMaGioHang();
+            CartBUS.getInstance().iMaGioHang = iMaGioHang;
             return ChiTietGioHangDAO.getInstance().insert(iMaGioHang, iMaLoaiVe, 1);
         } else {
             return 0; // Failed to create shopping cart

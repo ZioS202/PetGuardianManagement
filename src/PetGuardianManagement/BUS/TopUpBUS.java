@@ -20,6 +20,9 @@ public class TopUpBUS {
     }
 
     public int TopUpAcc(KhachHangDTO data) {
+        long currentSoDu = KhachHangDAO.getInstance().selectById(8).getLongSoDu();
+        long newSoDu = currentSoDu + data.getLongSoDu();
+        data.setLongSoDu(newSoDu);
         return KhachHangDAO.getInstance().update(data);
     }
 }

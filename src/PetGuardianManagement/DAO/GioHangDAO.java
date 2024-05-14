@@ -68,4 +68,21 @@ public class GioHangDAO {
         }
         return result;
     }
+
+    public int delete(int iMaGioHang) {
+        int result = 0;
+        try {
+            Connection connection = JDBCUtil.getConnection();
+
+            String sql = "DELETE FROM GioHang WHERE MaGioHang=?";
+            PreparedStatement pst = connection.prepareStatement(sql);
+            pst.setInt(1, iMaGioHang);
+            result = pst.executeUpdate();
+
+            JDBCUtil.closeConnection(connection);
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println(e);
+        }
+        return result;
+    }
 }

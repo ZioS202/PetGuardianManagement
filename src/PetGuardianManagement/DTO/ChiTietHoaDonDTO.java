@@ -5,18 +5,18 @@
 package PetGuardianManagement.DTO;
 
 public class ChiTietHoaDonDTO {
- private int iMaHD, iMaLoaiVe;
-    private long longSoLuongVe;
+
+    private int iMaHD, iMaLoaiVe;
+    private long lSoLuongVe;
 
     public ChiTietHoaDonDTO() {
     }
 
-    public ChiTietHoaDonDTO(int iMaHD, int iMaLoaiVe, long longSoLuongVe) {
+    public ChiTietHoaDonDTO(int iMaHD, int iMaLoaiVe, long lSoLuongVe) {
         this.iMaHD = iMaHD;
         this.iMaLoaiVe = iMaLoaiVe;
-        this.longSoLuongVe = longSoLuongVe;
+        this.lSoLuongVe = lSoLuongVe;
     }
-
 
     public int getIMaHD() {
         return iMaHD;
@@ -34,17 +34,17 @@ public class ChiTietHoaDonDTO {
         this.iMaLoaiVe = iMaLoaiVe;
     }
 
-    public long getLongSoLuongVe() {
-        return longSoLuongVe;
+    public long getLSoLuongVe() {
+        return lSoLuongVe;
     }
 
-    public void setLongSoLuongVe(long longSoLuongVe) {
-        this.longSoLuongVe = longSoLuongVe;
+    public void setLSoLuongVe(long lSoLuongVe) {
+        this.lSoLuongVe = lSoLuongVe;
     }
-    
+
     @Override
     public String toString() {
-        return "ChiTietHoaDonDTO{" + "iMaHD=" + iMaHD + ", strMaLoaiVe=" + iMaLoaiVe + ", longSoLuongVe=" + longSoLuongVe + '}';
+        return "ChiTietHoaDonDTO{" + "iMaHD=" + iMaHD + ", strMaLoaiVe=" + iMaLoaiVe + ", lSoLuongVe=" + lSoLuongVe + '}';
     }
-    
+
 }

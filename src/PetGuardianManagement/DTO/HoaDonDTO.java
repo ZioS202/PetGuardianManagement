@@ -7,20 +7,20 @@ package PetGuardianManagement.DTO;
 import java.util.Date;
 
 public class HoaDonDTO {
+
     private int iMaHD, iMaKH;
     private Date dateNgayHD;
-    private long longTongTriGia;
+    private long lTongGiaTien;
 
     public HoaDonDTO() {
     }
 
-    public HoaDonDTO(int iMaHD, int iMaKH, Date dateNgayHD, long longTongTriGia) {
+    public HoaDonDTO(int iMaHD, int iMaKH, Date dateNgayHD, long lTongGiaTien) {
         this.iMaHD = iMaHD;
         this.iMaKH = iMaKH;
         this.dateNgayHD = dateNgayHD;
-        this.longTongTriGia = longTongTriGia;
+        this.lTongGiaTien = lTongGiaTien;
     }
-
 
     public int getIMaHD() {
         return iMaHD;
@@ -46,17 +46,17 @@ public class HoaDonDTO {
         this.dateNgayHD = dateNgayHD;
     }
 
-    public long getLongTongTriGia() {
-        return longTongTriGia;
+    public long getLTongGiaTien() {
+        return lTongGiaTien;
     }
 
-    public void setLongTongTriGia(long longTongTriGia) {
-        this.longTongTriGia = longTongTriGia;
+    public void setLTongGiaTien(long lTongGiaTien) {
+        this.lTongGiaTien = lTongGiaTien;
     }
 
     @Override
     public String toString() {
-        return "HoaDonDTO{" + "iMaHD=" + iMaHD + ", iMaKH=" + iMaKH + ", dateNgayHD=" + dateNgayHD + ", longTongTriGia=" + longTongTriGia + '}';
+        return "HoaDonDTO{" + "iMaHD=" + iMaHD + ", iMaKH=" + iMaKH + ", dateNgayHD=" + dateNgayHD + ", lTongGiaTien=" + lTongGiaTien + '}';
     }
-    
+
 }

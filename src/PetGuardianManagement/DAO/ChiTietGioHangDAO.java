@@ -91,6 +91,8 @@ public class ChiTietGioHangDAO {
 
                 result.add(new ChiTietGioHangDTO(iMaGioHang, iMaLoaiVe, iSoLuongMua));
             }
+
+            JDBCUtil.closeConnection(connection);
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e);
         }
@@ -107,6 +109,24 @@ public class ChiTietGioHangDAO {
             pst.setInt(1, data.getISoLuongMua());
             pst.setInt(2, data.getIMaGioHang());
             pst.setInt(3, data.getIMaLoaiVe());
+            result = pst.executeUpdate();
+
+            JDBCUtil.closeConnection(connection);
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println(e);
+        }
+        return result;
+    }
+
+    public int delete(int iMaGioHang, int iMaLoaiVe) {
+        int result = 0;
+        try {
+            Connection connection = JDBCUtil.getConnection();
+
+            String sql = "DELETE FROM ChiTietGioHang WHERE MaGioHang=? AND MaLoaiVe=?";
+            PreparedStatement pst = connection.prepareStatement(sql);
+            pst.setInt(1, iMaGioHang);
+            pst.setInt(2, iMaLoaiVe);
             result = pst.executeUpdate();
 
             JDBCUtil.closeConnection(connection);

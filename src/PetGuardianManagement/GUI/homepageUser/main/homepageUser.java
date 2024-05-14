@@ -29,7 +29,7 @@ public class homepageUser extends javax.swing.JFrame {
     private Form_3 form3;
     private BuyTicket buyTicket;
     public Cart cart;
-    private CartEmpty cartEmpty;
+    public CartEmpty cartEmpty;
     private TopUp topUp;
 
     private static homepageUser instance;
@@ -84,6 +84,7 @@ public class homepageUser extends javax.swing.JFrame {
                                 cart = new Cart();
                             } else {
                                 cart.loadData();
+                                cart.loadTongTien();
                             }
                             setForm(cart);
                         }
