@@ -66,6 +66,8 @@ public class homepageUser extends javax.swing.JFrame {
                     case 1 -> {
                         if (manageTicket == null) {
                             manageTicket = new ManageTicket();
+                        } else {
+                            manageTicket.tableLoadData();
                         }
                         setForm(manageTicket);
                     }

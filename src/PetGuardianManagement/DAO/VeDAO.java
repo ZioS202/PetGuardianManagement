@@ -80,6 +80,28 @@ public class VeDAO {
         return result;
     }
 
+    public ArrayList<VeDTO> selectByMaKH(int iMaKH) {
+        ArrayList<VeDTO> result = new ArrayList<>();
+        try {
+            Connection connection = JDBCUtil.getConnection();
+
+            String sql = "SELECT * FROM c_Ve WHERE MaKH=?";
+            PreparedStatement pst = connection.prepareStatement(sql);
+            pst.setInt(1, iMaKH);
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+                result.add(new VeDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getDate(4), rs.getDate(5), rs.getString(6)));
+            }
+
+            JDBCUtil.closeConnection(connection);
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println(e);
+        }
+
+        return result;
+    }
+
     public int update(VeDTO data) {
         int result = 0;
         try {

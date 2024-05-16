@@ -29,7 +29,7 @@ public class Cart extends javax.swing.JPanel {
         loadTongTien();
     }
 
-    public void loadData() {
+    public final void loadData() {
         panelItem.removeAll();
         for (int i = 0; i < CartBUS.getInstance().getLstModelItemSize(); i++) {
             ModelItem modelItem = CartBUS.getInstance().getModelItem(i);
@@ -39,7 +39,7 @@ public class Cart extends javax.swing.JPanel {
         lbSoDu.setText(ExtendFunctions.CurrencyFormat(soDu));
     }
 
-    public void loadTongTien() {
+    public final void loadTongTien() {
         tongTien = 0;
         for (int i = 0; i < CartBUS.getInstance().getLstModelItemSize(); i++) {
             ModelItem modelItem = CartBUS.getInstance().getModelItem(i);

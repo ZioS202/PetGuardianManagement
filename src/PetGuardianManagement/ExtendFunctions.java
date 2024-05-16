@@ -5,6 +5,8 @@
 package PetGuardianManagement;
 
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -17,5 +19,13 @@ public class ExtendFunctions {
         Locale locale = new Locale("vi", "VN"); // Locale for Vietnamese
         NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(locale);
         return currencyFormatter.format(amount);
+    }
+
+    public static String DateFormat(Date date) {
+        SimpleDateFormat sdfDate = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");//dd/MM/yyyy
+        if (date != null) {
+            return sdfDate.format(date);
+        }
+        return "";
     }
 }
