@@ -10,6 +10,11 @@ import PetGuardianManagement.GUI.BuyTicket.swing.ScrollBar;
 import PetGuardianManagement.GUI.Cart.component.Item;
 import PetGuardianManagement.GUI.Cart.model.ModelItem;
 import PetGuardianManagement.GUI.homepageUser.main.homepageUser;
+import java.awt.Dimension;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Date;
 import javax.swing.JOptionPane;
 
@@ -21,12 +26,47 @@ public class Cart extends javax.swing.JPanel {
 
     private long tongTien;
     private long soDu;
+    private boolean needReLoad;
 
     public Cart() {
         initComponents();
+        needReLoad = false;
         panelScroll.setVerticalScrollBar(new ScrollBar());
         loadData();
         loadTongTien();
+        // Add a ComponentListener to detect size changes
+        panelScroll.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                // Handle the resize event
+                Dimension newSize = panelScroll.getSize();
+//                System.out.println("New size: " + newSize.width + "x" + newSize.height);
+                switch (newSize.width) {
+                    case 1602 -> {
+                        panelItem.removeAll();
+                        for (int i = 0; i < CartBUS.getInstance().getLstModelItemSize(); i++) {
+                            ModelItem modelItem = CartBUS.getInstance().getModelItem(i);
+                            addItemMaximizeScreen(modelItem);
+                        }
+                        needReLoad = true;
+                    }
+                    case 882 -> {
+                        if (needReLoad) {
+                            loadData();
+                        }
+                    }
+                }
+            }
+        });
+        // Add mouse listener to this JPanel
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // Remove focus from all component
+                Cart.this.requestFocusInWindow();
+            }
+
+        });
     }
 
     public final void loadData() {
@@ -51,6 +91,16 @@ public class Cart extends javax.swing.JPanel {
     private void addItem(ModelItem data) {
         Item item = new Item();
         item.setData(data);
+        item.setPreferredSize(new Dimension(850, 159));
+        panelItem.add(item);
+        panelItem.repaint();
+        panelItem.revalidate();
+    }
+
+    private void addItemMaximizeScreen(ModelItem data) {
+        Item item = new Item();
+        item.setData(data);
+        item.setPreferredSize(new Dimension(1570, 159));
 
         panelItem.add(item);
         panelItem.repaint();
@@ -235,6 +285,9 @@ public class Cart extends javax.swing.JPanel {
                                 if (CartBUS.getInstance().deleteGioHang() > 0) {
                                     JOptionPane.showMessageDialog(null, "Thanh toán thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                                     // Hiển thị cartEmpty
+                                    if (homepageUser.getInstance().cartEmpty == null) {
+                                        homepageUser.getInstance().cartEmpty = new CartEmpty();
+                                    }
                                     homepageUser.getInstance().setForm(homepageUser.getInstance().cartEmpty);
                                 } else {
                                     JOptionPane.showMessageDialog(null, "Xóa giỏ hàng thất bại. Vui lòng thử lại sau.", "Lỗi", JOptionPane.ERROR_MESSAGE);
