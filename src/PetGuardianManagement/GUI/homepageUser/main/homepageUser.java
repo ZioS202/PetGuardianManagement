@@ -101,6 +101,9 @@ public class homepageUser extends javax.swing.JFrame {
                     case 8 -> {
                         if (topUp == null) {
                             topUp = new TopUp();
+                        } else {
+                            topUp.clearTxtTopUp();
+                            topUp.loadSoDu();
                         }
                         setForm(topUp);
                     }
