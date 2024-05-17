@@ -106,10 +106,17 @@ public class CartBUS {
         return 1;
     }
 
-    // Create Ves for KhachHang corresponding to the ModelItems in lstModelItem
+    // Create Ves for KhachHang corresponding to the ModelItems in lstModelItem. Also add newly created Ve to lstVe(ManageTicketBUS)
     public int createVes() {
         for (ModelItem item : lstModelItem) {
-            if (VeDAO.getInstance().insert(new VeDTO(0, item.getLoaiVe().getIMaLoaiVe(), 8, null, null, "Chưa kích hoạt")) == 0) {
+            VeDTO ve = new VeDTO(0, item.getLoaiVe().getIMaLoaiVe(), 8, null, null, "Chưa kích hoạt");
+            int iMaVe = VeDAO.getInstance().insert(ve);
+            if (iMaVe > 0) {
+                if (ManageTicketBUS.getInstance().searchVe(iMaVe) == null) {
+                    ve.setIMaVe(iMaVe);
+                    ManageTicketBUS.getInstance().addVe(ve);
+                }
+            } else {
                 return 0;
             }
         }

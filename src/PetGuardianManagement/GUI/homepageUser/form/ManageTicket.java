@@ -59,12 +59,28 @@ public class ManageTicket extends javax.swing.JPanel {
                 if (component != table && component != table.getTableHeader()) {
                     // Clear the table selection
                     table.clearSelection();
+                    // Unfocus all component
+                    ManageTicket.this.requestFocusInWindow();
+
                     btnXoa.setEnabled(false);
                     btnKichHoat.setEnabled(false);
                 }
             }
         });
 
+        // Setting ID column contains numeric data
+        Object[][] data = {};
+        Object[] columnNames = {"ID", "Loại Vé", "Ngày Kích Hoạt", "Ngày Hết Hạn", "Trạng Thái"};
+        DefaultTableModel model = new DefaultTableModel(data, columnNames) {
+            @Override
+            public Class<?> getColumnClass(int column) {
+                if (column == 0) {
+                    return Integer.class;
+                }
+                return String.class;
+            }
+        };
+        table.setModel(model);
         txtSearchDocumentListener();
         tableLoadData();
     }
@@ -78,14 +94,14 @@ public class ManageTicket extends javax.swing.JPanel {
         return calendar.getTime().before(new Date());
     }
 
+    public void tableClearSelection() {
+        table.clearSelection();
+    }
+
     public final void tableLoadData() {
         btnKichHoat.setEnabled(false);
         btnXoa.setEnabled(false);
-        // Clear table if table have data
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-        if (model.getRowCount() > 0) {
-            model.setRowCount(0);
-        }
+        table.clearAllRows();
 
         for (int i = 0; i < ManageTicketBUS.getInstance().getLstVeSize(); i++) {
             VeDTO ve = ManageTicketBUS.getInstance().getVe(i);
@@ -226,28 +242,30 @@ public class ManageTicket extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(spTable, javax.swing.GroupLayout.DEFAULT_SIZE, 783, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnKichHoat, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnKichHoat, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(8, 8, 8)
-                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnKichHoat, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(spTable, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -270,67 +288,73 @@ public class ManageTicket extends javax.swing.JPanel {
     }//GEN-LAST:event_tableMouseClicked
 
     private void btnKichHoatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnKichHoatMouseClicked
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        if (btnKichHoat.isEnabled()) {
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
 
-        // Get view index of seletected row
-        int viewRow = table.getSelectedRow();
-        // Convert view index to model index
-        int modelRow = table.convertRowIndexToModel(viewRow);
+            // Get view index of seletected row
+            int viewRow = table.getSelectedRow();
+            // Convert view index to model index
+            int modelRow = table.convertRowIndexToModel(viewRow);
 
-        // Get Ve ID
-        int id = Integer.parseInt(model.getValueAt(modelRow, 0).toString());
-        int option = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn kích hoạt vé " + id + "?", "Xác nhận kích hoạt", JOptionPane.YES_NO_OPTION);
+            // Get Ve ID
+            int id = (Integer) model.getValueAt(modelRow, 0);
+            int option = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn kích hoạt vé " + id + "?", "Xác nhận kích hoạt", JOptionPane.YES_NO_OPTION);
 
-        if (option == JOptionPane.YES_OPTION) {
-            // Get the current date and time
-            Date now = new Date();
-            // Create a Calendar instance and set it to the current date and time
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(now);
+            if (option == JOptionPane.YES_OPTION) {
+                // Get the current date and time
+                Date now = new Date();
+                // Create a Calendar instance and set it to the current date and time
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(now);
 
-            VeDTO ve = ManageTicketBUS.getInstance().getVe(modelRow);
-            ve.setStrTrangThai("Đang sử dụng");
-            ve.setdateNgayKichHoat(now);
+                VeDTO ve = ManageTicketBUS.getInstance().getVe(modelRow);
+                ve.setStrTrangThai("Đang sử dụng");
+                ve.setdateNgayKichHoat(now);
 
-            // Get Loai Ve
-            String loaiVe = model.getValueAt(modelRow, 1).toString();
+                // Get Loai Ve
+                String loaiVe = model.getValueAt(modelRow, 1).toString();
 
-            switch (loaiVe) {
-                case "Vé Ngày" -> {// Add one day to the current date
-                    calendar.add(Calendar.DAY_OF_YEAR, 1);
+                switch (loaiVe) {
+                    case "Vé Ngày" -> {// Add one day to the current date
+                        calendar.add(Calendar.DAY_OF_YEAR, 1);
+                    }
+                    case "Vé Tuần" -> {// Add one week to the current date
+                        calendar.add(Calendar.DAY_OF_YEAR, 7);
+                    }
+                    case "Vé Tháng" -> {// Add one month to the current date
+                        calendar.add(Calendar.MONTH, 1);
+                    }
                 }
-                case "Vé Tuần" -> {// Add one week to the current date
-                    calendar.add(Calendar.DAY_OF_YEAR, 7);
-                }
-                case "Vé Tháng" -> {// Add one month to the current date
-                    calendar.add(Calendar.MONTH, 1);
-                }
-            }
-            ve.setDateNgayHetHan(calendar.getTime());
+                ve.setDateNgayHetHan(calendar.getTime());
 
-            if (ManageTicketBUS.getInstance().updateVEDB(ve) > 0) {
-                ManageTicketBUS.getInstance().updateVe(ve);
-                tableUpdateRow(ve);
+                if (ManageTicketBUS.getInstance().updateVEDB(ve) > 0) {
+                    ManageTicketBUS.getInstance().updateVe(ve);
+                    tableUpdateRow(ve);
+                }
             }
         }
     }//GEN-LAST:event_btnKichHoatMouseClicked
 
     private void btnXoaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnXoaMouseClicked
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        if (btnXoa.isEnabled()) {
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
 
-        // Get view index of seletected row
-        int viewRow = table.getSelectedRow();
-        // Convert view index to model index
-        int modelRow = table.convertRowIndexToModel(viewRow);
+            // Get view index of seletected row
+            int viewRow = table.getSelectedRow();
+            // Convert view index to model index
+            int modelRow = table.convertRowIndexToModel(viewRow);
 
-        // Get Ve ID
-        int id = Integer.parseInt(model.getValueAt(modelRow, 0).toString());
-        int option = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn xóa vé " + id + "?", "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
+            // Get Ve ID
+            int id = (Integer) model.getValueAt(modelRow, 0);
+            int option = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn xóa vé " + id + "?", "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
 
-        if (option == JOptionPane.YES_OPTION) {
-            if (VeDAO.getInstance().delete(id) > 0) {
-                ManageTicketBUS.getInstance().deleteVe(id);
-                model.removeRow(modelRow);
+            if (option == JOptionPane.YES_OPTION) {
+                if (VeDAO.getInstance().delete(id) > 0) {
+                    ManageTicketBUS.getInstance().deleteVe(id);
+                    model.removeRow(modelRow);
+                    btnXoa.setEnabled(false);
+                    btnKichHoat.setEnabled(false);
+                }
             }
         }
     }//GEN-LAST:event_btnXoaMouseClicked

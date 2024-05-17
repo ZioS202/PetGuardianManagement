@@ -29,13 +29,14 @@ public class VeDAO {
         return instance;
     }
 
+    // Return MaVe newly inserted if successfully, else return 0
     public int insert(VeDTO data) {
         int result = 0;
         try {
             Connection connection = JDBCUtil.getConnection();
 
             String sql = "INSERT INTO c_Ve (MaLoaiVe, MaKH, NgayKichHoat, NgayHetHan, TrangThai) VALUES (?, ?, ?, ?, ?)";
-            PreparedStatement pst = connection.prepareStatement(sql);
+            PreparedStatement pst = connection.prepareStatement(sql, new String[]{"MaVe"});
             pst.setInt(1, data.getIMaLoaiVe());
             pst.setInt(2, data.getIMaKH());
             if (data.getdateNgayKichHoat() != null) {
@@ -50,7 +51,14 @@ public class VeDAO {
             }
             pst.setString(5, data.getStrTrangThai());
 
-            result = pst.executeUpdate();
+            int affectedRows = pst.executeUpdate();
+            if (affectedRows > 0) {
+                try (ResultSet rs = pst.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        result = rs.getInt(1);
+                    }
+                }
+            }
 
             JDBCUtil.closeConnection(connection);
         } catch (ClassNotFoundException | SQLException e) {

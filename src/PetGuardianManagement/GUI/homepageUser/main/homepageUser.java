@@ -25,7 +25,7 @@ import javax.swing.JComponent;
 public class homepageUser extends javax.swing.JFrame {
 
     private Form_1 form1;
-    private ManageTicket manageTicket;
+    public ManageTicket manageTicket;
     private Form_3 form3;
     private BuyTicket buyTicket;
     public Cart cart;

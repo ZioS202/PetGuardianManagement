@@ -52,7 +52,7 @@ public class ManageTicketBUS {
         }
     }
 
-    // Method update Ve in listVe. Need to known MaVe
+    // Method update Ve in lstVe. Need to known iMaVe
     public int updateVe(VeDTO data) {
         for (VeDTO ve : lstVe) {
             if (ve.getIMaVe() == data.getIMaVe()) {
@@ -62,11 +62,11 @@ public class ManageTicketBUS {
                 return 1;
             }
         }
-        System.out.println("Ve " + data.getIMaVe() + " not found.");
+        System.out.println("Ve that have iMaVe=" + data.getIMaVe() + " not found.");
         return 0;
     }
 
-    // Method delete Ve in listVe. Need to known MaVe
+    // Method delete Ve in lstVe. Need to known iMaVe
     public int deleteVe(int iMaVe) {
         for (VeDTO ve : lstVe) {
             if (ve.getIMaVe() == iMaVe) {
@@ -74,16 +74,27 @@ public class ManageTicketBUS {
                 return 1;
             }
         }
-        System.out.println("Ve " + iMaVe + " not found.");
+        System.out.println("Ve that have iMaVe=" + iMaVe + " not found.");
         return 0;
     }
 
-    // Method delete All ModelItem from lstModelItem
+    // Method search Ve in lstVe need to known iMaVe
+    public VeDTO searchVe(int iMaVe) {
+        for (VeDTO ve : lstVe) {
+            if (ve.getIMaVe() == iMaVe) {
+                return ve;
+            }
+        }
+        System.out.println("Ve that have iMaVe=" + iMaVe + " not found.");
+        return null;
+    }
+
+    // Method delete All Ve from lstVe
     public void clearLstVe() {
         lstVe.clear();
     }
 
-    // Method get size of lstLoaiVe
+    // Method get size of lstVe
     public int getLstVeSize() {
         return lstVe.size();
     }
