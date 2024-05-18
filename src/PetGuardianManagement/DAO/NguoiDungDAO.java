@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 /**
  *
@@ -140,6 +141,38 @@ public class NguoiDungDAO {
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e);
         }
+        return result;
+    }
+    
+     public ArrayList<NguoiDungDTO> selectAll() {
+        ArrayList<NguoiDungDTO> result = new ArrayList<>();
+        try {
+            Connection connection = JDBCUtil.getConnection();
+
+            String sql = "SELECT * FROM c_Ve";
+            PreparedStatement pst = connection.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+                int MaND = rs.getInt(1);
+                String Email = rs.getString(2);
+                String MatKhau = rs.getString(3);
+                String HoTen = rs.getString(4);
+                String GioiTinh = rs.getString(5);
+                Date NgSinh = rs.getDate(6);
+                String Diachi = rs.getString(7);
+                String QueQuan = rs.getString(8);
+                String SoDT = rs.getString(9);
+                String VaiTro = rs.getString(10);
+                NguoiDungDTO ND = new NguoiDungDTO(MaND, Email, MatKhau, HoTen, SoDT, GioiTinh, Diachi, QueQuan, VaiTro, NgSinh);
+                result.add(ND);
+            }
+
+            JDBCUtil.closeConnection(connection);
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println(e);
+        }
+
         return result;
     }
 }
