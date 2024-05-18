@@ -330,6 +330,7 @@ public class ManageTicket extends javax.swing.JPanel {
                 if (ManageTicketBUS.getInstance().updateVEDB(ve) > 0) {
                     ManageTicketBUS.getInstance().updateVe(ve);
                     tableUpdateRow(ve);
+                    btnKichHoat.setEnabled(false);
                 }
             }
         }

@@ -43,11 +43,7 @@ public class Cart extends javax.swing.JPanel {
 //                System.out.println("New size: " + newSize.width + "x" + newSize.height);
                 switch (newSize.width) {
                     case 1602 -> {
-                        panelItem.removeAll();
-                        for (int i = 0; i < CartBUS.getInstance().getLstModelItemSize(); i++) {
-                            ModelItem modelItem = CartBUS.getInstance().getModelItem(i);
-                            addItemMaximizeScreen(modelItem);
-                        }
+                        loadDataMaximizeScreen();
                         needReLoad = true;
                     }
                     case 882 -> {
@@ -77,6 +73,14 @@ public class Cart extends javax.swing.JPanel {
         }
         soDu = CartBUS.getInstance().getSoDuKhachHang();
         lbSoDu.setText(ExtendFunctions.CurrencyFormat(soDu));
+    }
+
+    public final void loadDataMaximizeScreen() {
+        panelItem.removeAll();
+        for (int i = 0; i < CartBUS.getInstance().getLstModelItemSize(); i++) {
+            ModelItem modelItem = CartBUS.getInstance().getModelItem(i);
+            addItemMaximizeScreen(modelItem);
+        }
     }
 
     public final void loadTongTien() {

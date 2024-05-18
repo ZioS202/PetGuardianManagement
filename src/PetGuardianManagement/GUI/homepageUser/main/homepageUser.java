@@ -14,6 +14,7 @@ import PetGuardianManagement.GUI.homepageUser.form.Form_3;
 import PetGuardianManagement.GUI.homepageUser.form.ManageTicket;
 import PetGuardianManagement.GUI.topUp.main.TopUp;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.JComponent;
@@ -31,6 +32,8 @@ public class homepageUser extends javax.swing.JFrame {
     public Cart cart;
     public CartEmpty cartEmpty;
     private TopUp topUp;
+
+    private Dimension mainPanelSize;
 
     private static homepageUser instance;
 
@@ -85,12 +88,20 @@ public class homepageUser extends javax.swing.JFrame {
                             if (cart == null) {
                                 cart = new Cart();
                             } else {
-                                cart.loadData();
+                                mainPanelSize = mainPanel.getSize();
+                                switch (mainPanelSize.width) {
+                                    case 895 -> {
+                                        cart.loadData();
+                                    }
+                                    case 1615 -> {
+                                        cart.loadDataMaximizeScreen();
+                                    }
+                                }
                                 cart.loadTongTien();
+                                System.out.println(mainPanelSize.width == 895);
                             }
                             setForm(cart);
                         }
-
                     }
                     case 7 -> {
                         if (buyTicket == null) {

@@ -2,10 +2,12 @@ package PetGuardianManagement.GUI.Cart.component;
 
 import PetGuardianManagement.BUS.CartBUS;
 import PetGuardianManagement.ExtendFunctions;
+import PetGuardianManagement.GUI.Cart.main.CartEmpty;
 import PetGuardianManagement.GUI.Cart.model.ModelItem;
 import PetGuardianManagement.GUI.homepageUser.main.homepageUser;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -308,8 +310,16 @@ public class Item extends javax.swing.JPanel {
         if (CartBUS.getInstance().deleteChiTietGioHang(data.getLoaiVe().getIMaLoaiVe()) > 0) {
             if (CartBUS.getInstance().deleteModelItem(data.getLoaiVe().getIMaLoaiVe()) > 0) {
                 // Update lbTongTien(CartGUI)
+                Dimension itemSize = this.getSize();
+                switch (itemSize.width) {
+                    case 1570 -> {
+                        homepageUser.getInstance().cart.loadDataMaximizeScreen();
+                    }
+                    case 850 -> {
+                        homepageUser.getInstance().cart.loadData();
+                    }
+                }
                 homepageUser.getInstance().cart.loadTongTien();
-                homepageUser.getInstance().cart.loadData();
 
                 // Nếu GioHang của User trống (tức là không còn ChiTietGioHang), thì xóa GioHang của User
                 if (CartBUS.getInstance().getLstModelItemSize() == 0) {
@@ -319,6 +329,9 @@ public class Item extends javax.swing.JPanel {
                         JOptionPane.showMessageDialog(null, "Thao tác xóa GioHang thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
                     } else {
                         // Hiển thị cartEmpty
+                        if (homepageUser.getInstance().cartEmpty == null) {
+                            homepageUser.getInstance().cartEmpty = new CartEmpty();
+                        }
                         homepageUser.getInstance().setForm(homepageUser.getInstance().cartEmpty);
                     }
                 }
