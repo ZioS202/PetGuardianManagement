@@ -473,7 +473,7 @@ public class Signup extends javax.swing.JFrame {
     }
 
     private static boolean isValidName(String name) {
-        return name.matches("[a-zA-Z]+");
+        return name.matches("[a-zA-Z ]+");
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private PetGuardianManagement.GUI.Signin.swing.Button btnSignUp;
