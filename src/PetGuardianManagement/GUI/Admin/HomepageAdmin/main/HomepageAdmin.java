@@ -4,6 +4,8 @@
  */
 package PetGuardianManagement.GUI.Admin.HomepageAdmin.main;
 
+import PetGuardianManagement.BUS.SignInBUS;
+import PetGuardianManagement.DTO.NguoiDungDTO;
 import PetGuardianManagement.GUI.Admin.HomepageAdmin.event.EventMenuSelected;
 import PetGuardianManagement.GUI.Admin.HomepageAdmin.form.AccountInformation;
 import PetGuardianManagement.GUI.Admin.HomepageAdmin.form.CustomerManage;
@@ -11,12 +13,18 @@ import PetGuardianManagement.GUI.Admin.HomepageAdmin.form.InvoiceManage;
 import PetGuardianManagement.GUI.Admin.HomepageAdmin.form.PetManage;
 import PetGuardianManagement.GUI.Admin.HomepageAdmin.form.VisitorManage;
 import PetGuardianManagement.GUI.Admin.HomepageAdmin.form.changePassword;
+import PetGuardianManagement.GUI.Signin.main.Signin;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -69,6 +77,35 @@ public class HomepageAdmin extends javax.swing.JFrame {
                     case 8->{
                        setForm(changePW);
                     }
+                    case 9->{
+                        
+                        
+                        int response = JOptionPane.showConfirmDialog(null, "Bạn có muốn ứng dụng chuyển hướng đến trang thông tin ứng dụng?", "Xác nhận", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                        if (response == JOptionPane.OK_OPTION) {
+                            String url = "https://petguardian.onrender.com/home";
+                            if (Desktop.isDesktopSupported()) {
+                                try {
+                                    Desktop desktop = Desktop.getDesktop();
+                                    desktop.browse(new URI(url));
+                                } catch (IOException | URISyntaxException e) {
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                System.err.println("Desktop is not supported.");
+                            }
+                        } 
+                    }
+                    case 10 ->{
+                        int response = JOptionPane.showConfirmDialog(null, "Bạn có muốn đăng xuất?", "Xác nhận", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                        if (response == JOptionPane.OK_OPTION) {
+                            Signin signin = new Signin();
+                            signin.setVisible(true);
+                            dispose(); 
+                            Signin.User = null;
+                        } 
+
+                    }
+
                 }
             }
         });

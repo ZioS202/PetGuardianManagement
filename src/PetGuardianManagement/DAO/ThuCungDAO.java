@@ -5,9 +5,8 @@
 package PetGuardianManagement.DAO;
 
 import Database.JDBCUtil;
-import PetGuardianManagement.DTO.VeDTO;
+import PetGuardianManagement.DTO.ThuCungDTO;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,42 +14,34 @@ import java.util.ArrayList;
 
 /**
  *
- * @author DucTran
+ * @author dungn
  */
-public class VeDAO {
-
-    private static VeDAO instance;
+public class ThuCungDAO {
+     private static ThuCungDAO instance;
 
     // Public static method to access the single instance
-    public static VeDAO getInstance() {
+    public static ThuCungDAO getInstance() {
         if (instance == null) {
-            instance = new VeDAO();
+            instance = new ThuCungDAO();
         }
         return instance;
     }
 
-    // Return MaVe newly inserted if successfully, else return 0
-    public int insert(VeDTO data) {
+    // Return MaThuCung newly inserted if successfully, else return 0
+    public int insert(ThuCungDTO data) {
         int result = 0;
         try {
             Connection connection = JDBCUtil.getConnection();
 
-            String sql = "INSERT INTO c_Ve (MaLoaiVe, MaKH, NgayKichHoat, NgayHetHan, TrangThai) VALUES (?, ?, ?, ?, ?)";
-            PreparedStatement pst = connection.prepareStatement(sql, new String[]{"MaVe"});
-            pst.setInt(1, data.getIMaLoaiVe());
-            pst.setInt(2, data.getIMaKH());
-            if (data.getdateNgayKichHoat() != null) {
-                pst.setDate(3, new Date(data.getdateNgayKichHoat().getTime()));
-            } else {
-                pst.setDate(3, null);
-            }
-            if (data.getDateNgayHetHan() != null) {
-                pst.setDate(4, new Date(data.getDateNgayHetHan().getTime()));
-            } else {
-                pst.setDate(4, null);
-            }
-            pst.setString(5, data.getStrTrangThai());
-
+            String sql = "INSERT INTO ThuCung (MaThuCung, TenThuCung, MaKHSoHuu, GiongLoai, CanNang) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement pst = connection.prepareStatement(sql, new String[]{"ThuCung"});
+            pst.setInt(1, data.getIMaThuCung());
+            pst.setString(2, data.getStrTenThuCung());
+            pst.setInt(3, data.getIMaKHSoHuu());
+            pst.setString(4, data.getStrGiongLoai());
+            pst.setFloat(5, data.getFCanNang());
+            
+            
             int affectedRows = pst.executeUpdate();
             if (affectedRows > 0) {
                 try (ResultSet rs = pst.getGeneratedKeys()) {
@@ -67,17 +58,17 @@ public class VeDAO {
         return result;
     }
 
-    public ArrayList<VeDTO> selectAll() {
-        ArrayList<VeDTO> result = new ArrayList<>();
+    public ArrayList<ThuCungDTO> selectAll() {
+        ArrayList<ThuCungDTO> result = new ArrayList<>();
         try {
             Connection connection = JDBCUtil.getConnection();
 
-            String sql = "SELECT * FROM c_Ve";
+            String sql = "SELECT * FROM ThuCung";
             PreparedStatement pst = connection.prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
 
             while (rs.next()) {
-                result.add(new VeDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getDate(4), rs.getDate(5), rs.getString(6)));
+                 result.add(new ThuCungDTO(rs.getInt(1), rs.getFloat(2), rs.getInt(3), rs.getString(4), rs.getString(5)));
             }
 
             JDBCUtil.closeConnection(connection);
@@ -88,18 +79,18 @@ public class VeDAO {
         return result;
     }
 
-    public ArrayList<VeDTO> selectByMaKH(int iMaKH) {
-        ArrayList<VeDTO> result = new ArrayList<>();
+    public ArrayList<ThuCungDTO> selectByMaKH(int iMaKH) {
+        ArrayList<ThuCungDTO> result = new ArrayList<>();
         try {
             Connection connection = JDBCUtil.getConnection();
 
-            String sql = "SELECT * FROM c_Ve WHERE MaKH=?";
+            String sql = "SELECT * FROM ThuCung WHERE MaKHSoHuu=?";
             PreparedStatement pst = connection.prepareStatement(sql);
             pst.setInt(1, iMaKH);
             ResultSet rs = pst.executeQuery();
 
             while (rs.next()) {
-                result.add(new VeDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getDate(4), rs.getDate(5), rs.getString(6)));
+                result.add(new ThuCungDTO(rs.getInt("MaKH"), rs.getFloat("CanNang"), rs.getInt("MaKHSoHuu"), rs.getString("TenThuCung"), rs.getString("GiongLoai")));
             }
 
             JDBCUtil.closeConnection(connection);
@@ -110,17 +101,18 @@ public class VeDAO {
         return result;
     }
 
-    public int update(VeDTO data) {
+    public int update(ThuCungDTO data) {
         int result = 0;
         try {
             Connection connection = JDBCUtil.getConnection();
 
-            String sql = "UPDATE c_Ve SET NgayKichHoat=?, NgayHetHan=?, TrangThai=? WHERE MaVe=?";
+            String sql = "UPDATE ThuCung SET TenThuCung=?, GiongLoai=?, CanNang=?, MaKHSoHuu=? WHERE MaThuCung=?";
             PreparedStatement pst = connection.prepareStatement(sql);
-            pst.setDate(1, new Date(data.getdateNgayKichHoat().getTime()));
-            pst.setDate(2, new Date(data.getDateNgayHetHan().getTime()));
-            pst.setString(3, data.getStrTrangThai());
-            pst.setInt(4, data.getIMaVe());
+            pst.setString(1, data.getStrTenThuCung());
+            pst.setString(2, data.getStrGiongLoai());
+            pst.setFloat(3, data.getFCanNang());
+            pst.setInt(4, data.getIMaKHSoHuu());
+            pst.setInt(5, data.getIMaThuCung());
 
             result = pst.executeUpdate();
 
@@ -131,14 +123,14 @@ public class VeDAO {
         return result;
     }
 
-    public int delete(int iMaVe) {
+    public int delete(int iMaThuCung) {
         int result = 0;
         try {
             Connection connection = JDBCUtil.getConnection();
 
-            String sql = "DELETE FROM c_Ve WHERE MaVe=?";
+            String sql = "DELETE FROM ThuCung WHERE MaThuCung=?";
             PreparedStatement pst = connection.prepareStatement(sql);
-            pst.setInt(1, iMaVe);
+            pst.setInt(1, iMaThuCung);
 
             result = pst.executeUpdate();
 
@@ -146,6 +138,24 @@ public class VeDAO {
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e);
         }
+        return result;
+    }
+    
+    public ThuCungDTO selectbyID(int iMaThuCung){
+        ThuCungDTO result= new ThuCungDTO();
+        try {
+            Connection connection = JDBCUtil.getConnection();
+
+            String sql = "SELECT * FROM ThuCung WHERE MaThuCung=?";
+            PreparedStatement pst = connection.prepareStatement(sql);
+            pst.setInt(1, iMaThuCung);
+            ResultSet rs = pst.executeQuery();
+            result = new ThuCungDTO(rs.getInt("MaKH"), rs.getFloat("CanNang"), rs.getInt("MaKHSoHuu"), rs.getString("TenThuCung"), rs.getString("GiongLoai"));
+            JDBCUtil.closeConnection(connection);
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println(e);
+        }
+
         return result;
     }
 }

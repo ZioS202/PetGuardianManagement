@@ -4,17 +4,32 @@
  */
 package PetGuardianManagement.GUI.ForgotPassword.main;
 
+import PetGuardianManagement.BUS.SignUpBUS;
 import PetGuardianManagement.GUI.Signin.main.Signin;
+import PetGuardianManagement.GUI.Signup.main.Signup;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.security.SecureRandom;
+import java.util.HashMap;
 import javax.swing.ImageIcon;
+import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.swing.JOptionPane;
 
 public class VerifyOTP extends javax.swing.JFrame {
-
+    private static final String CHARACTERS = "0123456789";
+    private static final int OTP_LENGTH = 6;
+    private static final SecureRandom random = new SecureRandom();
     private int posX, posY;
-
+    private static final HashMap<String, String> otpStore = new HashMap<>();
+    public static String EmailString = "";
+    private static int countVerifyOTP=0;
     public VerifyOTP() {
         initComponents();
         setIconImage();
@@ -149,16 +164,23 @@ public class VerifyOTP extends javax.swing.JFrame {
     }//GEN-LAST:event_lblReturnSigninMouseClicked
 
     private void btnGetOTPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGetOTPMouseClicked
-        // Switch to Verify OTP
-        txtEmail.setVisible(false);
-        txtEmail.setEnabled(false);
-        txtOTP.setVisible(true);
-        txtOTP.setEnabled(true);
-        btnGetOTP.setVisible(false);
-        btnGetOTP.setEnabled(false);
-        btnVerifyOTP.setVisible(true);
-        btnVerifyOTP.setEnabled(true);
-        jLabel3.setText("We have sent OTP to your email");
+        if (!"".equals(txtEmail.getText()) && Signup.isValidEmail(txtEmail.getText())){
+            EmailString = txtEmail.getText();
+            forgotPassword(EmailString);         
+            // Switch to Verify OTP
+            txtEmail.setVisible(false);
+            txtEmail.setEnabled(false);
+            txtOTP.setVisible(true);
+            txtOTP.setEnabled(true);
+            btnGetOTP.setVisible(false);
+            btnGetOTP.setEnabled(false);
+            btnVerifyOTP.setVisible(true);
+            btnVerifyOTP.setEnabled(true);
+            jLabel3.setText("We have sent OTP to your email");
+        }else{
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập thông tin Email chính xác!", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+        }
+        
     }//GEN-LAST:event_btnGetOTPMouseClicked
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -176,9 +198,12 @@ public class VerifyOTP extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void btnVerifyOTPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVerifyOTPMouseClicked
-        ResetPassword resetpass = new ResetPassword();
-        resetpass.setVisible(true);
-        dispose();
+        if (!"".equals(txtOTP.getText())){
+            verifyOTP(txtOTP.getText());
+        } else{
+            JOptionPane.showMessageDialog(this, "Bạn chưa nhập OTP!", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+        }
+        
     }//GEN-LAST:event_btnVerifyOTPMouseClicked
 
     /**
@@ -255,6 +280,129 @@ public class VerifyOTP extends javax.swing.JFrame {
                 new VerifyOTP().setVisible(true);
             }
         });
+    }
+    private static String generateOTP() {
+        StringBuilder otp = new StringBuilder(OTP_LENGTH);
+        for (int i = 0; i < OTP_LENGTH; i++) {
+            otp.append(CHARACTERS.charAt(random.nextInt(CHARACTERS.length())));
+        }
+        return otp.toString();
+    }
+    private static void saveOTP(String email, String otp) {
+        otpStore.put(email, otp);
+    }
+    private static String getOTP(String email) {
+        return otpStore.get(email);
+    }
+
+    private static void sendEmailOTP(String toEmail, String otp) {
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true"); //TLS
+        props.put("mail.smtp.starttls.required", "true"); //
+        props.put("mail.smtp.ssl.protocols", "TLSv1.2"); //
+        String USERNAME = "20521291@gm.uit.edu.vn";
+        String PASSWORD="";
+        Session session = Session.getInstance(props, new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(USERNAME, PASSWORD);
+            }
+        });
+
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(USERNAME));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
+            message.setSubject("Your OTP Code");
+            message.setText("Your OTP code is: " + otp);
+
+            Transport.send(message);
+            System.out.println("OTP sent to email successfully!");
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+    private static void sendEmailWarring(String toEmail) {
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+        String USERNAME = "20521291@gm.uit.edu.vn";
+        String PASSWORD="";
+        Session session = Session.getInstance(props, new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(USERNAME, PASSWORD);
+            }
+        });
+
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(USERNAME));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
+            message.setSubject("Warning: Unauthorized Access Attempt Detected");
+            message.setText("""
+                            Dear user,
+                            
+                            We detected an unauthorized access attempt.
+                            If this was not you, please secure your account immediately.
+                            
+                            Best regards,
+                            PGM Security Team""");
+
+            Transport.send(message);
+            System.out.println("Warning email sent successfully!");
+
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+    private void forgotPassword (String emailString){
+        
+        try {
+            boolean isExistUser = SignUpBUS.getInstance().CheckExistUser(EmailString);
+            if (isExistUser){
+                JOptionPane.showMessageDialog(this, "Đang thực hiện yêu cầu\nVui lòng chờ trong giây lát!", "Thông báo!", JOptionPane.NO_OPTION);
+                String otp = generateOTP();
+                sendEmailOTP(emailString, otp);
+                System.out.println("OTP generated and sent to: " + emailString);
+                saveOTP(emailString, otp);
+            }else{
+                JOptionPane.showMessageDialog(this, "Tài khoản không tồn tại!", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e, "Lỗi !", JOptionPane.ERROR_MESSAGE);
+        }
+
+        
+    }
+    private void verifyOTP(String otp){
+        if (txtOTP.getText().equals(getOTP(EmailString))){
+            countVerifyOTP = 0;
+            ResetPassword resetpass = new ResetPassword();
+            resetpass.setVisible(true);
+            dispose();
+        }else{
+            JOptionPane.showMessageDialog(this, "OTP của bạn không chính xác!", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+            countVerifyOTP+=1;
+            if (countVerifyOTP == 3){
+                sendEmailWarring(EmailString);
+                countVerifyOTP = 0;
+                JOptionPane.showMessageDialog(this, "Bạn đã nhập sai quá nhiều lần.\nVui lòng kiểm tra email.", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+               // Switch to Verify OTP
+                txtOTP.setVisible(false);
+                txtOTP.setEnabled(false);
+                txtEmail.setVisible(true);
+                txtEmail.setEnabled(true);
+                btnVerifyOTP.setVisible(false);
+                btnVerifyOTP.setEnabled(false);
+                btnGetOTP.setVisible(true);
+                btnGetOTP.setEnabled(true);
+                jLabel3.setText("Email");
+            }
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

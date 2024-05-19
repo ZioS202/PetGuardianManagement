@@ -5,9 +5,11 @@
 package PetGuardianManagement.GUI.homepageUser.main;
 
 import PetGuardianManagement.BUS.CartBUS;
+import PetGuardianManagement.BUS.ManageTicketBUS;
 import PetGuardianManagement.GUI.BuyTicket.main.BuyTicket;
 import PetGuardianManagement.GUI.Cart.main.Cart;
 import PetGuardianManagement.GUI.Cart.main.CartEmpty;
+import PetGuardianManagement.GUI.Signin.main.Signin;
 import PetGuardianManagement.GUI.homepageUser.event.EventMenuSelected;
 import PetGuardianManagement.GUI.homepageUser.form.Form_1;
 import PetGuardianManagement.GUI.homepageUser.form.Form_3;
@@ -15,9 +17,15 @@ import PetGuardianManagement.GUI.homepageUser.form.ManageTicket;
 import PetGuardianManagement.GUI.homepageUser.form.petInfor;
 import PetGuardianManagement.GUI.topUp.main.TopUp;
 import java.awt.Color;
+import java.awt.Desktop;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -26,13 +34,15 @@ import javax.swing.JComponent;
 public class homepageUser extends javax.swing.JFrame {
 
     private Form_1 form1;
-    private ManageTicket manageTicket;
+    public ManageTicket manageTicket;
     private Form_3 form3;
     private petInfor petInfor;
     private BuyTicket buyTicket;
     public Cart cart;
     public CartEmpty cartEmpty;
     private TopUp topUp;
+
+    private Dimension mainPanelSize;
 
     private static homepageUser instance;
 
@@ -50,8 +60,7 @@ public class homepageUser extends javax.swing.JFrame {
         setBackground(new Color(0, 0, 0, 0));
 
         // Just only using this line during programmaming
-        instance = this;
-
+//        instance = this;
         form1 = new Form_1();
         form3 = new Form_3();
         petInfor=new petInfor();
@@ -69,6 +78,8 @@ public class homepageUser extends javax.swing.JFrame {
                     case 1 -> {
                         if (manageTicket == null) {
                             manageTicket = new ManageTicket();
+                        } else {
+                            manageTicket.tableLoadData();
                         }
                         setForm(manageTicket);
                     }
@@ -86,12 +97,20 @@ public class homepageUser extends javax.swing.JFrame {
                             if (cart == null) {
                                 cart = new Cart();
                             } else {
-                                cart.loadData();
+                                mainPanelSize = mainPanel.getSize();
+                                switch (mainPanelSize.width) {
+                                    case 895 -> {
+                                        cart.loadData();
+                                    }
+                                    case 1615 -> {
+                                        cart.loadDataMaximizeScreen();
+                                    }
+                                }
                                 cart.loadTongTien();
+                                System.out.println(mainPanelSize.width == 895);
                             }
                             setForm(cart);
                         }
-
                     }
                     case 7 -> {
                         if (buyTicket == null) {
@@ -102,9 +121,45 @@ public class homepageUser extends javax.swing.JFrame {
                     case 8 -> {
                         if (topUp == null) {
                             topUp = new TopUp();
+                        } else {
+                            topUp.clearTxtTopUp();
+                            topUp.loadSoDu();
                         }
                         setForm(topUp);
                     }
+                    case 10 -> {
+                        int response = JOptionPane.showConfirmDialog(null, "Bạn có muốn ứng dụng chuyển hướng đến trang thông tin ứng dụng?", "Xác nhận", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                        if (response == JOptionPane.OK_OPTION) {
+                            String url = "https://petguardian.onrender.com/home";
+                            if (Desktop.isDesktopSupported()) {
+                                try {
+                                    Desktop desktop = Desktop.getDesktop();
+                                    desktop.browse(new URI(url));
+                                } catch (IOException | URISyntaxException e) {
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                System.err.println("Desktop is not supported.");
+                            }
+                        }
+                    }
+                    case 11 -> {
+                        int response = JOptionPane.showConfirmDialog(null, "Bạn có muốn đăng xuất?", "Xác nhận", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                        if (response == JOptionPane.OK_OPTION) {
+                            Signin signin = new Signin();
+                            signin.setVisible(true);
+                            dispose();
+                            Signin.User = null;
+                            instance = null;
+                            cart = null;
+                            manageTicket = null;
+                            CartBUS.getInstance().cleanUp();
+                            ManageTicketBUS.getInstance().cleanUp();
+                            System.gc();
+                        }
+
+                    }
+
                 }
             }
         });

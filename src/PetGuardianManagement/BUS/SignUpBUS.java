@@ -4,7 +4,9 @@
  */
 package PetGuardianManagement.BUS;
 
+import PetGuardianManagement.DAO.KhachHangDAO;
 import PetGuardianManagement.DAO.NguoiDungDAO;
+import PetGuardianManagement.DTO.KhachHangDTO;
 import PetGuardianManagement.DTO.NguoiDungDTO;
 
 /**
@@ -22,11 +24,19 @@ public class SignUpBUS {
     
     public int createUser (String email, String password, String fullname){
         NguoiDungDTO newUser = new NguoiDungDTO();
-        newUser.setIMaND(NguoiDungDAO.getInstance().selectMaxMaND());
         newUser.setStrEmail(email);
         newUser.setStrMatKhau(password);
         newUser.setStrHoTen(fullname);
-        return NguoiDungDAO.getInstance().insert(newUser);
+        int idND = NguoiDungDAO.getInstance().insert(newUser);
+        if (idND>0){
+            KhachHangDTO newKH = new KhachHangDTO();
+            newKH.setIMaKH(idND);
+            newKH.setLongSoDu(0);
+            if (KhachHangDAO.getInstance().insert(newKH) > 0){
+                return 1;
+            }
+        }
+        return 0;
     }
     
     public boolean CheckExistUser (String email){

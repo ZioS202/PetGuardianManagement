@@ -6,12 +6,20 @@ package PetGuardianManagement.GUI.ForgotPassword.main;
 
 //import PetGuardianManagement.GUI.DangNhap;
 //import static PetGuardianManagement.GUI.InitPublic.getHashPassword;
+import PetGuardianManagement.BUS.ChangePasswordBUS;
+import PetGuardianManagement.GUI.Signin.main.Signin;
+import PetGuardianManagement.GUI.Signup.main.Signup;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 public class ResetPassword extends javax.swing.JFrame {
 
@@ -102,6 +110,11 @@ public class ResetPassword extends javax.swing.JFrame {
         btnSubmit.setForeground(new java.awt.Color(255, 255, 255));
         btnSubmit.setText("Submit");
         btnSubmit.setFont(new java.awt.Font("Segoe UI Historic", 1, 15)); // NOI18N
+        btnSubmit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSubmitActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnSubmit, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 280, 200, 50));
 
         maskIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -170,6 +183,10 @@ public class ResetPassword extends javax.swing.JFrame {
         unmaskIcon.setEnabled(false);
     }//GEN-LAST:event_unmaskIconMouseClicked
 
+    private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
+        changePassword(VerifyOTP.EmailString);
+    }//GEN-LAST:event_btnSubmitActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -207,7 +224,60 @@ public class ResetPassword extends javax.swing.JFrame {
             }
         });
     }
+    private void changePassword(String emailString){
+        String password = new String (txtPassword.getPassword());
+        String confirmPassword = new String (txtConfirmPassword.getPassword());        
+        MessageDigest digest;
+        StringBuilder hexHashPassword = new StringBuilder("Inital value");
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+            byte[] hashedPassword = digest.digest(password.getBytes());
+            hexHashPassword = new StringBuilder();
+            for (byte b : hashedPassword) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) {
+                    hexHashPassword.append('0');
+                }
+                hexHashPassword.append(hex);
+            }
+            System.out.println("Hashed Password (SHA-256): " + hexHashPassword.toString());
+        } catch (NoSuchAlgorithmException ex) {
+            System.out.println("PetGuardianManagement.GUI.ForgotPassword.main.ResetPassword.changePassword() error");
+        }
+        
+        if (password.equals("") || confirmPassword.equals("") ) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin !", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+        } 
+        else{
+            // check input user 
+            String msg = "";
+            if (!Signup.isValidPassword(password)) {
+                msg +="* Mật khẩu không hợp lệ. Mật khẩu cần có ít nhất 8 ký tự và phải bao gồm chữ in hoa, in thường, số và ký tự đặc biệt.\n";   
+            }
+            if (!confirmPassword.equals(password)) {
+                msg += "* Xác nhận mật khẩu không trùng khớp với mật khẩu.\n";
+            }
+            if (!msg.equals("")){
+                JOptionPane.showMessageDialog(this, msg, "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+            }else{
+                try {
+                    int updatePassword = ChangePasswordBUS.getInstance().updatePassword(emailString, hexHashPassword.toString());
+                    if (updatePassword>0){
+                        JOptionPane.showMessageDialog(this, "Cập nhật mật khẩu thành công!", "Thông báo !", JOptionPane.INFORMATION_MESSAGE );
+                        Signin signin = new Signin();
+                        signin.setVisible(true);
+                        dispose(); 
+                    }
+                    
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, e, "Lỗi !", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            
+        }
 
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private PetGuardianManagement.GUI.Signin.swing.Button btnSubmit;
     private javax.swing.JLabel jLabel1;

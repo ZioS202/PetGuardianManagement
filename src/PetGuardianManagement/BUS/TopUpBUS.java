@@ -6,6 +6,7 @@ package PetGuardianManagement.BUS;
 
 import PetGuardianManagement.DAO.KhachHangDAO;
 import PetGuardianManagement.DTO.KhachHangDTO;
+import PetGuardianManagement.GUI.Signin.main.Signin;
 
 public class TopUpBUS {
 
@@ -19,10 +20,10 @@ public class TopUpBUS {
         return instance;
     }
 
-    public int TopUpAcc(KhachHangDTO data) {
-        long currentSoDu = KhachHangDAO.getInstance().selectById(8).getLongSoDu();
-        long newSoDu = currentSoDu + data.getLongSoDu();
-        data.setLongSoDu(newSoDu);
+    public int TopUpAcc(long amount) {
+        long currentSoDu = KhachHangDAO.getInstance().selectById(Signin.User.getIMaND()).getLongSoDu();
+        long newSoDu = currentSoDu + amount;
+        KhachHangDTO data = new KhachHangDTO(Signin.User.getIMaND(), newSoDu);
         return KhachHangDAO.getInstance().update(data);
     }
 }

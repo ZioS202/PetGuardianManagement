@@ -19,6 +19,7 @@ import PetGuardianManagement.DTO.KhachHangDTO;
 import PetGuardianManagement.DTO.LoaiVeDTO;
 import PetGuardianManagement.DTO.VeDTO;
 import PetGuardianManagement.GUI.Cart.model.ModelItem;
+import PetGuardianManagement.GUI.Signin.main.Signin;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -35,7 +36,7 @@ public class CartBUS {
     private CartBUS() {
         lstModelItem = new ArrayList<>();
         // Check if User already has a shopping cart
-        GioHangDTO gioHang = GioHangDAO.getInstance().selectByMaKH(8);
+        GioHangDTO gioHang = GioHangDAO.getInstance().selectByMaKH(Signin.User.getIMaND());
         if (gioHang != null) {
             iMaGioHang = gioHang.getIMaGioHang();
             ArrayList<ChiTietGioHangDTO> lstChiTietGioHang = ChiTietGioHangDAO.getInstance().selectByMaGioHang(iMaGioHang);
@@ -63,12 +64,12 @@ public class CartBUS {
 
     // Get SoDu of KhachHang
     public long getSoDuKhachHang() {
-        return KhachHangDAO.getInstance().selectById(8).getLongSoDu();
+        return KhachHangDAO.getInstance().selectById(Signin.User.getIMaND()).getLongSoDu();
     }
 
     // Update SoDu of KhachHang
     public int updateSoDuKhachHang(long newSoDu) {
-        return KhachHangDAO.getInstance().update(new KhachHangDTO(8, newSoDu));
+        return KhachHangDAO.getInstance().update(new KhachHangDTO(Signin.User.getIMaND(), newSoDu));
     }
 
     // Delete ChiTietGioHang
@@ -93,7 +94,7 @@ public class CartBUS {
 
     // Create HoaDon and return MaHD
     public int createHoaDon(Date dateNgayHD, long lTongGiaTien) {
-        return HoaDonDAO.getInstance().insert(new HoaDonDTO(0, 8, dateNgayHD, lTongGiaTien));
+        return HoaDonDAO.getInstance().insert(new HoaDonDTO(0, Signin.User.getIMaND(), dateNgayHD, lTongGiaTien));
     }
 
     // Create ChiTietHoaDon for ModelItems in lstModelItem
@@ -106,11 +107,20 @@ public class CartBUS {
         return 1;
     }
 
-    // Create Ves for KhachHang corresponding to the ModelItems in lstModelItem
+    // Create Ves for KhachHang corresponding to the ModelItems in lstModelItem. Also add newly created Ve to lstVe(ManageTicketBUS)
     public int createVes() {
         for (ModelItem item : lstModelItem) {
-            if (VeDAO.getInstance().insert(new VeDTO(0, item.getLoaiVe().getIMaLoaiVe(), 8, null, null, "Chưa kích hoạt")) == 0) {
-                return 0;
+            for (int i = 0; i < item.getSoLuong(); i++) {
+                VeDTO ve = new VeDTO(0, item.getLoaiVe().getIMaLoaiVe(), Signin.User.getIMaND(), null, null, "Chưa kích hoạt");
+                int iMaVe = VeDAO.getInstance().insert(ve);
+                if (iMaVe > 0) {
+                    if (ManageTicketBUS.getInstance().searchVe(iMaVe) == null) {
+                        ve.setIMaVe(iMaVe);
+                        ManageTicketBUS.getInstance().addVe(ve);
+                    }
+                } else {
+                    return 0;
+                }
             }
         }
         return 1;
@@ -192,5 +202,11 @@ public class CartBUS {
         }
         System.out.println("ModelItem that have iMaLoaiVe=" + iMaLoaiVe + " not found.");
         return null;
+    }
+
+    public void cleanUp() {
+        lstModelItem = null;
+        instance = null;
+        iMaGioHang = 0;
     }
 }

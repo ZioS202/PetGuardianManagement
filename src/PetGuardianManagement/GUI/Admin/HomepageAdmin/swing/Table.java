@@ -44,46 +44,13 @@ public class Table extends JTable {
         });
     }
 
-    public void selectRow(String maSach) {
-        DefaultTableModel model = (DefaultTableModel) getModel();
-        for (int i = 0; i < model.getRowCount(); i++) {
-            if (model.getValueAt(i, 0).equals(maSach)) {
-                clearSelection();
-                setRowSelectionInterval(i, i);
-            }
-        }
-    }
-
     public void addRow(Object[] row) {
         DefaultTableModel model = (DefaultTableModel) getModel();
         model.addRow(row);
     }
 
-//    public int removeRow(String maSachToDelete) {
-//        DefaultTableModel model = (DefaultTableModel) getModel();
-//        for (int i = 0; i < model.getRowCount(); i++) {
-//            if (model.getValueAt(i, 0).equals(maSachToDelete)) {
-//                model.removeRow(i);
-//                return 1;
-//            }
-//        }
-//        return 0;
-//    }
-//    public int updateRow(SachDTO data) {
-//        DefaultTableModel model = (DefaultTableModel) getModel();
-//        for (int i = 0; i < model.getRowCount(); i++) {
-//            if (model.getValueAt(i, 0).equals(data.getMaSach())) {
-//                model.setValueAt(data.getTenSach(), i, 1);
-//                model.setValueAt(data.getTacGia(), i, 2);
-//                model.setValueAt(data.getNxb(), i, 3);
-//                model.setValueAt(QuanLySach.CurrencyFormat(data.getGia()), i, 4);
-//                return 1;
-//            }
-//        }
-//        return 0;
-//    }
-//    public void clearAllRows() {
-//        DefaultTableModel model = (DefaultTableModel) getModel();
-//        model.setRowCount(0);
-//    }
+    public void clearAllRows() {
+        DefaultTableModel model = (DefaultTableModel) getModel();
+        model.setRowCount(0);
+    }
 }

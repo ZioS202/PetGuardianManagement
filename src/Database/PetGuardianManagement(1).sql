@@ -228,6 +228,6 @@ ALTER SEQUENCE GioHang_seq RESTART;
 ALTER SEQUENCE ThuCung_seq RESTART;
 
 --Them du lieu
-alter session set nls_date_format = 'yyyy-mm-dd hh24:mi:ss';
+alter session set nls_date_format = 'dd-mm-yyyy hh24:mi:ss';
 --IMPORT du lieu tu excel
 

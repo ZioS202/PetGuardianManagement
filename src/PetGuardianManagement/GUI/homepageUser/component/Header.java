@@ -4,9 +4,12 @@
  */
 package PetGuardianManagement.GUI.homepageUser.component;
 
+import PetGuardianManagement.GUI.homepageUser.main.homepageUser;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  *
@@ -19,6 +22,15 @@ public class Header extends javax.swing.JPanel {
     public Header() {
         initComponents();
         setOpaque(false);
+
+        // Add a MouseListener to the panel to detect clicks outside the table
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Header.this.requestFocusInWindow();
+                homepageUser.getInstance().manageTicket.tableClearSelection();
+            }
+        });
     }
 
     public int getRound() {
@@ -61,7 +73,6 @@ public class Header extends javax.swing.JPanel {
             .addGap(0, 50, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

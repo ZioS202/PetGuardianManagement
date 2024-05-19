@@ -11,6 +11,7 @@ import PetGuardianManagement.DTO.ChiTietGioHangDTO;
 import PetGuardianManagement.DTO.GioHangDTO;
 import PetGuardianManagement.DTO.LoaiVeDTO;
 import PetGuardianManagement.GUI.Cart.model.ModelItem;
+import PetGuardianManagement.GUI.Signin.main.Signin;
 import java.util.ArrayList;
 
 /**
@@ -64,7 +65,7 @@ public class BuyTicketBUS {
         int result = 0;
 
         // Check if User already has a shopping cart
-        GioHangDTO gioHang = GioHangDAO.getInstance().selectByMaKH(8);
+        GioHangDTO gioHang = GioHangDAO.getInstance().selectByMaKH(Signin.User.getIMaND());
         if (gioHang != null) {
             result = addToCart(gioHang.getIMaGioHang(), iMaLoaiVe);
         } else {
@@ -98,11 +99,11 @@ public class BuyTicketBUS {
 
     private int createAndAddToCart(int iMaLoaiVe) {
         // Create a shopping cart for the User
-        int tmp = GioHangDAO.getInstance().insert(8);
+        int tmp = GioHangDAO.getInstance().insert(Signin.User.getIMaND());
         // // Add chosen LoaiVe to lstModelItem(CartBUS) and User's shopping cart
         if (tmp > 0) {
             CartBUS.getInstance().addModelItem(new ModelItem(searchLoaiVe(iMaLoaiVe), 1));
-            int iMaGioHang = GioHangDAO.getInstance().selectByMaKH(8).getIMaGioHang();
+            int iMaGioHang = GioHangDAO.getInstance().selectByMaKH(Signin.User.getIMaND()).getIMaGioHang();
             CartBUS.getInstance().iMaGioHang = iMaGioHang;
             return ChiTietGioHangDAO.getInstance().insert(iMaGioHang, iMaLoaiVe, 1);
         } else {

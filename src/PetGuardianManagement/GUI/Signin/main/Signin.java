@@ -366,8 +366,7 @@ public class Signin extends javax.swing.JFrame {
                         dispose();
                     }
                 } else {
-                    JOptionPane.showMessageDialog(this, "Tài khoản không tồn tại!", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
-                    txtEmail.setText("");
+                    JOptionPane.showMessageDialog(this, "Tài khoản hoặc mật khẩu sai!", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
                     txtPassword.setText("");
                 }
             } catch (Exception e) {

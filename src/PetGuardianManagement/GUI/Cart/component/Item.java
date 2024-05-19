@@ -2,10 +2,12 @@ package PetGuardianManagement.GUI.Cart.component;
 
 import PetGuardianManagement.BUS.CartBUS;
 import PetGuardianManagement.ExtendFunctions;
+import PetGuardianManagement.GUI.Cart.main.CartEmpty;
 import PetGuardianManagement.GUI.Cart.model.ModelItem;
 import PetGuardianManagement.GUI.homepageUser.main.homepageUser;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -34,7 +36,6 @@ public class Item extends javax.swing.JPanel {
         txtSoLuongOnlyAllowNumbers();
         txtSoLuongFocusLostHandler();
         txtSoLuongDocumentListener();
-        panelItemMouseListener();
 
         // Add mouse listener to this JPanel
         addMouseListener(new MouseAdapter() {
@@ -43,7 +44,7 @@ public class Item extends javax.swing.JPanel {
                 // When clicked outside of the text field
                 if (!txtSoLuong.getBounds().contains(e.getPoint())) {
                     // Remove focus from text field
-                    panelItem.requestFocusInWindow();
+                    Item.this.requestFocusInWindow();
                 }
             }
         });
@@ -175,34 +176,19 @@ public class Item extends javax.swing.JPanel {
         });
     }
 
-    // Add mouse listener to panelItem
-    private void panelItemMouseListener() {
-        panelItem.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                // When clicked outside of the text field
-                if (!txtSoLuong.getBounds().contains(e.getPoint())) {
-                    // Remove focus from text field
-                    panelItem.requestFocusInWindow();
-                }
-            }
-        });
-    }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         lbItemName = new javax.swing.JLabel();
         pic = new PetGuardianManagement.GUI.BuyTicket.swing.PictureBox();
-        panelItem = new PetGuardianManagement.GUI.Cart.swing.PanelItem();
-        lbPrice = new javax.swing.JLabel();
+        btnDelete = new javax.swing.JButton();
+        lbSoTien = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         btnPlus = new javax.swing.JButton();
         txtSoLuong = new javax.swing.JTextField();
         btnMinus = new javax.swing.JButton();
-        lbSoTien = new javax.swing.JLabel();
-        btnDelete = new javax.swing.JButton();
+        lbPrice = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -210,10 +196,18 @@ public class Item extends javax.swing.JPanel {
         lbItemName.setForeground(new java.awt.Color(76, 76, 76));
         lbItemName.setText("Item Name");
 
-        lbPrice.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
-        lbPrice.setForeground(new java.awt.Color(76, 76, 76));
-        lbPrice.setText("0 ₫");
-        panelItem.add(lbPrice);
+        btnDelete.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnDelete.setText("Xóa");
+        btnDelete.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+
+        lbSoTien.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
+        lbSoTien.setForeground(new java.awt.Color(243, 148, 34));
+        lbSoTien.setText("0 ₫");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -248,7 +242,7 @@ public class Item extends javax.swing.JPanel {
                 .addComponent(btnMinus)
                 .addGap(4, 4, 4)
                 .addComponent(txtSoLuong, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(4, 4, 4)
                 .addComponent(btnPlus)
                 .addContainerGap())
         );
@@ -265,22 +259,9 @@ public class Item extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        panelItem.add(jPanel1);
-
-        lbSoTien.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
-        lbSoTien.setForeground(new java.awt.Color(243, 148, 34));
-        lbSoTien.setText("0 ₫");
-        panelItem.add(lbSoTien);
-
-        btnDelete.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnDelete.setText("Xóa");
-        btnDelete.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteActionPerformed(evt);
-            }
-        });
-        panelItem.add(btnDelete);
+        lbPrice.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
+        lbPrice.setForeground(new java.awt.Color(76, 76, 76));
+        lbPrice.setText("0 ₫");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -289,25 +270,37 @@ public class Item extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbItemName)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(pic, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(panelItem, javax.swing.GroupLayout.DEFAULT_SIZE, 625, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
+                        .addComponent(lbPrice)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
+                        .addComponent(lbSoTien)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 103, Short.MAX_VALUE)
+                        .addComponent(btnDelete))
+                    .addComponent(lbItemName))
+                .addGap(40, 40, 40))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addComponent(lbItemName)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pic, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(panelItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lbItemName)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(pic, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lbSoTien)
+                                .addComponent(btnDelete))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lbPrice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(42, 42, 42)))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -317,8 +310,16 @@ public class Item extends javax.swing.JPanel {
         if (CartBUS.getInstance().deleteChiTietGioHang(data.getLoaiVe().getIMaLoaiVe()) > 0) {
             if (CartBUS.getInstance().deleteModelItem(data.getLoaiVe().getIMaLoaiVe()) > 0) {
                 // Update lbTongTien(CartGUI)
+                Dimension itemSize = this.getSize();
+                switch (itemSize.width) {
+                    case 1570 -> {
+                        homepageUser.getInstance().cart.loadDataMaximizeScreen();
+                    }
+                    case 850 -> {
+                        homepageUser.getInstance().cart.loadData();
+                    }
+                }
                 homepageUser.getInstance().cart.loadTongTien();
-                homepageUser.getInstance().cart.loadData();
 
                 // Nếu GioHang của User trống (tức là không còn ChiTietGioHang), thì xóa GioHang của User
                 if (CartBUS.getInstance().getLstModelItemSize() == 0) {
@@ -328,6 +329,9 @@ public class Item extends javax.swing.JPanel {
                         JOptionPane.showMessageDialog(null, "Thao tác xóa GioHang thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
                     } else {
                         // Hiển thị cartEmpty
+                        if (homepageUser.getInstance().cartEmpty == null) {
+                            homepageUser.getInstance().cartEmpty = new CartEmpty();
+                        }
                         homepageUser.getInstance().setForm(homepageUser.getInstance().cartEmpty);
                     }
                 }
@@ -400,7 +404,6 @@ public class Item extends javax.swing.JPanel {
     private javax.swing.JLabel lbItemName;
     private javax.swing.JLabel lbPrice;
     private javax.swing.JLabel lbSoTien;
-    private PetGuardianManagement.GUI.Cart.swing.PanelItem panelItem;
     private PetGuardianManagement.GUI.BuyTicket.swing.PictureBox pic;
     private javax.swing.JTextField txtSoLuong;
     // End of variables declaration//GEN-END:variables
