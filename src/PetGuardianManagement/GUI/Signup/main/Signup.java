@@ -451,6 +451,7 @@ public class Signup extends javax.swing.JFrame {
 
                     }
                 } catch (Exception e) {
+                    System.out.println("error here");
                     JOptionPane.showMessageDialog(this, e, "Lỗi !", JOptionPane.ERROR_MESSAGE);
                 }
             }

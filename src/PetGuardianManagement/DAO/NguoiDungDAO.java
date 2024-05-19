@@ -32,15 +32,20 @@ public class NguoiDungDAO {
         try {
             Connection connection = JDBCUtil.getConnection();
 
-            String sql = "INSERT INTO NguoiDung (MaND, Email, MatKhau, HoTen, VaiTro) VALUES (?, ?, ?, ?, ?)";
-            PreparedStatement pst = connection.prepareStatement(sql);
-            pst.setInt(1, user.getIMaND());
-            pst.setString(2, user.getStrEmail());
-            pst.setString(3, user.getStrMatKhau());
-            pst.setString(4, user.getStrHoTen());
-            pst.setString(5, "Khach Hang");
-            result = pst.executeUpdate();
-
+            String sql = "INSERT INTO NguoiDung (Email, MatKhau, HoTen, VaiTro) VALUES (?, ?, ?, ?)";
+            PreparedStatement pst = connection.prepareStatement(sql, new String[]{"MaND"});
+            pst.setString(1, user.getStrEmail());
+            pst.setString(2, user.getStrMatKhau());
+            pst.setString(3, user.getStrHoTen());
+            pst.setString(4, "Khach Hang");
+            int affectedRows = pst.executeUpdate();
+            if (affectedRows > 0) {
+                try (ResultSet rs = pst.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        result = rs.getInt(1);
+                    }
+                }
+            }
             JDBCUtil.closeConnection(connection);
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e);
@@ -107,25 +112,6 @@ public class NguoiDungDAO {
         return result;
     }
 
-    public int selectMaxMaND() {
-        int result = 0;
-        try {
-            Connection connection = JDBCUtil.getConnection();
-
-            String sql = "SELECT max(MaND) FROM NguoiDung";
-            PreparedStatement pst = connection.prepareStatement(sql);
-            ResultSet rs = pst.executeQuery();
-            while (rs.next()) {
-                int MaxMaND = rs.getInt(1);
-                result = MaxMaND;
-            }
-            JDBCUtil.closeConnection(connection);
-        } catch (ClassNotFoundException | SQLException e) {
-            System.out.println(e);
-        }
-        return result;
-    }
-    
     public int updatePassword (String strEmail, String strPassword) {
         int result = 0;
         try {
