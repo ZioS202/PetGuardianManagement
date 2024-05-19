@@ -129,6 +129,27 @@ public class NguoiDungDAO {
         }
         return result;
     }
+    public int updateInformationUser (String name, String address, String country, String phoneNumber, String gender, String strEmail) {
+        int result = 0;
+        try {
+            Connection connection = JDBCUtil.getConnection();
+
+            String sql = "UPDATE NguoiDung SET HoTen=?, DiaChi=?, QueQuan=?, SDT=?,GioiTinh=? WHERE Email=?";
+            PreparedStatement pst = connection.prepareStatement(sql);
+            pst.setString(1, name);
+            pst.setString(2, address);
+            pst.setString(3, country);
+            pst.setString(4, phoneNumber);
+            pst.setString(5, gender);
+            pst.setString(6, strEmail);
+            result = pst.executeUpdate();
+
+            JDBCUtil.closeConnection(connection);
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println(e);
+        }
+        return result;
+    }
      public ArrayList<NguoiDungDTO> selectAll() {
         ArrayList<NguoiDungDTO> result = new ArrayList<>();
         try {

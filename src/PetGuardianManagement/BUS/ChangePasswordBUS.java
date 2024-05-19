@@ -27,6 +27,14 @@ public class ChangePasswordBUS {
         }
         return res;
     }
+    public int updateInformationUser (String name, String address, String country, String phoneNumber, String gender, String strEmail){
+        int res = 0;
+        try {
+            res = NguoiDungDAO.getInstance().updateInformationUser(name, address, country, phoneNumber, gender, strEmail);
+        } catch (Exception e) {
+        }
+        return res;
+    }
     public boolean checkPassword (String emailString, String passwordString){
         NguoiDungDTO user = NguoiDungDAO.getInstance().selectUser(emailString, passwordString);
         return user != null;
