@@ -11,6 +11,7 @@ import PetGuardianManagement.GUI.Admin.HomepageAdmin.form.InvoiceManage;
 import PetGuardianManagement.GUI.Admin.HomepageAdmin.form.PetManage;
 import PetGuardianManagement.GUI.Admin.HomepageAdmin.form.VisitorManage;
 import PetGuardianManagement.GUI.Admin.HomepageAdmin.form.changePassword;
+import PetGuardianManagement.GUI.Signin.main.Signin;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Image;
@@ -92,6 +93,16 @@ public class HomepageAdmin extends javax.swing.JFrame {
                             }
                         } 
                         
+                    }
+                    case 10 ->{
+                        int response = JOptionPane.showConfirmDialog(null, "Bạn có muốn đăng xuất?", "Xác nhận", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                        if (response == JOptionPane.OK_OPTION) {
+                            Signin signin = new Signin();
+                            signin.setVisible(true);
+                            dispose(); 
+                            Signin.User = null;
+                        } 
+
                     }
 
                 }

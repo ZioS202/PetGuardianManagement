@@ -8,6 +8,7 @@ import PetGuardianManagement.BUS.CartBUS;
 import PetGuardianManagement.GUI.BuyTicket.main.BuyTicket;
 import PetGuardianManagement.GUI.Cart.main.Cart;
 import PetGuardianManagement.GUI.Cart.main.CartEmpty;
+import PetGuardianManagement.GUI.Signin.main.Signin;
 import PetGuardianManagement.GUI.homepageUser.event.EventMenuSelected;
 import PetGuardianManagement.GUI.homepageUser.form.Form_1;
 import PetGuardianManagement.GUI.homepageUser.form.Form_3;
@@ -124,8 +125,6 @@ public class homepageUser extends javax.swing.JFrame {
                         setForm(topUp);
                     }
                     case 10 ->{
-                        
-                        
                         int response = JOptionPane.showConfirmDialog(null, "Bạn có muốn ứng dụng chuyển hướng đến trang thông tin ứng dụng?", "Xác nhận", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
                         if (response == JOptionPane.OK_OPTION) {
                             String url = "https://petguardian.onrender.com/home";
@@ -140,7 +139,16 @@ public class homepageUser extends javax.swing.JFrame {
                                 System.err.println("Desktop is not supported.");
                             }
                         } 
-                        
+                    }
+                    case 11 ->{
+                        int response = JOptionPane.showConfirmDialog(null, "Bạn có muốn đăng xuất?", "Xác nhận", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                        if (response == JOptionPane.OK_OPTION) {
+                            Signin signin = new Signin();
+                            signin.setVisible(true);
+                            dispose(); 
+                            Signin.User = null;
+                        } 
+
                     }
 
                 }
