@@ -7,7 +7,6 @@ package PetGuardianManagement.GUI.topUp.main;
 
 import PetGuardianManagement.BUS.CartBUS;
 import PetGuardianManagement.BUS.TopUpBUS;
-import PetGuardianManagement.DTO.KhachHangDTO;
 import PetGuardianManagement.ExtendFunctions;
 import javax.swing.JOptionPane;
 
@@ -238,7 +237,7 @@ public class TopUp extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(null, "Số tiền nạp không được bé hơn 0", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            if (TopUpBUS.getInstance().TopUpAcc(new KhachHangDTO(8, amount)) > 0) {
+            if (TopUpBUS.getInstance().TopUpAcc(amount) > 0) {
                 JOptionPane.showMessageDialog(null, "Nạp tiền thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 txtTopUp.setText("");
                 soDu += amount;

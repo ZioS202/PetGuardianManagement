@@ -5,6 +5,7 @@
 package PetGuardianManagement.GUI.homepageUser.main;
 
 import PetGuardianManagement.BUS.CartBUS;
+import PetGuardianManagement.BUS.ManageTicketBUS;
 import PetGuardianManagement.GUI.BuyTicket.main.BuyTicket;
 import PetGuardianManagement.GUI.Cart.main.Cart;
 import PetGuardianManagement.GUI.Cart.main.CartEmpty;
@@ -57,8 +58,7 @@ public class homepageUser extends javax.swing.JFrame {
         setBackground(new Color(0, 0, 0, 0));
 
         // Just only using this line during programmaming
-        instance = this;
-
+//        instance = this;
         form1 = new Form_1();
         form3 = new Form_3();
 
@@ -124,7 +124,7 @@ public class homepageUser extends javax.swing.JFrame {
                         }
                         setForm(topUp);
                     }
-                    case 10 ->{
+                    case 10 -> {
                         int response = JOptionPane.showConfirmDialog(null, "Bạn có muốn ứng dụng chuyển hướng đến trang thông tin ứng dụng?", "Xác nhận", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
                         if (response == JOptionPane.OK_OPTION) {
                             String url = "https://petguardian.onrender.com/home";
@@ -138,16 +138,22 @@ public class homepageUser extends javax.swing.JFrame {
                             } else {
                                 System.err.println("Desktop is not supported.");
                             }
-                        } 
+                        }
                     }
-                    case 11 ->{
+                    case 11 -> {
                         int response = JOptionPane.showConfirmDialog(null, "Bạn có muốn đăng xuất?", "Xác nhận", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
                         if (response == JOptionPane.OK_OPTION) {
                             Signin signin = new Signin();
                             signin.setVisible(true);
-                            dispose(); 
+                            dispose();
                             Signin.User = null;
-                        } 
+                            instance = null;
+                            cart = null;
+                            manageTicket = null;
+                            CartBUS.getInstance().cleanUp();
+                            ManageTicketBUS.getInstance().cleanUp();
+                            System.gc();
+                        }
 
                     }
 

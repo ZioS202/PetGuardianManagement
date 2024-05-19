@@ -6,6 +6,7 @@ package PetGuardianManagement.BUS;
 
 import PetGuardianManagement.DAO.VeDAO;
 import PetGuardianManagement.DTO.VeDTO;
+import PetGuardianManagement.GUI.Signin.main.Signin;
 import java.util.ArrayList;
 
 /**
@@ -26,7 +27,7 @@ public class ManageTicketBUS {
     }
 
     private ManageTicketBUS() {
-        lstVe = VeDAO.getInstance().selectByMaKH(8);
+        lstVe = VeDAO.getInstance().selectByMaKH(Signin.User.getIMaND());
         if (lstVe == null) {
             lstVe = new ArrayList<>();
         }
@@ -97,5 +98,10 @@ public class ManageTicketBUS {
     // Method get size of lstVe
     public int getLstVeSize() {
         return lstVe.size();
+    }
+
+    public void cleanUp() {
+        lstVe = null;
+        instance = null;
     }
 }
