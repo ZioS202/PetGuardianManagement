@@ -12,6 +12,7 @@ import PetGuardianManagement.GUI.homepageUser.event.EventMenuSelected;
 import PetGuardianManagement.GUI.homepageUser.form.Form_1;
 import PetGuardianManagement.GUI.homepageUser.form.Form_3;
 import PetGuardianManagement.GUI.homepageUser.form.ManageTicket;
+import PetGuardianManagement.GUI.homepageUser.form.petInfor;
 import PetGuardianManagement.GUI.topUp.main.TopUp;
 import java.awt.Color;
 import java.awt.Image;
@@ -27,6 +28,7 @@ public class homepageUser extends javax.swing.JFrame {
     private Form_1 form1;
     private ManageTicket manageTicket;
     private Form_3 form3;
+    private petInfor petInfor;
     private BuyTicket buyTicket;
     public Cart cart;
     public CartEmpty cartEmpty;
@@ -52,6 +54,7 @@ public class homepageUser extends javax.swing.JFrame {
 
         form1 = new Form_1();
         form3 = new Form_3();
+        petInfor=new petInfor();
 
         winButton.initEvent(this, panelBorder, menu, header, mainPanel);
         menu.initMoving(homepageUser.this);
@@ -70,7 +73,7 @@ public class homepageUser extends javax.swing.JFrame {
                         setForm(manageTicket);
                     }
                     case 2 -> {
-                        setForm(form3);
+                        setForm(petInfor);
                     }
                     case 3 -> {
                         // Check if User's GioHang is empty
