@@ -14,10 +14,15 @@ import PetGuardianManagement.GUI.homepageUser.form.Form_3;
 import PetGuardianManagement.GUI.homepageUser.form.ManageTicket;
 import PetGuardianManagement.GUI.topUp.main.TopUp;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -118,6 +123,26 @@ public class homepageUser extends javax.swing.JFrame {
                         }
                         setForm(topUp);
                     }
+                    case 10 ->{
+                        
+                        
+                        int response = JOptionPane.showConfirmDialog(null, "Bạn có muốn ứng dụng chuyển hướng đến trang thông tin ứng dụng?", "Xác nhận", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                        if (response == JOptionPane.OK_OPTION) {
+                            String url = "https://petguardian.onrender.com/home";
+                            if (Desktop.isDesktopSupported()) {
+                                try {
+                                    Desktop desktop = Desktop.getDesktop();
+                                    desktop.browse(new URI(url));
+                                } catch (IOException | URISyntaxException e) {
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                System.err.println("Desktop is not supported.");
+                            }
+                        } 
+                        
+                    }
+
                 }
             }
         });
