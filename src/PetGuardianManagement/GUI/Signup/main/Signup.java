@@ -459,21 +459,21 @@ public class Signup extends javax.swing.JFrame {
         }
     }
 
-    private static boolean isValidEmail(String email) {
+    public static boolean isValidEmail(String email) {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
         Pattern pattern = Pattern.compile(emailRegex);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
 
-    private static boolean isValidPassword(String password) {
+    public static boolean isValidPassword(String password) {
         String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
         Pattern pattern = Pattern.compile(passwordRegex);
         Matcher matcher = pattern.matcher(password);
         return matcher.matches();
     }
 
-    private static boolean isValidName(String name) {
+    public static boolean isValidName(String name) {
         return name.matches("[a-zA-Z ]+");
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables

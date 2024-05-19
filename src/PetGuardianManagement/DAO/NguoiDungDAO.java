@@ -129,7 +129,6 @@ public class NguoiDungDAO {
         }
         return result;
     }
-    
      public ArrayList<NguoiDungDTO> selectAll() {
         ArrayList<NguoiDungDTO> result = new ArrayList<>();
         try {

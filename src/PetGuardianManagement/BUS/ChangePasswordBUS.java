@@ -5,6 +5,7 @@
 package PetGuardianManagement.BUS;
 
 import PetGuardianManagement.DAO.NguoiDungDAO;
+import PetGuardianManagement.DTO.NguoiDungDTO;
 
 /**
  *
@@ -25,6 +26,10 @@ public class ChangePasswordBUS {
         } catch (Exception e) {
         }
         return res;
+    }
+    public boolean checkPassword (String emailString, String passwordString){
+        NguoiDungDTO user = NguoiDungDAO.getInstance().selectUser(emailString, passwordString);
+        return user != null;
     }
     
 }

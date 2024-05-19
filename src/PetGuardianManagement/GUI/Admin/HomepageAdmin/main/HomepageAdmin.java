@@ -4,6 +4,8 @@
  */
 package PetGuardianManagement.GUI.Admin.HomepageAdmin.main;
 
+import PetGuardianManagement.BUS.SignInBUS;
+import PetGuardianManagement.DTO.NguoiDungDTO;
 import PetGuardianManagement.GUI.Admin.HomepageAdmin.event.EventMenuSelected;
 import PetGuardianManagement.GUI.Admin.HomepageAdmin.form.AccountInformation;
 import PetGuardianManagement.GUI.Admin.HomepageAdmin.form.CustomerManage;
@@ -92,7 +94,6 @@ public class HomepageAdmin extends javax.swing.JFrame {
                                 System.err.println("Desktop is not supported.");
                             }
                         } 
-                        
                     }
                     case 10 ->{
                         int response = JOptionPane.showConfirmDialog(null, "Bạn có muốn đăng xuất?", "Xác nhận", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);

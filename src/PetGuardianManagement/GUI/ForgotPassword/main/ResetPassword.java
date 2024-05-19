@@ -8,6 +8,7 @@ package PetGuardianManagement.GUI.ForgotPassword.main;
 //import static PetGuardianManagement.GUI.InitPublic.getHashPassword;
 import PetGuardianManagement.BUS.ChangePasswordBUS;
 import PetGuardianManagement.GUI.Signin.main.Signin;
+import PetGuardianManagement.GUI.Signup.main.Signup;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
@@ -250,7 +251,7 @@ public class ResetPassword extends javax.swing.JFrame {
         else{
             // check input user 
             String msg = "";
-            if (!isValidPassword(password)) {
+            if (!Signup.isValidPassword(password)) {
                 msg +="* Mật khẩu không hợp lệ. Mật khẩu cần có ít nhất 8 ký tự và phải bao gồm chữ in hoa, in thường, số và ký tự đặc biệt.\n";   
             }
             if (!confirmPassword.equals(password)) {
@@ -276,12 +277,7 @@ public class ResetPassword extends javax.swing.JFrame {
         }
 
     }
-    private static boolean isValidPassword(String password) {
-        String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
-        Pattern pattern = Pattern.compile(passwordRegex);
-        Matcher matcher = pattern.matcher(password);
-        return matcher.matches();
-    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private PetGuardianManagement.GUI.Signin.swing.Button btnSubmit;
     private javax.swing.JLabel jLabel1;

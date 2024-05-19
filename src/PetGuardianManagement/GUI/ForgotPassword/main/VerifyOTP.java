@@ -6,6 +6,7 @@ package PetGuardianManagement.GUI.ForgotPassword.main;
 
 import PetGuardianManagement.BUS.SignUpBUS;
 import PetGuardianManagement.GUI.Signin.main.Signin;
+import PetGuardianManagement.GUI.Signup.main.Signup;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -163,7 +164,7 @@ public class VerifyOTP extends javax.swing.JFrame {
     }//GEN-LAST:event_lblReturnSigninMouseClicked
 
     private void btnGetOTPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGetOTPMouseClicked
-        if (!"".equals(txtEmail.getText()) && isValidEmail(txtEmail.getText())){
+        if (!"".equals(txtEmail.getText()) && Signup.isValidEmail(txtEmail.getText())){
             EmailString = txtEmail.getText();
             forgotPassword(EmailString);         
             // Switch to Verify OTP
@@ -403,12 +404,7 @@ public class VerifyOTP extends javax.swing.JFrame {
             }
         }
     }
-    private static boolean isValidEmail(String email) {
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-        Pattern pattern = Pattern.compile(emailRegex);
-        Matcher matcher = pattern.matcher(email);
-        return matcher.matches();
-    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private PetGuardianManagement.GUI.Signin.swing.Button btnGetOTP;
     private PetGuardianManagement.GUI.Signin.swing.Button btnVerifyOTP;

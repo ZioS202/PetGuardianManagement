@@ -4,6 +4,15 @@
  */
 package PetGuardianManagement.GUI.Admin.HomepageAdmin.form;
 
+import PetGuardianManagement.BUS.ChangePasswordBUS;
+import PetGuardianManagement.BUS.SignInBUS;
+import PetGuardianManagement.DTO.NguoiDungDTO;
+import PetGuardianManagement.GUI.Signin.main.Signin;
+import PetGuardianManagement.GUI.Signup.main.Signup;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author sourcePJ
@@ -15,6 +24,7 @@ public class changePassword extends javax.swing.JPanel {
      */
     public changePassword() {
         initComponents();
+        txtName.setText(Signin.User.getStrHoTen()); 
     }
 
     /**
@@ -31,15 +41,17 @@ public class changePassword extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        txtName = new javax.swing.JTextField();
+        txtRole = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        buttonChangePassword = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        txtCurPassword = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        txtNewPassword = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        txtConfirmNewPassword = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 153, 102));
@@ -57,9 +69,20 @@ public class changePassword extends javax.swing.JPanel {
 
         jLabel4.setText("Role");
 
-        jTextField1.setText("Tester");
+        txtName.setEditable(false);
+        txtName.setText("Tester");
 
-        jTextField2.setText("Admin");
+        txtRole.setEditable(false);
+        txtRole.setText("Admin");
+
+        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PetGuardianManagement/GUI/Admin/HomepageAdmin/icon/save.png"))); // NOI18N
+
+        buttonChangePassword.setText("Save");
+        buttonChangePassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonChangePasswordActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -68,17 +91,25 @@ public class changePassword extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtRole, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel12)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(buttonChangePassword))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(179, 179, 179)
+                        .addComponent(jLabel1)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -91,11 +122,13 @@ public class changePassword extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtRole, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel12)
+                            .addComponent(buttonChangePassword)))
                     .addComponent(jLabel2))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -105,15 +138,15 @@ public class changePassword extends javax.swing.JPanel {
 
         jLabel5.setText("Current Password:");
 
-        jTextField3.setText("Enter your current password");
+        txtCurPassword.setText("Enter your current password");
 
         jLabel6.setText("New Password");
 
-        jTextField4.setText("Enter your new password");
+        txtNewPassword.setText("Enter your new password");
 
         jLabel7.setText("Confirm Password");
 
-        jTextField5.setText("Enter your new password again");
+        txtConfirmNewPassword.setText("Enter your new password again");
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PetGuardianManagement/GUI/Admin/HomepageAdmin/icon/shield.png"))); // NOI18N
 
@@ -127,9 +160,9 @@ public class changePassword extends javax.swing.JPanel {
                     .addComponent(jLabel7)
                     .addComponent(jLabel6)
                     .addComponent(jLabel5)
-                    .addComponent(jTextField3)
-                    .addComponent(jTextField4)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE))
+                    .addComponent(txtCurPassword)
+                    .addComponent(txtNewPassword)
+                    .addComponent(txtConfirmNewPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
                 .addComponent(jLabel8)
                 .addContainerGap())
@@ -140,15 +173,15 @@ public class changePassword extends javax.swing.JPanel {
                 .addGap(16, 16, 16)
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtCurPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel6)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtNewPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel7)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtConfirmNewPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jLabel8)
@@ -177,9 +210,90 @@ public class changePassword extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void buttonChangePasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonChangePasswordActionPerformed
+        int response = JOptionPane.showConfirmDialog(null, "Bạn có muốn cập nhật mật khẩu?", "Xác nhận", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+        if (response == JOptionPane.OK_OPTION) {
+            changePassword(Signin.User.getStrEmail());
+        }
+    }//GEN-LAST:event_buttonChangePasswordActionPerformed
+    private void changePassword(String emailString){
+//        String curPassword = new String (txtCurPassword.getPassword());
+//        String newPassword = new String (txtNewPassword.getPassword()); 
+//        String confirmNewPassword = new String (txtConfirmNewPassword.getPassword());          
+        String curPassword = txtCurPassword.getText();
+        String newPassword = txtNewPassword.getText(); 
+        String confirmNewPassword = txtConfirmNewPassword.getText();          
+
+        MessageDigest digest;
+        StringBuilder hexHashCurPassword = new StringBuilder("Inital value");
+        StringBuilder hexHashNewPassword = new StringBuilder("Inital value");
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+            byte[] hashedCurPassword = digest.digest(curPassword.getBytes());
+            hexHashCurPassword = new StringBuilder();
+            for (byte b : hashedCurPassword) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) {
+                    hexHashCurPassword.append('0');
+                }
+                hexHashCurPassword.append(hex);
+            }
+            System.out.println("Hashed Password (SHA-256): " + hexHashCurPassword.toString());
+            
+            byte[] hashedNewPassword = digest.digest(newPassword.getBytes());
+            hexHashNewPassword = new StringBuilder();
+            for (byte b : hashedNewPassword) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) {
+                    hexHashNewPassword.append('0');
+                }
+                hexHashNewPassword.append(hex);
+            }
+            System.out.println("Hashed Password (SHA-256): " + hexHashNewPassword.toString());
+            
+        } catch (NoSuchAlgorithmException ex) {
+            System.out.println("PetGuardianManagement.GUI.ForgotPassword.main.ResetPassword.changePassword() error");
+        }
+        
+        if (curPassword.equals("") || newPassword.equals("") || confirmNewPassword.equals("") ) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin !", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+        } 
+        else{
+            String msg = "";
+            if (!ChangePasswordBUS.getInstance().checkPassword(Signin.User.getStrEmail(),hexHashCurPassword.toString())){
+                msg += "* Mật khẩu hiện tại sai.\n";
+            }
+            if (!Signup.isValidPassword(newPassword)) {
+                msg +="* Mật khẩu không hợp lệ. Mật khẩu cần có ít nhất 8 ký tự và phải bao gồm chữ in hoa, in thường, số và ký tự đặc biệt.\n";   
+            }
+            if (!confirmNewPassword.equals(newPassword)) {
+                msg += "* Xác nhận mật khẩu không trùng khớp với mật khẩu.\n";
+            }
+            if (!msg.equals("")){
+                JOptionPane.showMessageDialog(this, msg, "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+            }else{
+                try {
+                    int updatePassword = ChangePasswordBUS.getInstance().updatePassword(emailString, hexHashNewPassword.toString());
+                    if (updatePassword>0){
+                        JOptionPane.showMessageDialog(this, "Cập nhật mật khẩu thành công!", "Thông báo !", JOptionPane.INFORMATION_MESSAGE );
+                        txtCurPassword.setText("");
+                        txtNewPassword.setText(""); 
+                        txtConfirmNewPassword.setText("");          
+                    }
+                    
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, e, "Lỗi !", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            
+        }
+
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buttonChangePassword;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -189,10 +303,10 @@ public class changePassword extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField txtConfirmNewPassword;
+    private javax.swing.JTextField txtCurPassword;
+    private javax.swing.JTextField txtName;
+    private javax.swing.JTextField txtNewPassword;
+    private javax.swing.JTextField txtRole;
     // End of variables declaration//GEN-END:variables
 }
