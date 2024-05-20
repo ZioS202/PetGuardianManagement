@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package PetGuardianManagement.GUI.Admin.HomepageAdmin.form;
+package PetGuardianManagement.GUI.homepageUser.form;
 
 import PetGuardianManagement.BUS.ChangePasswordBUS;
 import PetGuardianManagement.GUI.Signin.main.Signin;
@@ -25,7 +25,9 @@ public class AccountInformation extends javax.swing.JPanel {
         txtAddress.setText(Signin.User.getStrDiaChi());
         txtCountry.setText(Signin.User.getStrQueQuan());
         txtPhoneNumber.setText(Signin.User.getStrSDT());
-        txtGender.setText(Signin.User.getStrGioiTinh());
+        if (Signin.User.getStrGioiTinh() != null) {
+            txtGender.setText(Signin.User.getStrGioiTinh());
+        }
 
     }
 
@@ -200,7 +202,7 @@ public class AccountInformation extends javax.swing.JPanel {
         jLabel3.setText("Role");
 
         txtRole.setEditable(false);
-        txtRole.setText("Admin");
+        txtRole.setText("Khách Hàng");
 
         jLabel4.setFont(new java.awt.Font("Stencil", 1, 24)); // NOI18N
         jLabel4.setText("ACCOUNT INFORMATION");
