@@ -15,6 +15,7 @@ import PetGuardianManagement.GUI.homepageUser.form.AccountInformation;
 import PetGuardianManagement.GUI.homepageUser.form.Form_3;
 import PetGuardianManagement.GUI.homepageUser.form.ManageTicket;
 import PetGuardianManagement.GUI.homepageUser.form.changePassword;
+import PetGuardianManagement.GUI.homepageUser.form.petInfor;
 import PetGuardianManagement.GUI.topUp.main.TopUp;
 import java.awt.Color;
 import java.awt.Desktop;
@@ -36,6 +37,7 @@ public class homepageUser extends javax.swing.JFrame {
     private AccountInformation accInfor;
     public ManageTicket manageTicket;
     private Form_3 form3;
+    private petInfor petInfor;
     private BuyTicket buyTicket;
     public Cart cart;
     public CartEmpty cartEmpty;
@@ -61,6 +63,7 @@ public class homepageUser extends javax.swing.JFrame {
 
         form3 = new Form_3();
         accInfor = new AccountInformation();
+        petInfor = new petInfor();
 
         winButton.initEvent(this, panelBorder, menu, header, mainPanel);
         menu.initMoving(homepageUser.this);
@@ -81,7 +84,7 @@ public class homepageUser extends javax.swing.JFrame {
                         setForm(manageTicket);
                     }
                     case 2 -> {
-                        setForm(form3);
+                        setForm(petInfor);
                     }
                     case 3 -> {
                         // Check if User's GioHang is empty
@@ -139,7 +142,7 @@ public class homepageUser extends javax.swing.JFrame {
                                     Desktop desktop = Desktop.getDesktop();
                                     desktop.browse(new URI(url));
                                 } catch (IOException | URISyntaxException e) {
-                                    e.printStackTrace();
+                                    System.out.println(e);
                                 }
                             } else {
                                 System.err.println("Desktop is not supported.");
