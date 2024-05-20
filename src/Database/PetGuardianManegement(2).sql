@@ -1,7 +1,5 @@
 -- Tao khoa ngoai
 
--- FK CUA NhanVien
-ALTER TABLE NhanVien ADD CONSTRAINT FK_NhanVien_MaNV FOREIGN KEY(MaNV) REFERENCES NguoiDung(MaND);
 
 -- FK CUA KhachHang
 ALTER TABLE KhachHang ADD CONSTRAINT FK_KhachHang_MaKH FOREIGN KEY(MaKH) REFERENCES NguoiDung(MaND);
