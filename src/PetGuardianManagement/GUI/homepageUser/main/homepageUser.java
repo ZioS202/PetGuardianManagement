@@ -6,13 +6,13 @@ package PetGuardianManagement.GUI.homepageUser.main;
 
 import PetGuardianManagement.BUS.CartBUS;
 import PetGuardianManagement.BUS.ManageTicketBUS;
+import PetGuardianManagement.GUI.Admin.HomepageAdmin.form.changePassword;
 import PetGuardianManagement.GUI.BuyTicket.main.BuyTicket;
 import PetGuardianManagement.GUI.Cart.main.Cart;
 import PetGuardianManagement.GUI.Cart.main.CartEmpty;
 import PetGuardianManagement.GUI.Signin.main.Signin;
 import PetGuardianManagement.GUI.homepageUser.event.EventMenuSelected;
 import PetGuardianManagement.GUI.homepageUser.form.AccountInformation;
-import PetGuardianManagement.GUI.homepageUser.form.Form_3;
 import PetGuardianManagement.GUI.homepageUser.form.ManageTicket;
 import PetGuardianManagement.GUI.homepageUser.form.petInfor;
 import PetGuardianManagement.GUI.topUp.main.TopUp;
@@ -35,7 +35,6 @@ public class homepageUser extends javax.swing.JFrame {
 
     private AccountInformation accInfor;
     public ManageTicket manageTicket;
-    private Form_3 form3;
     private petInfor petInfor;
     private BuyTicket buyTicket;
     public Cart cart;
@@ -59,8 +58,6 @@ public class homepageUser extends javax.swing.JFrame {
         initComponents();
         setIconImage();
         setBackground(new Color(0, 0, 0, 0));
-
-        form3 = new Form_3();
 
         accInfor = new AccountInformation();
         petInfor = new petInfor();
