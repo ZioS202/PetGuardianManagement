@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package PetGuardianManagement.GUI.Admin.HomepageAdmin.form;
+package PetGuardianManagement.GUI.homepageUser.form;
 
 import PetGuardianManagement.BUS.ChangePasswordBUS;
 import PetGuardianManagement.GUI.Signin.main.Signin;
@@ -69,7 +69,7 @@ public class changePassword extends javax.swing.JPanel {
         txtName.setText("Tester");
 
         txtRole.setEditable(false);
-        txtRole.setText("Admin");
+        txtRole.setText("Khách Hàng");
 
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PetGuardianManagement/GUI/Admin/HomepageAdmin/icon/save.png"))); // NOI18N
 

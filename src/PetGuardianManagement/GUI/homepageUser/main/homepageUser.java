@@ -11,9 +11,10 @@ import PetGuardianManagement.GUI.Cart.main.Cart;
 import PetGuardianManagement.GUI.Cart.main.CartEmpty;
 import PetGuardianManagement.GUI.Signin.main.Signin;
 import PetGuardianManagement.GUI.homepageUser.event.EventMenuSelected;
-import PetGuardianManagement.GUI.homepageUser.form.Form_1;
+import PetGuardianManagement.GUI.homepageUser.form.AccountInformation;
 import PetGuardianManagement.GUI.homepageUser.form.Form_3;
 import PetGuardianManagement.GUI.homepageUser.form.ManageTicket;
+import PetGuardianManagement.GUI.homepageUser.form.changePassword;
 import PetGuardianManagement.GUI.topUp.main.TopUp;
 import java.awt.Color;
 import java.awt.Desktop;
@@ -32,13 +33,14 @@ import javax.swing.JOptionPane;
  */
 public class homepageUser extends javax.swing.JFrame {
 
-    private Form_1 form1;
+    private AccountInformation accInfor;
     public ManageTicket manageTicket;
     private Form_3 form3;
     private BuyTicket buyTicket;
     public Cart cart;
     public CartEmpty cartEmpty;
     private TopUp topUp;
+    private changePassword changePassword1;
 
     private Dimension mainPanelSize;
 
@@ -57,10 +59,8 @@ public class homepageUser extends javax.swing.JFrame {
         setIconImage();
         setBackground(new Color(0, 0, 0, 0));
 
-        // Just only using this line during programmaming
-//        instance = this;
-        form1 = new Form_1();
         form3 = new Form_3();
+        accInfor = new AccountInformation();
 
         winButton.initEvent(this, panelBorder, menu, header, mainPanel);
         menu.initMoving(homepageUser.this);
@@ -70,7 +70,7 @@ public class homepageUser extends javax.swing.JFrame {
                 System.out.println("Selected index " + index);
                 switch (index) {
                     case 0 -> {
-                        setForm(form1);
+                        setForm(accInfor);
                     }
                     case 1 -> {
                         if (manageTicket == null) {
@@ -124,6 +124,12 @@ public class homepageUser extends javax.swing.JFrame {
                         }
                         setForm(topUp);
                     }
+                    case 9 -> {
+                        if (changePassword1 == null) {
+                            changePassword1 = new changePassword();
+                        }
+                        setForm(changePassword1);
+                    }
                     case 10 -> {
                         int response = JOptionPane.showConfirmDialog(null, "Bạn có muốn ứng dụng chuyển hướng đến trang thông tin ứng dụng?", "Xác nhận", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
                         if (response == JOptionPane.OK_OPTION) {
@@ -160,7 +166,7 @@ public class homepageUser extends javax.swing.JFrame {
                 }
             }
         });
-        setForm(form1);
+        setForm(accInfor);
     }
 
     public void setForm(JComponent com) {
