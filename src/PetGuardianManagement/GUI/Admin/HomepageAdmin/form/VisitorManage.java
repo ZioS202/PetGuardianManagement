@@ -748,7 +748,7 @@ public class VisitorManage extends javax.swing.JPanel {
         }
         
         updateTable();
-        JOptionPane.showMessageDialog(this, "Gửi thú cưng không thành công, vui lòng kiểm tra lại thông tin vé của mình!");
+        JOptionPane.showMessageDialog(this, "Gửi thú cưng không thành công");
     }//GEN-LAST:event_btnCheck_inMouseClicked
 
     private void btnCheck_inActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheck_inActionPerformed
