@@ -717,7 +717,7 @@ public class VisitorManage extends javax.swing.JPanel {
             }
         }
         if(count == 0){
-                JOptionPane.showMessageDialog(this, "Gửi thú cưng không thành công, vui lòng kiểm tra lại xem có vé nào được kích hoạt chưa!");
+                JOptionPane.showMessageDialog(this, "Gửi thú cưng không thành công, vui lòng kiểm tra lại xem có vé nào đang sử dụng!");
                 updateTable();
                 return;
         }  
